@@ -32,6 +32,7 @@ def train(dataloader, model, loss_fn, optimizer):
 
     for batch_nbr, (seq, label) in enumerate(dataloader):
         seq, label = seq.to(device), label.to(device)
+        label = label.squeeze(1)
         prediction = model(seq)
         loss = loss_fn(prediction, label)
 
