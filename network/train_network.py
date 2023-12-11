@@ -9,9 +9,8 @@ import torch
 #Hyperparams
 hidden_size = 50  
 num_layers = 1  
-num_epochs = 100
-learning_rate = 0.001
-batch_size = 64
+learning_rate = 0.0005
+batch_size = 100
 
 train_data = TensorDataset(x_train, y_train)
 train_dataloader = DataLoader(train_data, batch_size=batch_size)
@@ -48,7 +47,7 @@ def train(dataloader, model, loss_fn, optimizer):
     running_loss /= num_batches
     print(f"Average loss for epoch: {running_loss:>7f}")
 
-epochs = 5
+epochs = 10 
 for t in range(epochs):
     print(f"epoch {t + 1} \n--------------")
     train(train_dataloader, model, loss_fn, optimizer)
