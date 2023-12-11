@@ -78,27 +78,26 @@ function CameraLogger() {
   return null
 }
 
-const TimedBox = ({data}: {data: number[][]}) => {
-  const meshRef = useRef()
+const TimedBox = forwardRef(({data}: {data: number[][]}, ref: any) => {
   const [currentStep, setCurrentStep ] = useState(0)
 
   useFrame(() => {
-    if(data && data.length > 0 && meshRef.current) {
+    if(data && data.length > 0 && ref.current) {
       setCurrentStep((step) => (step + 1) % data.length)
 
       const [x, y, z] = data[currentStep]
-      meshRef.current.position.set(x, y, z)
+      ref.current.position.set(x, y, z)
     }
   })
 
   return (
-    <mesh ref={meshRef}>
+    <mesh ref={ref}>
       <boxGeometry args={[1, 1, 1]} />
       <meshStandardMaterial color={'blue'} />
     </mesh>
   )
 
-}
+})
 
 function Scene() {
   const [count, setCount] = useState(0)
@@ -107,10 +106,16 @@ function Scene() {
 
   const { data, isLoading } = useQuery({
     queryKey: ['path'],
-    queryFn: () => fetch('http://127.0.0.1:5000/predict?t=10&init_pos=10,20.2, 4.2').then((res) => res.json())
+    queryFn: () => fetch('http://127.0.0.1:5000/predict?t=10&init_pos=1,1,1').then((res) => res.json())
   })
 
-  console.log(data)
+  const {data: referenceData, isLoading: isLoadingReferenceData} = useQuery({
+    queryKey: ['actualPath'],
+    queryFn: () => fetch('http://127.0.0.1:5000/rk4_predict?t=100&init_pos=0.5, 0.5, 0.5').then((res) => res.json())
+
+  })
+
+  console.log(data, referenceData)
 
   return (
     <Canvas camera={{ position: [-8, 15, -66], fov: 50 }}>
@@ -123,10 +128,13 @@ function Scene() {
         intensity={Math.PI}
       />
       <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
-      <Box position={[-1.2, 0, 0]} ref={boxRefOne} /> 
+      {/* <Box position={[0.5, 0.5, 0.5]} ref={boxRefOne} />  */}
       {/* <Box position={[-1.2000001, 0, 0]} ref={boxRefTwo} />  */}
-      {!isLoading && (
-        <TimedBox data={data} />
+      {/* {!isLoading && (
+        <TimedBox data={data} ref={boxRefOne}/>
+      )} */}
+      {!isLoadingReferenceData && (
+        <TimedBox data={referenceData} ref={boxRefTwo}/>
       )}
       <Tracer targetRef={boxRefOne} />
       <Tracer targetRef={boxRefTwo} />
