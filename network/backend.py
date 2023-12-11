@@ -24,8 +24,6 @@ def predict_path():
     num_steps = int(t / dt)
     path = [init_pos]
 
-    print(num_steps)
-
     with torch.no_grad():
         for _ in range(num_steps):
             next_pos = model(current_pos_tensor).cpu().numpy()[0].tolist()

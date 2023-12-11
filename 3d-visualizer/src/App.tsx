@@ -1,7 +1,10 @@
 import { useState, useRef, useMemo, forwardRef } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { OrbitControls, QuadraticBezierLine, Line } from '@react-three/drei'
+import { QueryClient, QueryClientProvider, useQuery} from '@tanstack/react-query'
+import { OrbitControls, Line } from '@react-three/drei'
 import './App.css'
+
+const queryClient = new QueryClient()
 
 const xParam = 10
 const yParam = 28
@@ -75,10 +78,39 @@ function CameraLogger() {
   return null
 }
 
-function App() {
+const TimedBox = ({data}: {data: number[][]}) => {
+  const meshRef = useRef()
+  const [currentStep, setCurrentStep ] = useState(0)
+
+  useFrame(() => {
+    if(data && data.length > 0 && meshRef.current) {
+      setCurrentStep((step) => (step + 1) % data.length)
+
+      const [x, y, z] = data[currentStep]
+      meshRef.current.position.set(x, y, z)
+    }
+  })
+
+  return (
+    <mesh ref={meshRef}>
+      <boxGeometry args={[1, 1, 1]} />
+      <meshStandardMaterial color={'blue'} />
+    </mesh>
+  )
+
+}
+
+function Scene() {
   const [count, setCount] = useState(0)
   const boxRefOne = useRef()
   const boxRefTwo = useRef()
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['path'],
+    queryFn: () => fetch('http://127.0.0.1:5000/predict?t=10&init_pos=10,20.2, 4.2').then((res) => res.json())
+  })
+
+  console.log(data)
 
   return (
     <Canvas camera={{ position: [-8, 15, -66], fov: 50 }}>
@@ -92,13 +124,24 @@ function App() {
       />
       <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
       <Box position={[-1.2, 0, 0]} ref={boxRefOne} /> 
-      <Box position={[-1.2000001, 0, 0]} ref={boxRefTwo} /> 
+      {/* <Box position={[-1.2000001, 0, 0]} ref={boxRefTwo} />  */}
+      {!isLoading && (
+        <TimedBox data={data} />
+      )}
       <Tracer targetRef={boxRefOne} />
       <Tracer targetRef={boxRefTwo} />
       <gridHelper args={[500, 1000]} />
       {/* <CameraLogger /> */}
       <OrbitControls />
     </Canvas>
+  )
+}
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Scene />
+    </QueryClientProvider>
   )
 }
 
