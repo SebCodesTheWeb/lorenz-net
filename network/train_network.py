@@ -14,7 +14,7 @@ learning_rate = 0.001
 batch_size = 64
 
 train_data = TensorDataset(x_train, y_train)
-train_dataloader = DataLoader(train_data, batch_size=64)
+train_dataloader = DataLoader(train_data, batch_size=batch_size)
 
 input_size = x_train.shape[2]  
 output_size = y_train.shape[2] 
