@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify
+import numpy as np
 from flask_cors import CORS
 import torch
 from device import device
 from lstm_rnn import LSTM_RNN
 from constants import dt
+from lorenz import RK4, eulers_method
 
 app = Flask(__name__)
 CORS(app)
@@ -30,6 +32,20 @@ def predict_path():
             path.append(next_pos)
 
             current_pos_tensor = torch.tensor([next_pos], dtype=torch.float32).to(device).unsqueeze(0)
+
+    return jsonify(path)
+
+@app.route("/rk4_predict", methods=['GET'])
+def rk4_predict_path():
+    t = float(request.args.get('t'))
+    init_pos = request.args.get('init_pos').split(',')
+    init_pos = [float(x) for x in init_pos]
+    num_steps = int(t / dt)
+    path = [init_pos]
+
+    for _ in range(num_steps):
+        next_pos = RK4(np.array(path[-1]), dt)
+        path.append(next_pos.tolist())
 
     return jsonify(path)
 
