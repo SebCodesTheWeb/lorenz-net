@@ -1,11 +1,10 @@
 from lorenz import RK4  
 import pandas as pd
 import numpy as np
-from constants import seed_nbr, chunk_len
+from constants import seed_nbr, chunk_len, dt
 
 np.random.seed(seed_nbr)
 nbr_chunks = 100
-dt = 0.005
 
 dataset = []
 

@@ -105,13 +105,13 @@ function Scene() {
   const boxRefTwo = useRef()
 
   const { data, isLoading } = useQuery({
-    queryKey: ['path'],
-    queryFn: () => fetch('http://127.0.0.1:5000/predict?t=10&init_pos=1,1,1').then((res) => res.json())
+    queryKey: ['predicted'],
+    queryFn: () => fetch('http://127.0.0.1:5000/predict?t=50&init_pos=0.11128630277326439,0.18104763418880565,-2.6342644411006324').then((res) => res.json())
   })
 
   const {data: referenceData, isLoading: isLoadingReferenceData} = useQuery({
-    queryKey: ['actualPath'],
-    queryFn: () => fetch('http://127.0.0.1:5000/rk4_predict?t=100&init_pos=0.5, 0.5, 0.5').then((res) => res.json())
+    queryKey: ['new-path'],
+    queryFn: () => fetch('http://127.0.0.1:5000/rk4_predict?t=50&init_pos=0.11128630277326439,0.18104763418880565,-2.6342644411006324').then((res) => res.json())
 
   })
 
@@ -130,9 +130,9 @@ function Scene() {
       <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
       {/* <Box position={[0.5, 0.5, 0.5]} ref={boxRefOne} />  */}
       {/* <Box position={[-1.2000001, 0, 0]} ref={boxRefTwo} />  */}
-      {/* {!isLoading && (
+      {!isLoading && (
         <TimedBox data={data} ref={boxRefOne}/>
-      )} */}
+      )}
       {!isLoadingReferenceData && (
         <TimedBox data={referenceData} ref={boxRefTwo}/>
       )}
