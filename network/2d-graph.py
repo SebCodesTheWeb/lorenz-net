@@ -1,13 +1,11 @@
 # graphs.py
-import torch
-import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+import torch
 from get_training_data import x_test, y_test
 from lstm_rnn import LSTM_RNN
 from device import device
 from torch.utils.data import DataLoader, TensorDataset
-import torch
 
 # Initialize your test data loader
 hidden_size = 50
@@ -25,38 +23,33 @@ model.load_state_dict(torch.load('lstm_rnn_lorenz.path'))
 
 # Running the model to get predictions
 model.eval()  # Set model to evaluation mode
+
+# ... (Your code for DataLoader and model initialization)
+
 actual = []
 predictions = []
 with torch.no_grad():
     for seq, labels in test_dataloader:
         seq = seq.to(device)
-        output = model(seq)
-        actual.append(labels.cpu().numpy())
-        predictions.append(output.cpu().numpy())
+        output = model(seq).cpu()
+        actual.extend(labels.cpu())
+        predictions.extend(output)
 
-# Flatten the lists of arrays into single numpy arrays
-actual = np.concatenate(actual, axis=0)
-predictions = np.concatenate(predictions, axis=0)
-
-# You can now use 'actual' and 'predictions' with plotting code from previous messages...
-actual = y_test.cpu().numpy()
-predictions = []
-model.eval()  # Make sure model is in eval mode for inference
-with torch.no_grad():
-    for seq, _ in test_dataloader:
-        seq = seq.to(device)
-        prediction = model(seq).cpu().numpy()
-        predictions.append(prediction)
+# Now make sure to convert lists to numpy arrays
+actual = np.vstack(actual)
 predictions = np.vstack(predictions)
 
-# Plot predictions vs actual for x, y, z over time
-time_steps = np.arange(actual.shape[0])
-for i, component in enumerate(['x', 'y', 'z']):
-    plt.figure()
-    plt.plot(time_steps, actual[:, i], label='Actual ' + component)
-    plt.plot(time_steps, predictions[:, i], label='Predicted ' + component, linestyle='dashed')
-    plt.xlabel('Time Step')
-    plt.ylabel(component)
-    plt.legend()
-    plt.title(f'Actual vs Predicted {component} values over Time')
-    plt.show()
+# You can now proceed to plot 'x' components
+# Extract the 'x' component
+actual_x = actual[:, 0]
+predictions_x = predictions[:, 0]
+
+# Plot the x-component graph
+plt.figure(figsize=(14, 4))  # Increase the figure size to stretch it in the x dimension
+plt.plot(actual_x, label='Actual x', color='blue')
+plt.plot(predictions_x, label='Predicted x', linestyle='dashed', color='red')
+plt.xlabel('Time Step')
+plt.ylabel('X component')
+plt.legend()
+plt.title('Comparison of Actual vs Predicted for X component')
+plt.show()
