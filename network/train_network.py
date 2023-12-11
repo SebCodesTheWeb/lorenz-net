@@ -47,7 +47,7 @@ def train(dataloader, model, loss_fn, optimizer):
     running_loss /= num_batches
     print(f"Average loss for epoch: {running_loss:>7f}")
 
-epochs = 10 
+epochs = 5
 for t in range(epochs):
     print(f"epoch {t + 1} \n--------------")
     train(train_dataloader, model, loss_fn, optimizer)
