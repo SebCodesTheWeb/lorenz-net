@@ -1,6 +1,10 @@
 import { useState, useRef, useMemo, forwardRef } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { QueryClient, QueryClientProvider, useQuery} from '@tanstack/react-query'
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from '@tanstack/react-query'
 import { OrbitControls, Line } from '@react-three/drei'
 import './App.css'
 
@@ -12,19 +16,18 @@ const zParam = 8 / 3
 
 function randomColor() {
   // Generate a random integer between 0 and 255 for each color component
-  const red = Math.floor(Math.random() * 256);
-  const green = Math.floor(Math.random() * 256);
-  const blue = Math.floor(Math.random() * 256);
-  
-  // Convert each component to hexadecimal, ensuring it is two digits
-  const redHex = red.toString(16).padStart(2, '0');
-  const greenHex = green.toString(16).padStart(2, '0');
-  const blueHex = blue.toString(16).padStart(2, '0');
-  
-  // Combine the components into a single hex color string
-  return `#${redHex}${greenHex}${blueHex}`;
-}
+  const red = Math.floor(Math.random() * 256)
+  const green = Math.floor(Math.random() * 256)
+  const blue = Math.floor(Math.random() * 256)
 
+  // Convert each component to hexadecimal, ensuring it is two digits
+  const redHex = red.toString(16).padStart(2, '0')
+  const greenHex = green.toString(16).padStart(2, '0')
+  const blueHex = blue.toString(16).padStart(2, '0')
+
+  // Combine the components into a single hex color string
+  return `#${redHex}${greenHex}${blueHex}`
+}
 
 function Tracer({ targetRef }) {
   const lineRef = useRef()
@@ -37,12 +40,7 @@ function Tracer({ targetRef }) {
     }
   })
 
-  return (
-    <Line
-      points={points}
-      color={color}
-    />
-  )
+  return <Line points={points} color={color} />
 }
 
 const Box = forwardRef((props: unknown, ref: any) => {
@@ -78,11 +76,11 @@ function CameraLogger() {
   return null
 }
 
-const TimedBox = forwardRef(({data}: {data: number[][]}, ref: any) => {
-  const [currentStep, setCurrentStep ] = useState(0)
+const TimedBox = forwardRef(({ data }: { data: number[][] }, ref: any) => {
+  const [currentStep, setCurrentStep] = useState(0)
 
   useFrame(() => {
-    if(data && data.length > 0 && ref.current) {
+    if (data && data.length > 0 && ref.current) {
       setCurrentStep((step) => (step + 1) % data.length)
 
       const [x, y, z] = data[currentStep]
@@ -96,7 +94,6 @@ const TimedBox = forwardRef(({data}: {data: number[][]}, ref: any) => {
       <meshStandardMaterial color={'blue'} />
     </mesh>
   )
-
 })
 
 function Scene() {
@@ -106,16 +103,27 @@ function Scene() {
 
   const { data, isLoading } = useQuery({
     queryKey: ['predicted'],
-    queryFn: () => fetch('http://127.0.0.1:5000/predict?t=50&init_pos=0.11128630277326439,0.18104763418880565,-2.6342644411006324').then((res) => res.json())
+    queryFn: () =>
+      fetch(
+        'http://127.0.0.1:5000/predict?t=100&init_pos=0.09629801991435664,0.1660012093533992,-2.7113365739142945'
+      ).then((res) => res.json()),
   })
 
-  const {data: referenceData, isLoading: isLoadingReferenceData} = useQuery({
+  const { data: referenceData, isLoading: isLoadingReferenceData } = useQuery({
     queryKey: ['new-path'],
-    queryFn: () => fetch('http://127.0.0.1:5000/rk4_predict?t=50&init_pos=0.11128630277326439,0.18104763418880565,-2.6342644411006324').then((res) => res.json())
-
+    queryFn: () =>
+      fetch(
+        'http://127.0.0.1:5000/rk4_predict?t=100&init_pos=0.09629801991435664,0.1660012093533992,-2.7113365739142945'
+      ).then((res) => res.json()),
   })
 
-  console.log(data, referenceData)
+  // console.log(data, referenceData)
+  const newData = useMemo(() => {
+    if (data) {
+      return data.map((point) => point.map((x) => x * 7))
+    }
+  }, [data])
+  console.log({newData})
 
   return (
     <Canvas camera={{ position: [-8, 15, -66], fov: 50 }}>
@@ -130,11 +138,9 @@ function Scene() {
       <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
       {/* <Box position={[0.5, 0.5, 0.5]} ref={boxRefOne} />  */}
       {/* <Box position={[-1.2000001, 0, 0]} ref={boxRefTwo} />  */}
-      {!isLoading && (
-        <TimedBox data={data} ref={boxRefOne}/>
-      )}
+      {!isLoading && <TimedBox data={newData} ref={boxRefOne} />}
       {!isLoadingReferenceData && (
-        <TimedBox data={referenceData} ref={boxRefTwo}/>
+        <TimedBox data={referenceData} ref={boxRefTwo} />
       )}
       <Tracer targetRef={boxRefOne} />
       <Tracer targetRef={boxRefTwo} />

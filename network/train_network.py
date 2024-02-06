@@ -22,7 +22,6 @@ model = LSTM_RNN(input_size, hidden_size, output_size, num_layers).to(device)
 loss_fn = nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
-
 def train(dataloader, model, loss_fn, optimizer):
     size = len(dataloader.dataset)
     num_batches = len(dataloader)
