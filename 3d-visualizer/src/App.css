@@ -1,0 +1,21 @@
+#root {
+  /* max-width: 1280px; */
+  width: 100vw;
+  height: 100vh;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.center {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+}
