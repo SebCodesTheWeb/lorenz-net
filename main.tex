@@ -8,6 +8,35 @@
 \usepackage{siunitx}
 \usepackage{microtype}
 \usepackage{parskip}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\definecolor{codegreen}{rgb}{0.33, 0.71, 0.36}
+\definecolor{codegray}{rgb}{0.5, 0.5, 0.5}
+\definecolor{codepurple}{rgb}{0.58, 0, 0.82}
+\definecolor{backcolour}{rgb}{0.95, 0.95, 0.92}
+\definecolor{codeblue}{rgb}{0.25,0.5,0.8}
+
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeblue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=Python
+}
 
 \title{Can an AI surpass the RK4 method in predicting the Lorenz 63 system?}
 \author{Sebastian M.D.}
@@ -54,7 +83,6 @@ A Recurrent Neural Network (RNN) is a type of neural network architecture design
 \centering
 \includegraphics[width=0.8\textwidth]{rnn.png}
 \caption{RNN architecture - https://www.analyticsvidhya.com/blog/2022/03/a-brief-overview-of-recurrent-neural-networks-rnn/}
-\label{fig:lorenz_attractor}
 \end{figure}
 
 However, RNNs have a significant limitation in that they struggle to learn long term dependencies due to the vanishing and exploding gradient problem. Long Short-Term Memory (LSTM) networks  aim to solve this problem. The LSTM network is a modification of the RNN that introduces a second hidden state, called the cell state, which is updated differently from the traditional hidden state. This update process is controlled by some gates which detemine when to update the cell state. This modification of the hidden state is more effective when performing backpropgation which allows the network to learn long-term dependencies.
@@ -75,7 +103,6 @@ The self attention mechanism is usually applied multiple times on the same token
 \centering
 \includegraphics[width=0.3\textwidth]{multi-head.png}
 \caption{Taken from "All you need is attention" by Google. }
-\label{fig:lorenz_attractor}
 \end{figure}
 
 The multi-head layer is paired with a position-wise feed-forward layer. The feed-forward layer applies two trainable linear transformations with a ReLU activation in between. The feed forward layer makes it so the network can learn more complex representations of the data. The multi-head layer and feed-forward layer is usually repeated in blocks to form the transformer network. Between the layers goes a residual conection called layer normalization. Each time a multi-head or feed-forward layer has made a computation the result is added to the residual connection. This makes the gradient flow more stable.
@@ -84,8 +111,157 @@ The multi-head layer is paired with a position-wise feed-forward layer. The feed
 \centering
 \includegraphics[width=0.3\textwidth]{transformer-basic.png}
 \caption{Basic Transformers architecture, taken from "All you need is attention" by Google. }
-\label{fig:lorenz_attractor}
 \end{figure}
 
+\section{Method}
+The code is written in Python and uses the PyTorch library for the neural network models. The project is publicly available on GitHub at: \url{https://github.com/SebCodesTheWeb/lorents-net}
+
+
+\subsection{Code Overview}
+
+The code is organized into several modules, each responsible for a specific part of the process. The main modules are:
+
+\begin{itemize}
+\item \texttt{lorenz.py}: This module implements the Lorenz system as well as the RK4 method.
+
+\item \texttt{generate\_dataset.py}: This module generates the dataset used to train the networks. It uses the RK4 method to solve the Lorenz system and generates sequential data of the x, y, z values over time and saves them in a csv file
+
+\item \texttt{get\_training\_data.py}: Splits the dataset into training and testing data as well as into individual sequences of data.
+
+\item \texttt{train\_network.py and train\_transfomer.py}: These files train the RNN neural network and transformer network respectively.
+
+\item \texttt{lstm\_rnn.py and transfomer.py}: These modules contain the class definitions for the neural networks. 
+
+\item \texttt{backend.py}: Implements a simple backend to evaulate the networks in the 3d-visualizer frontend.
+
+\end{itemize}
+
+\subsection{Key Code Examples}
+
+The data is initially processed in the \texttt{generate\_dataset.py} module.
+
+\begin{lstlisting}[language=Python]
+from lorenz import RK4  
+import pandas as pd
+import numpy as np
+from constants import seed_nbr, chunk_len, dt
+
+np.random.seed(seed_nbr)
+nbr_chunks = 100
+
+dataset = []
+
+for chunk_idx in range(nbr_chunks):
+    init_pos = np.random.rand(3)
+    pos = init_pos
+
+    #offset each chunk by 2000 timsteps
+    if chunk_idx > 0:
+        for _ in range(2000):
+            pos = RK4(pos, dt)
+    
+    for i in range(chunk_len):
+        elapsedTime = i * dt
+        pos = RK4(pos, dt)
+        x, y, z = pos
+        dataset.append({
+            't': elapsedTime,
+            'x': x,
+            'y': y,
+            'z': z
+        })
+\end{lstlisting}
+
+In this code the constants are $dt = 0.05$, $seed\_nbr = 0$ and $chunk\_len = 2000$. The code generates 100 chunks of 2000 timesteps of the Lorenz system. The initial conditions are randomly generated and the system is solved using the RK4 method. The data is handled in separate chunks offsetted by 2000 timesteps to be trained on indivudually. 
+
+\begin{lstlisting}
+numerical_cols = ['x', 'y', 'z']
+dataset[numerical_cols] = (
+    dataset[numerical_cols] - dataset[numerical_cols].mean()
+    ) / dataset[numerical_cols].std()
+
+dataset.to_csv('lorentz-sequences.csv', index=False)
+\end{lstlisting}
+
+The dataset is then normalized to improve gradient flow and saved to a csv file. \\
+
+The data is later on split trainable sequences in the \texttt{get\_training\_data.py} module.
+\begin{lstlisting}
+import pandas as pd
+import torch
+import numpy as np
+from constants import inp_seq_len, test_ratio, seed_nbr
+
+dataset = pd.read_csv('lorentz-sequences.csv')
+data_tensor = torch.tensor(dataset[['x', 'y', 'z']].values, dtype=torch.float32)
+
+def create_seq(input):
+    seq = []
+    for i in range(len(input) - inp_seq_len):
+        chunk = input[i:i + inp_seq_len]
+        label = input[i + inp_seq_len:i + inp_seq_len+1]
+        seq.append((chunk, label))
+    return seq
+
+data_seq = create_seq(data_tensor)
+    
+\end{lstlisting}
+
+Here the $inp\_seq\_len$ is set to 1. This makes is to the training data is split into a list of sequences, where each individual point has a label(the next value to predict) associated with it. These data sequences are laten split into a training and testing set with a 99/1 ratio. \\
+
+The \texttt{LSTM\_RNN} class defines a RNN network based on PyTorch's \texttt{nn.Module}:
+
+\begin{lstlisting}
+import torch
+import torch.nn as nn
+from device import device
+
+class LSTM_RNN(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size, num_layers=1):
+        super(LSTM_RNN, self).__init__()
+        self.hidden_size = hidden_size
+        self.num_layers = num_layers
+
+        self.lstm = nn.LSTM(input_size, hidden_size, num_layers=num_layers, batch_first=True)
+        self.output_activation = nn.Linear(hidden_size, output_size)
+    
+    def forward(self, inputSeq):
+        batch_size = inputSeq.size(0)
+        state = self.init_state(batch_size)
+        lstm_out, _ = self.lstm(inputSeq, state)
+
+        prediction = self.output_activation(lstm_out[:, -1, :])
+
+        return prediction
+
+    def init_state(self, batch_size):
+        state = (torch.zeros(self.num_layers, batch_size, self.hidden_size).to(device),
+                        torch.zeros(self.num_layers, batch_size, self.hidden_size).to(device))
+        return state
+\end{lstlisting}
+
+\texttt{input\_size} is the dimensionality of the input vector(in this case three for the x, y and z values). The constructor initializes the LSTM layer and output activation layer. The \texttt{forward} method is called during model training, sequentially passing the input through the LSTM cell and the activation layer to compute the output. The \texttt{init\_state} method initializes the LSTM's internal state with zeros for each new batch. \\
+
+The model is then instantiated like this:
+\begin{lstlisting}
+#Hyperparams
+hidden_size = 50  
+num_layers = 1  
+learning_rate = 0.0005
+
+train_data = TensorDataset(x_train, y_train)
+train_dataloader = DataLoader(train_data, batch_size=batch_size)
+
+input_size = x_train.shape[2]  
+output_size = y_train.shape[2] 
+model = LSTM_RNN(input_size, hidden_size, output_size, num_layers).to(device)
+
+loss_fn = nn.MSELoss()
+optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+\end{lstlisting}
+
+In this case it uses a size for the hidden state of 50, which has proven effective, and uses a simple single layer RNN(as described in the theory). It uses mean squared error loss function and the adam optimizer with a learning rate of 0.0005. 
+
+\end{document}
 
 \end{document}
