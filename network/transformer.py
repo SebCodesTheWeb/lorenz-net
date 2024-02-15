@@ -24,6 +24,9 @@ class PositionalEncoding(nn.Module):
         return self.dropout(x)
 
 
+# Try transfomer with simple encode structure
+# Remember to use causal attention
+
 class SimpleTransformerModel(nn.Module):
     def __init__(self, input_dim, output_dim, hidden_dim, nhead, num_layers):
         super(SimpleTransformerModel, self).__init__()

@@ -6,6 +6,8 @@ from torch.utils.data import DataLoader, TensorDataset
 import torch.optim as optim
 import torch
 
+print(x_train, y_train)
+
 # Hyperparams
 hidden_dim = 50
 nhead = 2
@@ -17,7 +19,7 @@ train_data = TensorDataset(x_train, y_train)
 train_dataloader = DataLoader(train_data, batch_size=batch_size)
 
 input_size = x_train.shape[2]  
-output_size = y_train.shape[2] 
+output_size = y_train.shape[2]
 model = SimpleTransformerModel(input_size, output_size, hidden_dim, nhead, num_layers).to(device)
 
 loss_fn = nn.MSELoss()
