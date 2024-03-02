@@ -2,7 +2,6 @@ import math
 import torch
 from torch import nn, Tensor
 from torch.nn import TransformerEncoder, TransformerEncoderLayer
-from device import device
 
 class PositionalEncoding(nn.Module):
     def __init__(self, d_model: int, dropout: float = 0.1, max_len: int = 5000):
@@ -43,7 +42,7 @@ class TransformerModel(nn.Module):
         self.pos_encoder = PositionalEncoding(d_model, dropout)
         encoder_layers = TransformerEncoderLayer(d_model, nhead, d_hid, dropout, batch_first=True)
         self.transformer_encoder = TransformerEncoder(encoder_layers, nlayers)
-        ##Use linear layer instead of traidiontal embedding layer due to coninous data
+        ##Use linear layer instead of traidiontal embedding layer due to continous data
         self.input_linear = nn.Linear(3, d_model)
         self.d_model = d_model
         self.output_linear = nn.Linear(d_model, 3)
@@ -57,7 +56,7 @@ class TransformerModel(nn.Module):
         self.output_linear.bias.data.zero_()
         self.output_linear.weight.data.uniform_(-initrange, initrange)
 
-    def forward(self, src: Tensor, src_mask: Tensor = None) -> Tensor:
+    def forward(self, src: Tensor) -> Tensor:
         """
         Arguments:
             src: Tensor, shape ``[seq_len, batch_size]``
@@ -68,12 +67,6 @@ class TransformerModel(nn.Module):
         """
         src = self.input_linear(src) * math.sqrt(self.d_model)
         src = self.pos_encoder(src)
-        # if src_mask is None:
-        #     """Generate a square causal mask for the sequence. The masked positions are filled with float('-inf').
-        #     Unmasked positions are filled with float(0.0).
-        #     """
-        #     src_mask = nn.Transformer.generate_square_subsequent_mask(len(src)).to(device)
-        # output = self.transformer_encoder(src, src_mask)
         output = self.transformer_encoder(src)
         output = self.output_linear(output)
         return output

@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1709399765 "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" "main.pdf" "main" 1709399766 0
-  "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" 1709399765 17556 c42896bacd5c9161a232f90423250d89 ""
+["pdflatex"] 1709406590 "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" "main.pdf" "main" 1709406591 0
+  "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" 1709406589 22728 93ca6ad0e6e4430e9b0da8c76958cda2 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/jknappen/ec/tcrm1095.tfm" 1136768653 1536 02c06700a42be0f5a28664c7273f82e7 ""
@@ -110,10 +110,10 @@
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
   "lorenz_attractor.png" 1707835333 137294 3b529934a21cad04adfa11b2b9cf8499 ""
   "lorenz_test.jpeg" 1708802024 485555 540a548f876330b2f2b860b83f466757 ""
-  "main.aux" 1709399765 2585 f14ba0c00888a5dd95d4115c3fc56681 "pdflatex"
-  "main.out" 1709399765 1053 665ec2db956d2c9d4baec91a625e0a07 "pdflatex"
-  "main.tex" 1709399765 17556 c42896bacd5c9161a232f90423250d89 ""
-  "main.toc" 1709399765 627 cb4b67cdb39c57bef2f5357feda501f2 "pdflatex"
+  "main.aux" 1709406591 2731 ae9f12c1fe9384509d56c88724f42e71 "pdflatex"
+  "main.out" 1709406591 1309 96b43cb5bcce6470fb74ee71b3102725 "pdflatex"
+  "main.tex" 1709406589 22728 93ca6ad0e6e4430e9b0da8c76958cda2 ""
+  "main.toc" 1709406591 731 f5f11b1f2e9a15068b990e7849a7c0d6 "pdflatex"
   "multi-head.png" 1707835333 35873 9240b14122a8da39f66a8880ffc40ac1 ""
   "rnn.png" 1707835334 51037 e80050558673ff0253bde49ecc838968 ""
   "transformer-basic.png" 1707835334 31559 b28c84a23ceb10486b92c5612a2c339e ""
