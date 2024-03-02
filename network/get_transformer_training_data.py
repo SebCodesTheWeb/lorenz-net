@@ -1,7 +1,7 @@
 import pandas as pd
 import torch
 
-seq_len = 50
+seq_len = 10
 
 dataset = pd.read_csv('lorentz-sequences.csv')
 data_tensor = torch.tensor(dataset[['x', 'y', 'z']].values, dtype=torch.float32)

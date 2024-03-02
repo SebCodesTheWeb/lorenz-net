@@ -37,8 +37,7 @@ def train(dataloader, model, loss_fn, optimizer):
     for batch_nbr, (seq, label) in enumerate(dataloader):
         seq , label = seq.to(device), label.to(device)
         prediction = model(seq)
-        # print(f"Prediction shape: {prediction.shape}, Label shape: {label.shape}")  
-        # Prediction shape: torch.Size([batch_size=100, seq_len=50, feature_size=3]), Label shape: torch.Size([batch_size, feature_size])
+        # Prediction shape: torch.Size([batch_size=100, seq_len=500, feature_size=3]), Label shape: torch.Size([batch_size, feature_size])
         prediction = prediction[:, -1, :] # Selects the last point the in predicted sequence
 
 
@@ -56,7 +55,7 @@ def train(dataloader, model, loss_fn, optimizer):
     running_loss /= num_batches
     print(f"Average loss for epoch: {running_loss:>7f}")
 
-epochs = 10
+epochs = 5
 for t in range(epochs):
     train(train_dataloader, model, loss_fn, optimizer)
     scheduler.step()
