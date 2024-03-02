@@ -5,5 +5,7 @@
 \contentsline {section}{\numberline {2}Method}{6}{section.2}%
 \contentsline {subsection}{\numberline {2.1}Code Overview}{6}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Generating Data}{6}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Training the RNN}{7}{subsection.2.3}%
-\contentsline {subsection}{\numberline {2.4}Training the transformers architecture}{9}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.3}Setting up the RNN}{8}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Setting up the transformers architecture}{10}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Setting up the RC-ESN}{12}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Training process}{12}{subsection.2.6}%
