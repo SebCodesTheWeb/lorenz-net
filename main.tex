@@ -219,11 +219,7 @@ dataset[numerical_cols] = (
 dataset.to_csv('lorentz-sequences.csv', index=False)
 \end{lstlisting}
 
-The dataset is then normalized to improve gradient flow and saved to a csv file. \\
-
-\subsection{Training the RNN}
-
-The data is later on split into trainable sequences in the \texttt{get\_training\_data.py} module.
+The dataset is then normalized to improve gradient flow and saved to a csv filel. Afterwards it is split into trainable sequences in the \texttt{get\_training\_data.py} module.
 \begin{lstlisting}
 import pandas as pd
 import torch
@@ -245,7 +241,16 @@ data_seq = create_seq(data_tensor)
     
 \end{lstlisting}
 
-Here the $inp\_seq\_len$ is set to 1, which means that it will only take the latest point into consideration when predicting the next point. The splits the training data is split into a list of separate, trainable sequences, where each individual sequence has a label(the next value to predict) associated with it. These data sequences are laten split into a training and testing set with a 99/1 ratio. \\
+Here the $inp\_seq\_len$ is the number of most recent data points the model will take into consideration when predicting the next point. By performing autocorrelation analysis a suitable $inp\_seq\_len$ could be found.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\textwidth]{auto_correlation.png}
+\caption{Autocorrelation shows how much the data is correlated with itself at different time lags}
+\end{figure}
+
+A significant drop of occurs at around lag 10-15, which  makes $inp\_seq\_len$ set to 10 a good value. Furthermore the function splits the training data into a list of separate, trainable sequences, where each individual sequence has a label(the next value to predict) associated with it. These data sequences are later split into a training and testing set with a 99/1 ratio. 
+
+\subsection{Setting up the RNN}
 
 The \texttt{LSTM\_RNN} class defines a RNN network based on PyTorch's \texttt{nn.Module}:
 
@@ -342,7 +347,7 @@ torch.save(model.state_dict(), 'lstm_rnn_lorenz.path')
 \end{lstlisting}
 The training loop iterates over the dataset, feeding batches of data to the model, calculating the loss, and updating the model parameters through backpropagation. Finally after five epochs, the model's parameters are saved.
 
-\subsection{Training the transformers architecture}
+\subsection{Setting up the transformers architecture}
 
 The transfomers class is written as follows:
 
@@ -459,6 +464,10 @@ scheduler = ExponentialLR(optimizer, gamma=0.9)
 \end{lstlisting}
 
 The main difference is that the model is trained with a learning rate scheduler to decay the learning rate over time, and there are some other hyperparameters that are different. 
+
+\subsection{Setting up the RC-ESN}
+
+\subsection{Training process}
 
 \end{document}
 
