@@ -342,6 +342,123 @@ torch.save(model.state_dict(), 'lstm_rnn_lorenz.path')
 \end{lstlisting}
 The training loop iterates over the dataset, feeding batches of data to the model, calculating the loss, and updating the model parameters through backpropagation. Finally after five epochs, the model's parameters are saved.
 
+\subsection{Training the transformers architecture}
+
+The transfomers class is written as follows:
+
+\begin{lstlisting}
+import math
+import torch
+from torch import nn, Tensor
+from torch.nn import TransformerEncoder, TransformerEncoderLayer
+
+class TransformerModel(nn.Module):
+    def __init__(self, ntoken: int, d_model: int, nhead: int, d_hid: int, nlayers: int, dropout: float = 0.5):
+        """
+        ntoken: The size of the vocabulary (total number of unique tokens).
+        d_model: The dimensionality of the token embeddings (the size of the vectors that represent each token).
+        nhead: The number of attention heads in the multi-head attention mechanisms.
+        d_hid: The dimensionality of the feedforward network model in the transformer encoder.
+        nlayers: The number of sub-encoder-layers in the transformer encoder.
+        dropout: The dropout rate, a regularization technique to prevent overfitting.
+
+
+        """
+        super().__init__()
+        self.model_type = 'Transformer'
+        self.pos_encoder = PositionalEncoding(d_model, dropout)
+        encoder_layers = TransformerEncoderLayer(d_model, nhead, d_hid, dropout, batch_first=True)
+        self.transformer_encoder = TransformerEncoder(encoder_layers, nlayers)
+        ##Use linear layer instead of traidiontal embedding layer due to continous data
+        self.input_linear = nn.Linear(3, d_model)
+        self.d_model = d_model
+        self.output_linear = nn.Linear(d_model, 3)
+
+        self.init_weights()
+
+    def init_weights(self) -> None:
+        initrange = 0.1
+        self.input_linear.weight.data.uniform_(-initrange, initrange)
+        self.input_linear.bias.data.zero_()
+        self.output_linear.bias.data.zero_()
+        self.output_linear.weight.data.uniform_(-initrange, initrange)
+
+    def forward(self, src: Tensor) -> Tensor:
+        """
+        Arguments:
+            src: Tensor, shape ``[seq_len, batch_size]``
+            src_mask: Tensor, shape ``[seq_len, seq_len]``
+
+        Returns:
+            output Tensor of shape ``[seq_len, batch_size, ntoken]``
+        """
+        src = self.input_linear(src) * math.sqrt(self.d_model)
+        src = self.pos_encoder(src)
+        output = self.transformer_encoder(src)
+        output = self.output_linear(output)
+        return output
+    
+\end{lstlisting}
+
+This transformers class utilizes the inbuild TransofrmerEncoder and TransformerEncoderLayer built into pytorch. The input is first passed through a linear layer to transform the input data into the d\_model dimensionality. The input is then passed through a positional encoding layer to add information about the position of the tokens in the sequence. The output is then passed through the transformer encoder and then through a linear layer to transform the output back to the original dimensionality. The positional encoding is defined as:
+
+\begin{lstlisting}
+class PositionalEncoding(nn.Module):
+    def __init__(self, d_model: int, dropout: float = 0.1, max_len: int = 5000):
+        super().__init__()
+        self.dropout = nn.Dropout(p=dropout)
+
+        position = torch.arange(max_len).unsqueeze(1)
+        div_term = torch.exp(torch.arange(0, d_model, 2) * (-math.log(10000.0) / d_model))
+        pe = torch.zeros(max_len, 1, d_model)
+        pe[:, 0, 0::2] = torch.sin(position * div_term)
+        pe[:, 0, 1::2] = torch.cos(position * div_term)
+        self.register_buffer('pe', pe)
+
+    def forward(self, x) :
+        """
+        Arguments:
+            x: Tensor, shape ``[seq_len, batch_size, embedding_dim]``
+        """
+        x = x + self.pe[:x.size(0)]
+        return self.dropout(x)
+\end{lstlisting}
+
+The positional encoding is a sine and cosine function of different frequencies that are added to the input data. This is to give the network information about the position of the tokens in the sequence. The frequencies are chosen to be logarithmically spaced. \\ \\ The model is then trained in a similar fashion to the RNN model.
+
+\begin{lstlisting}
+from get_transformer_training_data import x_train, y_train
+from transformer import TransformerModel
+from torch import nn
+from device import device
+from torch.utils.data import DataLoader, TensorDataset
+import torch.optim as optim
+from torch.optim.lr_scheduler import ExponentialLR
+import torch
+
+# Hyperparams
+hidden_dim = 500
+nhead = 2
+num_layers = 2
+learning_rate = 0.0005
+batch_size = 64
+#vocab_size does not matter for this implementation
+vocab_size = 3
+# d_model has to be even due to how positional encoding is implemented, requiring pairs of sin and cosine positions
+d_model = 128
+dropout=0
+
+train_data = TensorDataset(x_train, y_train)
+train_dataloader = DataLoader(train_data, batch_size=batch_size)
+
+model = TransformerModel(ntoken=vocab_size, d_model=d_model, nhead=nhead, d_hid=hidden_dim, nlayers=num_layers,dropout=dropout).to(device)
+
+loss_fn = nn.MSELoss()
+optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+scheduler = ExponentialLR(optimizer, gamma=0.9)
+\end{lstlisting}
+
+The main difference is that the model is trained with a learning rate scheduler to decay the learning rate over time, and there are some other hyperparameters that are different. 
 
 \end{document}
 

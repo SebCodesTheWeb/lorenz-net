@@ -13,11 +13,11 @@ nhead = 2
 num_layers = 2
 learning_rate = 0.0005
 batch_size = 64
-#Currently does not actually care
+#vocab_size does not matter for this implementation
 vocab_size = 3
 # d_model has to be even due to how positional encoding is implemented, requiring pairs of sin and cosine positions
 d_model = 128
-dropout = 0.1
+dropout=0
 
 train_data = TensorDataset(x_train, y_train)
 train_dataloader = DataLoader(train_data, batch_size=batch_size)
