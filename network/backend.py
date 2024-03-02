@@ -6,7 +6,7 @@ from device import device
 from lstm_rnn import LSTM_RNN
 from constants import dt
 from lorenz import RK4, eulers_method
-from transformer import SimpleTransformerModel
+from transformer import TransformerModel
 
 app = Flask(__name__)
 CORS(app)
@@ -14,11 +14,14 @@ CORS(app)
 hidden_size = 50
 num_layers = 1
 input_size, output_size = 3, 3
+vocab_size = 3
+d_model = 128
+n_head= 2
 
 rnn_model = LSTM_RNN(input_size, hidden_size, output_size, num_layers).to(device)
 rnn_model.load_state_dict(torch.load('lstm_rnn_lorenz.path'))
 
-transformer_model = SimpleTransformerModel(input_size, output_size, 50, 2, 2).to(device)
+transformer_model = TransformerModel(ntoken=3, d_model=128, nhead=2, d_hid=500, nlayers=2, dropout=0.1).to(device)
 transformer_model.load_state_dict(torch.load('transformer_lorenz.path'))
 
 @app.route("/predict", methods=['GET'])
