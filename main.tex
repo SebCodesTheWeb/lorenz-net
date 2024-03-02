@@ -144,9 +144,37 @@ The code is organized into several modules, each responsible for a specific part
 
 \end{itemize}
 
-\subsection{Key Code Examples}
+\subsection{Generating Data}
 
-The data is initially processed in the \texttt{generate\_dataset.py} module.
+The training data is processed via the RK4 method:
+
+\begin{lstlisting}
+import numpy as np
+
+sigma =  10
+rho = 28
+beta = 8/3
+
+def get_derivative(pos_vector):
+    x, y, z = pos_vector
+
+    dx_dt = sigma*(y-x)
+    dy_dt = x*(rho-z)-y
+    dz_dt = x*y - beta*z
+
+    return np.array([dx_dt, dy_dt, dz_dt])
+
+def RK4(pos_vector, dt):
+    k1 = dt * get_derivative(pos_vector)
+    k2 = dt * get_derivative(pos_vector + k1/2)
+    k3 = dt * get_derivative(pos_vector+ k2/2)
+    k4 = dt * get_derivative(pos_vector + k3)
+
+    return pos_vector + (k1 + 2*k2 + 2*k3 + k4) / 6
+\end{lstlisting}
+
+
+Which is used in the \texttt{generate\_dataset.py} module.
 
 \begin{lstlisting}[language=Python]
 from lorenz import RK4  
@@ -193,7 +221,9 @@ dataset.to_csv('lorentz-sequences.csv', index=False)
 
 The dataset is then normalized to improve gradient flow and saved to a csv file. \\
 
-The data is later on split trainable sequences in the \texttt{get\_training\_data.py} module.
+\subsection{Training the RNN}
+
+The data is later on split into trainable sequences in the \texttt{get\_training\_data.py} module.
 \begin{lstlisting}
 import pandas as pd
 import torch
@@ -215,7 +245,7 @@ data_seq = create_seq(data_tensor)
     
 \end{lstlisting}
 
-Here the $inp\_seq\_len$ is set to 1. This makes is to the training data is split into a list of sequences, where each individual point has a label(the next value to predict) associated with it. These data sequences are laten split into a training and testing set with a 99/1 ratio. \\
+Here the $inp\_seq\_len$ is set to 1, which means that it will only take the latest point into consideration when predicting the next point. The splits the training data is split into a list of separate, trainable sequences, where each individual sequence has a label(the next value to predict) associated with it. These data sequences are laten split into a training and testing set with a 99/1 ratio. \\
 
 The \texttt{LSTM\_RNN} class defines a RNN network based on PyTorch's \texttt{nn.Module}:
 
@@ -226,6 +256,11 @@ from device import device
 
 class LSTM_RNN(nn.Module):
     def __init__(self, input_size, hidden_size, output_size, num_layers=1):
+        """
+        input_size: input feature size, in this case 3 for the Lorenz system
+        output_size: output feature size, in this case 3 for the Lorenz system
+        hidden_size: number of hidden units in the LSTM
+        """
         super(LSTM_RNN, self).__init__()
         self.hidden_size = hidden_size
         self.num_layers = num_layers
@@ -234,21 +269,23 @@ class LSTM_RNN(nn.Module):
         self.output_activation = nn.Linear(hidden_size, output_size)
     
     def forward(self, inputSeq):
-        batch_size = inputSeq.size(0)
+        batch_size = inputSeq.size(0) # inputSeq shape [batch_size, seq_len, feature_size]
         state = self.init_state(batch_size)
         lstm_out, _ = self.lstm(inputSeq, state)
 
+        # Select the last point in the sequence
         prediction = self.output_activation(lstm_out[:, -1, :])
 
         return prediction
 
     def init_state(self, batch_size):
+        # Initializing the hidden and cell states for the LSTM based on the batch size
         state = (torch.zeros(self.num_layers, batch_size, self.hidden_size).to(device),
                         torch.zeros(self.num_layers, batch_size, self.hidden_size).to(device))
         return state
 \end{lstlisting}
 
-\texttt{input\_size} is the dimensionality of the input vector(in this case three for the x, y and z values). The constructor initializes the LSTM layer and output activation layer. The \texttt{forward} method is called during model training, sequentially passing the input through the LSTM cell and the activation layer to compute the output. The \texttt{init\_state} method initializes the LSTM's internal state with zeros for each new batch. \\
+\texttt{input\_size} is the dimensionality of the input vector(in this case three for the x, y and z values). The constructor initializes the LSTM layer and output activation layer. The \texttt{forward} method is passing the input through the torhc.nn.LSTM cell and the activation layer to compute the output. The \texttt{init\_state} method initializes the LSTM's internal state with zeros for each new batch. \\
 
 The model is then instantiated like this:
 \begin{lstlisting}
@@ -268,7 +305,43 @@ loss_fn = nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 \end{lstlisting}
 
-In this case it uses a size for the hidden state of 50, which has proven effective, and uses a simple single layer RNN(as described in the theory). It uses mean squared error loss function and the adam optimizer with a learning rate of 0.0005. 
+In this case it uses a size for the hidden state of 50, which has proven effective, and uses a simple single layer RNN(as described in the theory). It uses mean squared error loss function and the adam optimizer with a learning rate of 0.0005. \\ \\  The RNN network is later on trained with the following training loop:
+
+\begin{lstlisting}
+def train(dataloader, model, loss_fn, optimizer):
+    size = len(dataloader.dataset)
+    num_batches = len(dataloader)
+    model.train()
+    running_loss = 0.0
+
+    for batch_nbr, (seq, label) in enumerate(dataloader):
+        seq, label = seq.to(device), label.to(device)
+        label = label.squeeze(1) # Remove the extra middle dimension, in this case label shape is [batch_size, 1, feature_size]
+        prediction = model(seq)
+        loss = loss_fn(prediction, label)
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        running_loss += loss.item()
+        if batch_nbr % 100 == 0:
+            current = batch_nbr * len(seq)
+            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
+
+    running_loss /= num_batches
+    print(f"Average loss for epoch: {running_loss:>7f}")
+
+epochs = 5
+for t in range(epochs):
+    print(f"epoch {t + 1} \n--------------")
+    train(train_dataloader, model, loss_fn, optimizer)
+print("Done")
+torch.save(model.state_dict(), 'lstm_rnn_lorenz.path')
+    
+\end{lstlisting}
+The training loop iterates over the dataset, feeding batches of data to the model, calculating the loss, and updating the model parameters through backpropagation. Finally after five epochs, the model's parameters are saved.
+
 
 \end{document}
 

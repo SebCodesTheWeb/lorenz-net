@@ -5,7 +5,7 @@ import torch
 from device import device
 from lstm_rnn import LSTM_RNN
 from constants import dt
-from lorenz import RK4, eulers_method
+from lorenz import RK4
 from transformer import TransformerModel
 
 app = Flask(__name__)
