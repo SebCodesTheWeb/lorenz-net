@@ -1,0 +1,9 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+dataset = pd.read_csv('lorentz-sequences.csv')
+
+feature = 'x'
+
+pd.plotting.autocorrelation_plot(dataset[feature])
+plt.show()
