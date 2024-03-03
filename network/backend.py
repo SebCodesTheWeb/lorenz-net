@@ -101,9 +101,9 @@ def transformer_predict_path():
     with torch.no_grad():
         for _ in range(num_steps):
             next_pos = transformer_model(current_pos_tensor).cpu().numpy()[0].tolist()
-            next_pos = [
-                item for sublist in next_pos for item in sublist
-            ]  # Flatten the list
+            # next_pos = [
+            #     item for sublist in next_pos for item in sublist
+            # ]  
             path.append(next_pos)
 
             current_pos_tensor = torch.tensor([next_pos], dtype=torch.float32).to(

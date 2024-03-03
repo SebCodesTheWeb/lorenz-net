@@ -7,7 +7,7 @@ np.random.seed(seed_nbr)
 
 offset_len = 2000
 chunk_len = 200
-total_data_points = 1e7
+total_data_points = 1e5
 nbr_chunks = int(total_data_points // chunk_len)
 
 dataset = []
@@ -34,7 +34,7 @@ for i, pos in enumerate(initial_positions):
 
 dataset = pd.DataFrame(dataset)
 
-dataset.to_csv('lorentz-sequences_raw.csv', index=False)
+# dataset.to_csv('lorentz-sequences_raw.csv', index=False)
 
 # Normalize dataset
 numerical_cols = ['x', 'y', 'z']
