@@ -1,10 +1,7 @@
-from get_transformer_training_data import x_train, y_train
+from get_training_data  import x_train, y_train
 from rc_esn import EchoStateNetwork
-from torch import nn
 from device import device
 from torch.utils.data import DataLoader, TensorDataset
-import torch.optim as optim
-from torch.optim.lr_scheduler import ExponentialLR
 import torch
 
 # Hyperparams
@@ -38,30 +35,26 @@ def train_esn_with_ridge_regression(dataloader, model, ridge_param):
         for inputs, outputs in dataloader:
             inputs, outputs = inputs.to(device), outputs.to(device)
             
-            # Use the ESN to get reservoir states (discard actual outputs)
-            _, states = model(inputs)
+            # Use the last reservoir state for each sequence in the batch
+            model_output, states = model(inputs)
+            last_states = states[:, -1, :]  # Get the state from the last time step of each sequence
             
-            reservoir_states.append(states)
+            reservoir_states.append(last_states)
             desired_outputs.append(outputs)
             
     # Concatenate all the reservoir_states and desired_outputs along the 0th dimension
     reservoir_states = torch.cat(reservoir_states, dim=0)
     desired_outputs = torch.cat(desired_outputs, dim=0)
     
-    # Calculate the Ridge Regression solution (the Moore-Penrose pseudoinverse)
-    #output_weights = ((reservoir_states.t() @ reservoir_states + ridge_param * torch.eye(reservoir_size, device=device))
-                     #.inverse() @ reservoir_states.t() @ desired_outputs)
-    
-    # However, in practice it's more stable to use torch.pinverse or a linear solver:
-    I = torch.eye(model.reservoir_size, device=device)
+    # Calculate the Ridge Regression solution
+    identity_mat= torch.eye(model.reservoir_size, device=device)
     output_weights = torch.linalg.solve(
-        reservoir_states.t() @ reservoir_states + ridge_param * I,
+        reservoir_states.t() @ reservoir_states + ridge_param * identity_mat,
         reservoir_states.t() @ desired_outputs
     )
     
     # Set the model's output_weights to the computed Ridge Regression solution
     model.output_weights.data = output_weights.t()
-
 
 train_esn_with_ridge_regression(train_dataloader, model, ridge_param)
 
