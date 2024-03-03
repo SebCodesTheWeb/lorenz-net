@@ -5,9 +5,9 @@ from constants import seed_nbr, dt
 
 np.random.seed(seed_nbr)
 
-offset_len = 2000
+offset_len = 600
 chunk_len = 200
-total_data_points = 1e5
+total_data_points = 1e6
 nbr_chunks = int(total_data_points // chunk_len)
 
 dataset = []
@@ -22,7 +22,7 @@ for i, pos in enumerate(initial_positions):
     
     # Generate the actual data chunk
     for j in range(chunk_len):
-        elapsedTime = j * dt + offset_len * dt
+        elapsedTime = j * dt + i * offset_len * dt
         pos = RK4(pos, dt)
         x, y, z = pos
         dataset.append({
