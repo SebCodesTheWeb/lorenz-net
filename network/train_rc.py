@@ -1,10 +1,7 @@
 from get_transformer_training_data import x_train, y_train
 from rc_esn import EchoStateNetwork
-from torch import nn
 from device import device
 from torch.utils.data import DataLoader, TensorDataset
-import torch.optim as optim
-from torch.optim.lr_scheduler import ExponentialLR
 import torch
 
 # Hyperparams
@@ -38,7 +35,6 @@ def train_esn_with_ridge_regression(dataloader, model, ridge_param):
         for inputs, outputs in dataloader:
             inputs, outputs = inputs.to(device), outputs.to(device)
             
-            # Get the prediction of ESN for each sequence in the batch
             # Use the last reservoir state for each sequence in the batch
             model_output, states = model(inputs)
             last_states = states[:, -1, :]  # Get the state from the last time step of each sequence
@@ -51,9 +47,9 @@ def train_esn_with_ridge_regression(dataloader, model, ridge_param):
     desired_outputs = torch.cat(desired_outputs, dim=0)
     
     # Calculate the Ridge Regression solution
-    I = torch.eye(model.reservoir_size, device=device)
+    identity_mat= torch.eye(model.reservoir_size, device=device)
     output_weights = torch.linalg.solve(
-        reservoir_states.t() @ reservoir_states + ridge_param * I,
+        reservoir_states.t() @ reservoir_states + ridge_param * identity_mat,
         reservoir_states.t() @ desired_outputs
     )
     
