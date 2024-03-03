@@ -21,6 +21,6 @@ def RK4(pos_vector, dt):
 
     return pos_vector + (k1 + 2*k2 + 2*k3 + k4) / 6
 
-def eulers_method(pos_vector, dt):
-    delta = dt * get_derivative(pos_vector)
-    return pos_vector + delta
+# def eulers_method(pos_vector, dt):
+#     delta = dt * get_derivative(pos_vector)
+#     return pos_vector + delta

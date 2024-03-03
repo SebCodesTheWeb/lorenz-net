@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1709372866 "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" "main.pdf" "main" 1709372867 0
-  "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" 1709372866 15077 eb936f2ea12c58ac4250db9c1d2ded97 ""
+["pdflatex"] 1709414864 "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" "main.pdf" "main" 1709414865 0
+  "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" 1709414863 23185 1680996235824c4a31b1114bdb0a2d55 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/jknappen/ec/tcrm1095.tfm" 1136768653 1536 02c06700a42be0f5a28664c7273f82e7 ""
@@ -108,12 +108,13 @@
   "/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1685541183 4623355 b8cad38412faebe1ce5b780a45db67bd ""
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1685541180 7883454 4871d3a3ed6f478eef528419cad6c280 ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
+  "auto_correlation.png" 1709393616 28266 31bd207c356c563a7b2b04de1746c8c4 ""
   "lorenz_attractor.png" 1707835333 137294 3b529934a21cad04adfa11b2b9cf8499 ""
   "lorenz_test.jpeg" 1708802024 485555 540a548f876330b2f2b860b83f466757 ""
-  "main.aux" 1709372867 2464 5e65adf610a380cdd0f312aa3475c7c0 "pdflatex"
-  "main.out" 1709372867 923 bcdbbb20b4a65a02aa927a5e90338288 "pdflatex"
-  "main.tex" 1709372866 15077 eb936f2ea12c58ac4250db9c1d2ded97 ""
-  "main.toc" 1709372867 547 0df68a5e639577d7c8f91944ce505c3f "pdflatex"
+  "main.aux" 1709414865 3188 51c81cf9c38459940c55b92fbcc8c5c2 "pdflatex"
+  "main.out" 1709414865 1648 95b1bd83038ca83d9ed966cf08593914 "pdflatex"
+  "main.tex" 1709414863 23185 1680996235824c4a31b1114bdb0a2d55 ""
+  "main.toc" 1709414865 907 1a515a7f00c5a46e3718fcc7bf153de2 "pdflatex"
   "multi-head.png" 1707835333 35873 9240b14122a8da39f66a8880ffc40ac1 ""
   "rnn.png" 1707835334 51037 e80050558673ff0253bde49ecc838968 ""
   "transformer-basic.png" 1707835334 31559 b28c84a23ceb10486b92c5612a2c339e ""
