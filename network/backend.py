@@ -7,6 +7,7 @@ from lstm_rnn import LSTM_RNN
 from constants import dt
 from lorenz import RK4
 from transformer import TransformerModel
+from rc_esn import EchoStateNetwork
 
 app = Flask(__name__)
 CORS(app)
@@ -23,6 +24,18 @@ rnn_model.load_state_dict(torch.load('lstm_rnn_lorenz.path'))
 
 transformer_model = TransformerModel(ntoken=3, d_model=128, nhead=2, d_hid=500, nlayers=2, dropout=0.1).to(device)
 transformer_model.load_state_dict(torch.load('transformer_lorenz.path'))
+
+
+rc_model = EchoStateNetwork(
+    input_size=3,
+    reservoir_size=1000,
+    output_size=3,
+    spectral_radius=0.9,
+    sparsity=0.01,
+).to(device)
+
+rc_model.load_state_dict(torch.load('rc_esn_lorenz.path', map_location='cpu'))
+
 
 @app.route("/predict", methods=['GET'])
 def predict_path():
@@ -43,6 +56,25 @@ def predict_path():
 
     return jsonify(path)
 
+@app.route("/predict_w_rc_esn", methods=['GET'])
+def rc_predict_path():
+    print('ran rc')
+    t = float(request.args.get('t'))
+    init_pos = request.args.get('init_pos').split(',')
+    init_pos = [float(x) for x in init_pos]
+    current_pos_tensor = torch.tensor([init_pos], dtype=torch.float32).to(device).unsqueeze(0)
+
+    num_steps = int(t / dt)
+    path = [init_pos]
+
+    with torch.no_grad():
+        for _ in range(num_steps):
+            next_pos = rnn_model(current_pos_tensor).cpu().numpy()[0].tolist()
+            path.append(next_pos)
+
+            current_pos_tensor = torch.tensor([next_pos], dtype=torch.float32).to(device).unsqueeze(0)
+
+    return jsonify(path)
 
 @app.route("/predict_w_transformer", methods=['GET'])
 def transformer_predict_path():
