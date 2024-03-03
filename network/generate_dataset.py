@@ -37,10 +37,10 @@ dataset = pd.DataFrame(dataset)
 # dataset.to_csv('lorentz-sequences_raw.csv', index=False)
 
 # Normalize dataset
-numerical_cols = ['x', 'y', 'z']
-dataset[numerical_cols] = (
-    dataset[numerical_cols] - dataset[numerical_cols].mean()
-) / dataset[numerical_cols].std()
+#numerical_cols = ['x', 'y', 'z']
+#dataset[numerical_cols] = (
+#    dataset[numerical_cols] - dataset[numerical_cols].mean()
+#) / dataset[numerical_cols].std()
 
 # Save to CSV
 dataset.to_csv('lorentz-sequences.csv', index=False)
