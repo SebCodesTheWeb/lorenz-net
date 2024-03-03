@@ -6,7 +6,7 @@ from constants import seed_nbr, dt
 np.random.seed(seed_nbr)
 
 offset_len = 600
-chunk_len = 200
+chunk_len = 150
 total_data_points = 1e6
 nbr_chunks = int(total_data_points // chunk_len)
 
