@@ -16,7 +16,7 @@ train_data = TensorDataset(x_train, y_train)
 train_dataloader = DataLoader(train_data, batch_size=batch_size)
 
 input_size = x_train.shape[2]  
-output_size = y_train.shape[2] 
+output_size = y_train.shape[1] 
 model = LSTM_RNN(input_size, hidden_size, output_size, num_layers).to(device)
 
 loss_fn = nn.MSELoss()
@@ -31,7 +31,6 @@ def train(dataloader, model, loss_fn, optimizer):
     for batch_nbr, (seq, label) in enumerate(dataloader):
         seq, label = seq.to(device), label.to(device)
         prediction = model(seq)
-        label = label.squeeze(1) # Remove the extra middle dimension, in this case label shape is [batch_size, 1, feature_size]
         loss = loss_fn(prediction, label)
 
         optimizer.zero_grad()
