@@ -30,8 +30,8 @@ def train(dataloader, model, loss_fn, optimizer):
 
     for batch_nbr, (seq, label) in enumerate(dataloader):
         seq, label = seq.to(device), label.to(device)
-        label = label.squeeze(1)
         prediction = model(seq)
+        label = label.squeeze(1) # Remove the extra middle dimension, in this case label shape is [batch_size, 1, feature_size]
         loss = loss_fn(prediction, label)
 
         optimizer.zero_grad()
