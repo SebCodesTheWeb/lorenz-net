@@ -4,4 +4,4 @@ dt = 0.05
 test_ratio = 0.15
 val_ratio = 0.15
 #How many values to take as input before predicting the next one
-inp_seq_len = 1
+inp_seq_len = 10

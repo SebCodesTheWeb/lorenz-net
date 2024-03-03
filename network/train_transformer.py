@@ -1,4 +1,4 @@
-from get_transformer_training_data import x_train, y_train
+from get_training_data import x_train, y_train
 from transformer import TransformerModel
 from torch import nn
 from device import device
@@ -13,20 +13,21 @@ nhead = 2
 num_layers = 2
 learning_rate = 0.0005
 batch_size = 64
-#vocab_size does not matter for this implementation
-vocab_size = 3
 # d_model has to be even due to how positional encoding is implemented, requiring pairs of sin and cosine positions
 d_model = 128
-dropout=0
+dropout = 0
 
 train_data = TensorDataset(x_train, y_train)
 train_dataloader = DataLoader(train_data, batch_size=batch_size)
 
-model = TransformerModel(ntoken=vocab_size, d_model=d_model, nhead=nhead, d_hid=hidden_dim, nlayers=num_layers,dropout=dropout).to(device)
+model = TransformerModel(
+    d_model=d_model, nhead=nhead, d_hid=hidden_dim, nlayers=num_layers, dropout=dropout
+).to(device)
 
 loss_fn = nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 scheduler = ExponentialLR(optimizer, gamma=0.9)
+
 
 def train(dataloader, model, loss_fn, optimizer):
     size = len(dataloader.dataset)
@@ -35,12 +36,8 @@ def train(dataloader, model, loss_fn, optimizer):
     running_loss = 0.0
 
     for batch_nbr, (seq, label) in enumerate(dataloader):
-        seq , label = seq.to(device), label.to(device)
+        seq, label = seq.to(device), label.to(device)
         prediction = model(seq)
-        # Prediction shape: torch.Size([batch_size=100, seq_len=500, feature_size=3]), Label shape: torch.Size([batch_size, feature_size])
-        prediction = prediction[:, -1, :] # Selects the last point the in predicted sequence
-
-
         loss = loss_fn(prediction, label)
 
         optimizer.zero_grad()
@@ -55,9 +52,10 @@ def train(dataloader, model, loss_fn, optimizer):
     running_loss /= num_batches
     print(f"Average loss for epoch: {running_loss:>7f}")
 
+
 epochs = 5
 for t in range(epochs):
     train(train_dataloader, model, loss_fn, optimizer)
     scheduler.step()
 print("Done")
-torch.save(model.state_dict(), 'transformer_lorenz.path')
+torch.save(model.state_dict(), "transformer_lorenz.path")
