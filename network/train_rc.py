@@ -1,4 +1,4 @@
-from get_transformer_training_data import x_train, y_train
+from get_training_data  import x_train, y_train
 from rc_esn import EchoStateNetwork
 from device import device
 from torch.utils.data import DataLoader, TensorDataset
