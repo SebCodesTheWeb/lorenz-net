@@ -105,7 +105,7 @@ function Scene() {
     queryKey: ['predicted'],
     queryFn: () =>
       fetch(
-        'http://127.0.0.1:5000/predict_w_transformer?t=100&init_pos=0.09629801991435664,0.1660012093533992,-2.7113365739142945'
+        'http://127.0.0.1:5000/predict?t=100&init_pos=0.09629801991435664,0.1660012093533992,-2.7113365739142945'
       ).then((res) => res.json()),
   })
 

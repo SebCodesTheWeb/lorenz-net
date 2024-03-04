@@ -40,23 +40,32 @@ rc_model.load_state_dict(torch.load("rc_esn_lorenz.path", map_location="cpu"))
 
 @app.route("/predict", methods=["GET"])
 def predict_path():
+    print('ran')
     t = float(request.args.get("t"))
     init_pos = request.args.get("init_pos").split(",")
     init_pos = [float(x) for x in init_pos]
-    current_pos_tensor = (
-        torch.tensor([init_pos], dtype=torch.float32).to(device).unsqueeze(0)
-    )
-
-    num_steps = int(t / dt)
+    num_init_steps = 149
     path = [init_pos]
 
+    for _ in range(num_init_steps):
+        next_pos = RK4(np.array(path[-1]), dt)
+        path.append(next_pos.tolist())
+
+
+    current_pos_tensor = (
+        torch.tensor(path, dtype=torch.float32).to(device).unsqueeze(0)
+    )
+
+    num_steps = int(t / 0.05)
+
     with torch.no_grad():
-        for _ in range(num_steps):
+        for i in range(num_steps):
             next_pos = rnn_model(current_pos_tensor).cpu().numpy()[0].tolist()
             path.append(next_pos)
+            print(i, num_steps)
 
             current_pos_tensor = (
-                torch.tensor([next_pos], dtype=torch.float32).to(device).unsqueeze(0)
+                torch.tensor(path[1:] + [next_pos], dtype=torch.float32).to(device).unsqueeze(0)
             )
 
     return jsonify(path)

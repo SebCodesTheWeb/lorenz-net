@@ -21,4 +21,5 @@ def evaluate_model(model, batch_size=100):
 
     running_loss /= len(dataloader)
     print(f"Validation loss: {running_loss:>7f}")
+    return running_loss
 
