@@ -122,7 +122,7 @@ function Scene() {
   console.log({data, referenceData})
   const newData = useMemo(() => {
     if (data) {
-      return data.map((point) => point.map((x) => x * 7))
+      return data.map((point) => point.map((x) => x * 7 ))
     }
   }, [data])
   console.log({newData})
@@ -140,7 +140,7 @@ function Scene() {
       <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
       {/* <Box position={[0.5, 0.5, 0.5]} ref={boxRefOne} />  */}
       {/* <Box position={[-1.2000001, 0, 0]} ref={boxRefTwo} />  */}
-      {!isLoading && <TimedBox data={newData} ref={boxRefOne} />}
+      {!isLoading && <TimedBox data={data} ref={boxRefOne} />}
       {!isLoadingReferenceData && (
         <TimedBox data={referenceData} ref={boxRefTwo} />
       )}

@@ -1,25 +1,30 @@
 from lorenz import RK4
 import pandas as pd
 import numpy as np
-from constants import seed_nbr, dt
+from constants import seed_nbr, dt, chunk_len
 
 np.random.seed(seed_nbr)
 
-offset_len = 600
-chunk_len = 150
+#Keep low, just seems to make things worse
+offset_len = 0
 total_data_points = 1e6
 nbr_chunks = int(total_data_points // chunk_len)
+len_before_reset = 1e5
 
 dataset = []
 
-initial_positions = np.random.rand(nbr_chunks, 3)
+initial_positions = np.random.rand(nbr_chunks, 3) 
+pos = initial_positions[0]
 
-for i, pos in enumerate(initial_positions):
-    print(i, len(initial_positions))
+for i, _ in enumerate(initial_positions):
+    # print(i, len(initial_positions))
+    pos = initial_positions[i] if i * chunk_len % len_before_reset == 0 else pos
+    if(i*chunk_len % len_before_reset == 0):
+        print(len(dataset))
     # Offset each initial chunk to decorrelate the data
     for _ in range(offset_len):
         pos = RK4(pos, dt)
-    
+   
     # Generate the actual data chunk
     for j in range(chunk_len):
         elapsedTime = j * dt + i * offset_len * dt
@@ -34,12 +39,12 @@ for i, pos in enumerate(initial_positions):
 
 dataset = pd.DataFrame(dataset)
 
-# dataset.to_csv('lorentz-sequences_raw.csv', index=False)
+dataset.to_csv('lorenz-sequences_raw.csv', index=False)
 
-# Normalize dataset
 numerical_cols = ['x', 'y', 'z']
 dataset[numerical_cols] = (
     dataset[numerical_cols] - dataset[numerical_cols].mean()
+
 ) / dataset[numerical_cols].std()
 
 # Save to CSV
