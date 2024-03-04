@@ -8,11 +8,13 @@ from constants import dt
 from lorenz import RK4
 from transformer import TransformerModel
 from rc_esn import EchoStateNetwork
+from constants import inp_seq_len
+from unnormalize_data import get_unnormalized_prediction
 
 app = Flask(__name__)
 CORS(app)
 
-hidden_size = 50
+hidden_size = 100
 num_layers = 1
 input_size, output_size = 3, 3
 d_model = 128
@@ -44,16 +46,16 @@ def predict_path():
     t = float(request.args.get("t"))
     init_pos = request.args.get("init_pos").split(",")
     init_pos = [float(x) for x in init_pos]
-    num_init_steps = 149
     path = [init_pos]
 
-    for _ in range(num_init_steps):
+    for _ in range(inp_seq_len):
         next_pos = RK4(np.array(path[-1]), dt)
         path.append(next_pos.tolist())
 
 
     current_pos_tensor = (
-        torch.tensor(path, dtype=torch.float32).to(device).unsqueeze(0)
+        #Using np.array(path) seems to speed things up
+        torch.tensor(np.array(path), dtype=torch.float32).to(device).unsqueeze(0)
     )
 
     num_steps = int(t / 0.05)
@@ -65,10 +67,10 @@ def predict_path():
             print(i, num_steps)
 
             current_pos_tensor = (
-                torch.tensor(path[1:] + [next_pos], dtype=torch.float32).to(device).unsqueeze(0)
+                torch.tensor(np.array(path[1:] + [next_pos]), dtype=torch.float32).to(device).unsqueeze(0)
             )
 
-    return jsonify(path)
+    return jsonify(get_unnormalized_prediction(path))
 
 
 @app.route("/predict_w_rc_esn", methods=["GET"])
