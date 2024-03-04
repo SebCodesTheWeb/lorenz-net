@@ -13,7 +13,7 @@ def train_transformer(
     nhead=2,
     num_layers=2,
     learning_rate=0.0005,
-    batch_size=64,
+    batch_size=8,
     d_model=128,
     dropout=0,
     epochs=5,
