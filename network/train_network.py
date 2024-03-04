@@ -11,7 +11,7 @@ def train_rnn_lstm(
     hidden_size=50,
     num_layers=1,
     learning_rate=0.0005,
-    batch_size=100,
+    batch_size=2,
     epochs=5,
 ):
     train_data = TensorDataset(x_train, y_train)
