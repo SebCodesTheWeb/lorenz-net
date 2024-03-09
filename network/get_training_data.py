@@ -15,6 +15,7 @@ data_tensor = torch.tensor(dataset[["x", "y", "z"]].values, dtype=torch.float32)
 def create_seq(data):
     seq = []
     for i in range(0, len(data) - inp_seq_len, inp_seq_len):
+        print(i, len(data) - inp_seq_len)
         input = data[i : i + inp_seq_len]
         label = data[i + inp_seq_len]
         # Given input sequence, predict the next value(label)
