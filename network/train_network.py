@@ -6,16 +6,17 @@ import torch.optim as optim
 import torch
 from torch.optim.lr_scheduler import ExponentialLR
 import optuna
+from device import device as default_device
 
 def train_rnn_lstm(
-    hidden_size=100,
+    hidden_size=128,
     num_layers=1,
-    learning_rate=0.0005,
-    batch_size=8,
-    epochs=10,
+    learning_rate=0.001365675061436443,
+    batch_size=32,
+    epochs=8,
     gamma=0.7,
     trial = None,
-    device='cuda',
+    device=default_device,
 ):
     x_train_device = x_train.to(device)
     y_train_device = y_train.to(device)
@@ -62,7 +63,6 @@ def train_rnn_lstm(
             trial.report(loss, t)
             if trial.should_prune():
                 raise optuna.exceptions.TrialPruned()
-
         scheduler.step()
     print("Done")
     torch.save(model.state_dict(), "lstm_rnn_lorenz.path")

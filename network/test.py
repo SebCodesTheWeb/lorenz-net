@@ -14,21 +14,21 @@ np.random.seed(seed_nbr + 5)
 nbrTimeSteps = 5000
 nbrIterations = 1
 
-rnn_model = LSTM_RNN(input_size=3, output_size=3, hidden_size=100, num_layers=1).to(
+rnn_model = LSTM_RNN(input_size=3, output_size=3, hidden_size=128, num_layers=1).to(
     device
 )
-rnn_model.load_state_dict(torch.load("lstm_rnn_lorenz.path"))
+rnn_model.load_state_dict(torch.load("lstm_rnn_lorenz.path", map_location="mps"))
 rnn_model.eval()
 
-transformers_model = TransformerModel(
-    d_model=128,
-    nhead=2,
-    d_hid=500,
-    nlayers=2,
-    dropout=0
-).to(device)
-transformers_model.load_state_dict(torch.load("transformer_lorenz.path"))
-transformers_model.eval()
+# transformers_model = TransformerModel(
+#     d_model=128,
+#     nhead=2,
+#     d_hid=500,
+#     nlayers=2,
+#     dropout=0
+# ).to(device)
+# transformers_model.load_state_dict(torch.load("transformer_lorenz.path", map_location="mps"))
+# transformers_model.eval()
 
 
 
@@ -52,7 +52,7 @@ for i in range(nbrIterations):
             .unsqueeze(0)
         )
         # next_pos = rnn_model(current_pos_tensor).cpu().detach().numpy()[0].tolist()
-        next_pos = transformers_model(current_pos_tensor).cpu().detach().numpy()[0].tolist()
+        next_pos = rnn_model(current_pos_tensor).cpu().detach().numpy()[0].tolist()
         model_path.append(next_pos)
 
     # Continue with RK4 for nbrTimeSteps
