@@ -1,7 +1,6 @@
 parameter,value
-learning_rate,0.005091694841110634
-batch_size,64
-epochs,9
-hidden_size,64
+learning_rate,0.0003638125156895525
+batch_size,32
+hidden_size,512
 num_layers,1
-gamma,0.8222640315523118
+gamma,0.7716225133934528

@@ -11,10 +11,10 @@ model_type = "RNN_LSTM"
 
 
 def objective(trial):
-    learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-2)
-    batch_size = trial.suggest_categorical("batch_size", [8, 16, 32, 64, 128, 256])
-    epochs = trial.suggest_int('epochs', 5, 10)
-    gpu_id = trial.number % 4  
+    learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-4)
+    batch_size = trial.suggest_categorical("batch_size", [16, 32, 64, 128])
+    # epochs = trial.suggest_int('epochs', 5, 10)
+    gpu_id = trial.number % 1  
     device = torch.device(f"cuda:{gpu_id}" if torch.cuda.is_available() else default_device)
 
     if model_type == "Transformer":
@@ -38,13 +38,13 @@ def objective(trial):
     elif model_type == "RNN_LSTM":
         model_hyperparams = {
             "hidden_size": trial.suggest_categorical(
-                "hidden_size", [32, 64, 128, 256, 512]
+                "hidden_size", [256, 512, 800, 1028]
             ),
-            "num_layers": trial.suggest_int("num_layers", 1, 3),
+            "num_layers": trial.suggest_int("num_layers", 1, 2),
             "learning_rate": learning_rate,
             "batch_size": batch_size,
-            "epochs": epochs,
-            "gamma": trial.suggest_float("gamma", 0.7, 1),
+            "epochs": 9,
+            "gamma": trial.suggest_float("gamma", 0.7, 0.9),
             "trial": trial,
             "device": device,
         }
@@ -75,7 +75,7 @@ def objective(trial):
 pruner = optuna.pruners.MedianPruner()
 study = optuna.create_study(direction="minimize", pruner=pruner,storage="sqlite:///example_study.db")
 study.optimize(
-    objective, n_trials=100, n_jobs=4, show_progress_bar=True
+    objective, n_trials=100, n_jobs=1, show_progress_bar=True
 )  # n_jobs is number of parallel jobs(one per gpu available)
 
 # Print the best trial's hyperparameters
