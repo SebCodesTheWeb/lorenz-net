@@ -43,7 +43,8 @@ def objective(trial):
             "num_layers": trial.suggest_int("num_layers", 1, 3),
             "learning_rate": learning_rate,
             "batch_size": batch_size,
-            "epochs": 1,
+            "epochs": epochs,
+            "gamma": trial.suggest_float("gamma", 0.7, 1),
             "trial": trial,
             "device": device,
         }
@@ -74,7 +75,7 @@ def objective(trial):
 pruner = optuna.pruners.MedianPruner()
 study = optuna.create_study(direction="minimize", pruner=pruner,storage="sqlite:///example_study.db")
 study.optimize(
-    objective, n_trials=10, n_jobs=4, show_progress_bar=True
+    objective, n_trials=100, n_jobs=4, show_progress_bar=True
 )  # n_jobs is number of parallel jobs(one per gpu available)
 
 # Print the best trial's hyperparameters

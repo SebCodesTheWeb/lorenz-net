@@ -13,6 +13,7 @@ def train_rnn_lstm(
     learning_rate=0.0005,
     batch_size=8,
     epochs=10,
+    gamma=0.7,
     trial = None,
     device='cuda',
 ):
@@ -28,7 +29,7 @@ def train_rnn_lstm(
 
     loss_fn = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
-    scheduler = ExponentialLR(optimizer, gamma=0.7)
+    scheduler = ExponentialLR(optimizer, gamma=gamma)
 
     def train(dataloader, model, loss_fn, optimizer):
         size = len(dataloader.dataset)
@@ -57,9 +58,10 @@ def train_rnn_lstm(
     for t in range(epochs):
         print(f"epoch {t + 1} \n--------------")
         loss = train(train_dataloader, model, loss_fn, optimizer)
-        trial.report(loss, t)
-        if trial.should_prune():
-            raise optuna.exceptions.TrialPruned()
+        if trial is not None:
+            trial.report(loss, t)
+            if trial.should_prune():
+                raise optuna.exceptions.TrialPruned()
 
         scheduler.step()
     print("Done")
