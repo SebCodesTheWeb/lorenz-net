@@ -20,6 +20,6 @@ def evaluate_model(model, batch_size=100):
             running_loss += loss.item()
 
     running_loss /= len(dataloader)
-    print(f"Validation loss: {running_loss:>7f}")
+    print(f"Validation loss: {running_loss}")
     return running_loss
 

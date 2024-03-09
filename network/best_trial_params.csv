@@ -1,0 +1,6 @@
+parameter,value
+learning_rate,0.005192228772791855
+batch_size,32
+epochs,10
+hidden_size,256
+num_layers_lstm,1
