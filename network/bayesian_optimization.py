@@ -1,9 +1,11 @@
 import optuna
+import torch
 from train_transformer import train_transformer
 from train_network import train_rnn_lstm
 from train_rc import train_rc_esn
 from evaluate_networks import evaluate_model
 import csv
+from device import device as default_device
 
 model_type = "RNN_LSTM"
 
@@ -13,6 +15,7 @@ def objective(trial):
     batch_size = trial.suggest_categorical("batch_size", [8, 16, 32, 64, 128, 256])
     epochs = trial.suggest_int('epochs', 5, 10)
     gpu_id = trial.number % 4  
+    device = torch.device(f"cuda:{gpu_id}" if torch.cuda.is_available() else default_device)
 
     if model_type == "Transformer":
         model_hyperparams = {
@@ -40,13 +43,14 @@ def objective(trial):
             "num_layers": trial.suggest_int("num_layers", 1, 3),
             "learning_rate": learning_rate,
             "batch_size": batch_size,
-            "epochs": 1,
+            "epochs": epochs,
+            "gamma": trial.suggest_float("gamma", 0.7, 1),
             "trial": trial,
-            "gpu_id": gpu_id
+            "device": device,
         }
 
         model = train_rnn_lstm(**model_hyperparams)
-        val_loss = evaluate_model(model)
+        val_loss = evaluate_model(model, device)
         print(val_loss)
         return val_loss
 
@@ -71,7 +75,7 @@ def objective(trial):
 pruner = optuna.pruners.MedianPruner()
 study = optuna.create_study(direction="minimize", pruner=pruner,storage="sqlite:///example_study.db")
 study.optimize(
-    objective, n_trials=1, n_jobs=1, show_progress_bar=True
+    objective, n_trials=100, n_jobs=4, show_progress_bar=True
 )  # n_jobs is number of parallel jobs(one per gpu available)
 
 # Print the best trial's hyperparameters
