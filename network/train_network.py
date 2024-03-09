@@ -1,12 +1,12 @@
 from get_training_data import x_train, y_train
 from lstm_rnn import LSTM_RNN
 from torch import nn
-from device import device
+from device import device as default_device
 from torch.utils.data import DataLoader, TensorDataset
 import torch.optim as optim
 import torch
 from torch.optim.lr_scheduler import ExponentialLR
-
+import optuna
 
 def train_rnn_lstm(
     hidden_size=100,
@@ -14,7 +14,11 @@ def train_rnn_lstm(
     learning_rate=0.0005,
     batch_size=8,
     epochs=10,
+    trial = None,
+    gpu_id=0,
 ):
+    device = torch.device(f"cuda:{gpu_id}" if torch.cuda.is_available() else default_device)
+
     train_data = TensorDataset(x_train, y_train)
     train_dataloader = DataLoader(train_data, batch_size=batch_size)
 
@@ -44,14 +48,19 @@ def train_rnn_lstm(
             running_loss += loss.item()
             if batch_nbr % 100 == 0:
                 current = batch_nbr * len(seq)
-                print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
+                print(f"loss: {loss}  [{current:>5d}/{size:>5d}]")
 
         running_loss /= num_batches
-        print(f"Average loss for epoch: {running_loss:>7f}")
+        print(f"Average loss for epoch: {running_loss}")
+        return running_loss
 
     for t in range(epochs):
         print(f"epoch {t + 1} \n--------------")
-        train(train_dataloader, model, loss_fn, optimizer)
+        loss = train(train_dataloader, model, loss_fn, optimizer)
+        trial.report(loss, t)
+        if trial.should_prune():
+            raise optuna.exceptions.TrialPruned()
+
         scheduler.step()
     print("Done")
     torch.save(model.state_dict(), "lstm_rnn_lorenz.path")
