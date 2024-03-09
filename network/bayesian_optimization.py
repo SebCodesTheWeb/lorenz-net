@@ -71,7 +71,7 @@ def objective(trial):
 pruner = optuna.pruners.MedianPruner()
 study = optuna.create_study(direction="minimize", pruner=pruner,storage="sqlite:///example_study.db")
 study.optimize(
-    objective, n_trials=1, n_jobs=1, show_progress_bar=True
+    objective, n_trials=10, n_jobs=4, show_progress_bar=True
 )  # n_jobs is number of parallel jobs(one per gpu available)
 
 # Print the best trial's hyperparameters

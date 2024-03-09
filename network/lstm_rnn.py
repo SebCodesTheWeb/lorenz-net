@@ -1,10 +1,8 @@
 import torch
 import torch.nn as nn
-from device import device
-
 
 class LSTM_RNN(nn.Module):
-    def __init__(self, input_size, hidden_size, output_size, num_layers=1):
+    def __init__(self, input_size, hidden_size, output_size, num_layers=1, device="cuda"):
         """
         input_size: input feature size, in this case 3 for the Lorenz system
         output_size: output feature size, in this case 3 for the Lorenz system
@@ -18,6 +16,7 @@ class LSTM_RNN(nn.Module):
             input_size, hidden_size, num_layers=num_layers, batch_first=True
         )
         self.output_activation = nn.Linear(hidden_size, output_size)
+        self.device = device
 
     def forward(self, inputSeq):
         # inputSeq shape [batch_size, seq_len, feature_size]
@@ -33,7 +32,7 @@ class LSTM_RNN(nn.Module):
     def init_state(self, batch_size):
         # Initializing the hidden and cell states for the LSTM based on the batch size
         state = (
-            torch.zeros(self.num_layers, batch_size, self.hidden_size).to(device),
-            torch.zeros(self.num_layers, batch_size, self.hidden_size).to(device),
+            torch.zeros(self.num_layers, batch_size, self.hidden_size).to(self.device),
+            torch.zeros(self.num_layers, batch_size, self.hidden_size).to(self.device),
         )
         return state

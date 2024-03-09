@@ -24,7 +24,7 @@ def train_rnn_lstm(
 
     input_size = x_train.shape[2]
     output_size = y_train.shape[1]
-    model = LSTM_RNN(input_size, hidden_size, output_size, num_layers).to(device)
+    model = LSTM_RNN(input_size, hidden_size, output_size, num_layers, device).to(device)
 
     loss_fn = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
