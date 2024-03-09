@@ -1,8 +1,9 @@
 import torch
 import torch.nn as nn
+from device import device as default_device
 
 class LSTM_RNN(nn.Module):
-    def __init__(self, input_size, hidden_size, output_size, num_layers=1, device="cuda"):
+    def __init__(self, input_size, hidden_size, output_size, num_layers=1, device=default_device):
         """
         input_size: input feature size, in this case 3 for the Lorenz system
         output_size: output feature size, in this case 3 for the Lorenz system

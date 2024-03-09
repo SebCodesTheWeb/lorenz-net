@@ -14,7 +14,7 @@ from unnormalize_data import get_unnormalized_prediction
 app = Flask(__name__)
 CORS(app)
 
-hidden_size = 100
+hidden_size = 128
 num_layers = 1
 input_size, output_size = 3, 3
 d_model = 128
