@@ -6,16 +6,17 @@ import torch.optim as optim
 import torch
 from torch.optim.lr_scheduler import ExponentialLR
 import optuna
+from device import device as default_device
 
 def train_rnn_lstm(
-    hidden_size=100,
+    hidden_size=64,
     num_layers=1,
-    learning_rate=0.0005,
-    batch_size=8,
-    epochs=10,
-    gamma=0.7,
+    learning_rate=0.005091694841110634,
+    batch_size=64,
+    epochs=9,
+    gamma=0.8222640315523118,
     trial = None,
-    device='cuda',
+    device=default_device,
 ):
     x_train_device = x_train.to(device)
     y_train_device = y_train.to(device)
