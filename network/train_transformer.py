@@ -11,14 +11,14 @@ from device import device as default_device
 
 
 def train_transformer(
-    hidden_dim=500,
+    hidden_dim=512,
     nhead=2,
     num_layers=2,
-    learning_rate=0.0005,
-    batch_size=8,
+    learning_rate=0.002569758352546269,
+    batch_size=64,
     d_model=128,
-    dropout=0.1,
-    epochs=5,
+    dropout=0.020779607365612865,
+    epochs=100,
     trial= None,
     device=default_device
 ):
@@ -42,7 +42,7 @@ def train_transformer(
 
     loss_fn = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
-    scheduler = ExponentialLR(optimizer, gamma=0.9)
+    scheduler = ExponentialLR(optimizer, gamma=0.98)
 
     def train(dataloader, model, loss_fn, optimizer):
         size = len(dataloader.dataset)

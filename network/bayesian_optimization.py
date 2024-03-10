@@ -7,7 +7,7 @@ from evaluate_networks import evaluate_model
 import csv
 from device import device as default_device
 
-model_type = "RNN_LSTM"
+model_type = "Transformer"
 
 
 def objective(trial):
@@ -22,7 +22,7 @@ def objective(trial):
             "hidden_dim": trial.suggest_categorical(
                 "hidden_dim", [256, 512, 768, 1024]
             ),
-            "nhead": trial.suggest_int("nhead", 1, 8),
+            "nhead": trial.suggest_int("nhead", 1, 2),
             "num_layers": trial.suggest_int("num_layers", 1, 4),
             "learning_rate": learning_rate,
             "batch_size": batch_size,
@@ -34,7 +34,7 @@ def objective(trial):
         }
 
         model = train_transformer(**model_hyperparams)
-        val_loss = evaluate_model(model)
+        val_loss = evaluate_model(model, device)
         return val_loss
 
     elif model_type == "RNN_LSTM":

@@ -37,7 +37,7 @@ nbrIterations = 1
 # rnn_model.eval()
 
 transformers_model = TransformerModel(
-    d_model=128, nhead=2, d_hid=500, nlayers=2, dropout=0
+    d_model=128, nhead=2, d_hid=512, nlayers=2, dropout=0.020779607365612865
 ).to(device)
 transformers_model.load_state_dict(torch.load("transformer_lorenz.path"))
 transformers_model.eval()
