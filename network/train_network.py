@@ -9,12 +9,12 @@ import optuna
 from device import device as default_device
 
 def train_rnn_lstm(
-    hidden_size=32,
-    num_layers=1,
+    hidden_size=512,
+    num_layers=2,
     learning_rate=0.0005,
-    batch_size=32,
+    batch_size=128,
     epochs=10,
-    gamma=0.8,
+    gamma=0.9,
     trial = None,
     device=default_device,
 ):
