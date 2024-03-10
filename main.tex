@@ -121,6 +121,27 @@ The multi-head layer is paired with a position-wise feed-forward layer. The feed
 \caption{Basic Transformers architecture, taken from "All you need is attention" by Google. }
 \end{figure}
 
+\subsection{Reservoir Computing and Echo State Networks}
+Reservoir Computing (RC) is a conceptual framework for understanding and designing RNNs, particularly in the context of dynamic systems and time series prediction. The fundamental principle behind reservoir computing is that only a part of the network is trained, while the rest of the network—or the "reservoir"—remains unchanged during training. This approach significantly reduces the computational cost of training RNNs and overcomes some of the issues related to gradient-based learning in traditional RNNs, such as vanishing and exploding gradients.
+
+Echo State Networks (ESNs) are a particularly well-known implementation of reservoir computing. ESNs consist of a sparsely connected and randomly initialized recurrent layer—the reservoir—that is left untrained. The reservoir serves to project the input into a higher-dimensional space where the different parts of the input sequence become more linearly separable. Training only occurs in a readout layer, which is typically a linear model that is adjusted to map the reservoir states to the desired output.
+
+\begin{figure}[h] 
+\centering 
+\includegraphics[width=0.8\textwidth]{echo_state_network_diagram.png} 
+\caption{Research gate Joschka Boedecker}
+\end{figure}
+
+The key properties of an ESN are its dynamical richness and memory capacity, enabling it to process time-dependent information effectively. Reservoirs in ESNs possess a "fading memory," enabling them to handle input sequences with varying time scales. This property allows ESNs to maintain the context of earlier inputs while also adapting quickly to recent changes in the input stream.
+
+The Echo State property is crucial for the functioning of ESNs. It dictates that the reservoir's state should eventually become independent of its initial state, given enough time and the right conditions for the reservoir's weights. Essentially, this means that the echoes of past inputs fade away, allowing the network to remain sensitive to the most recently received inputs while still retaining some historical context.
+
+Training an ESN is straightforward and efficient. It involves collecting the states of the reservoir for a known input sequence (teaching signal), then using a supervised learning technique, such as linear regression, to train the readout weights such that the error between the predicted output and the actual target output is minimized.
+
+One of the strengths of ESNs is that they can be applied to a variety of tasks without requiring the laborious design of network architectures and weights that is typically necessary for conventional RNNs. This makes them versatile tools in situations where quick and efficient modeling of temporal dynamics is paramount.
+
+In summary, Echo State Networks represent a streamlined, efficient approach to temporal pattern recognition and forecasting within the reservoir computing paradigm. Their simplicity and effectiveness have made them subjects of interest for various applications ranging from time series prediction to signal processing and control systems.
+
 \section{Method}
 The code is written in Python and uses the PyTorch library for the neural network models. The project is publicly available on GitHub at: \url{https://github.com/SebCodesTheWeb/lorents-net}
 
