@@ -12,7 +12,7 @@ def train_rnn_lstm(
     hidden_size=32,
     num_layers=2,
     learning_rate=0.008594485794467744,
-    batch_size=64,
+    batch_size=8,
     epochs=10,
     gamma=0.7270351773065249,
     trial = None,
