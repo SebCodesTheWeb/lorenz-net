@@ -13,7 +13,7 @@ def train_rnn_lstm(
     num_layers=1,
     learning_rate=0.0005,
     batch_size=32,
-    epochs=10,
+    epochs=5,
     gamma=0.8,
     trial = None,
     device=default_device,
