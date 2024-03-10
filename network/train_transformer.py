@@ -1,4 +1,5 @@
 from get_training_data import x_train, y_train
+import optuna
 from transformer import TransformerModel
 from torch import nn
 from device import device
@@ -6,6 +7,7 @@ from torch.utils.data import DataLoader, TensorDataset
 import torch.optim as optim
 from torch.optim.lr_scheduler import ExponentialLR
 import torch
+from device import device as default_device
 
 
 def train_transformer(
@@ -17,12 +19,17 @@ def train_transformer(
     d_model=128,
     dropout=0.1,
     epochs=5,
+    trial= None,
+    device=default_device
 ):
     assert (
         d_model % 2 == 0
     ), "d_model must be an even number! This is due to how positional encoding is implemented."
 
-    train_data = TensorDataset(x_train, y_train)
+    x_train_device = x_train.to(device)
+    y_train_device = y_train.to(device)
+
+    train_data = TensorDataset(x_train_device, y_train_device)
     train_dataloader = DataLoader(train_data, batch_size=batch_size)
 
     model = TransformerModel(
@@ -59,10 +66,15 @@ def train_transformer(
 
         running_loss /= num_batches
         print(f"Average loss for epoch: {running_loss:>7f}")
+        return running_loss
 
     for t in range(epochs):
         print(f"Epoch {t+1}\n-------------------------------")
-        train(train_dataloader, model, loss_fn, optimizer)
+        loss = train(train_dataloader, model, loss_fn, optimizer)
+        if trial is not None:
+            trial.report(loss, t)
+            if trial.should_prune():
+                raise optuna.exceptions.TrialPruned()
         scheduler.step()
     print("Done")
     torch.save(model.state_dict(), "transformer_lorenz.path")

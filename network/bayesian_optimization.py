@@ -12,8 +12,8 @@ model_type = "RNN_LSTM"
 
 def objective(trial):
     learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-2)
-    batch_size = trial.suggest_categorical("batch_size", [8, 16, 32, 64, 128, 256])
-    epochs = trial.suggest_int('epochs', 5, 10)
+    batch_size = trial.suggest_categorical("batch_size", [4, 8, 16, 32, 64])
+    # epochs = trial.suggest_int('epochs', 5, 10)
     gpu_id = trial.number % 4  
     device = torch.device(f"cuda:{gpu_id}" if torch.cuda.is_available() else default_device)
 
@@ -27,8 +27,10 @@ def objective(trial):
             "learning_rate": learning_rate,
             "batch_size": batch_size,
             "d_model": trial.suggest_categorical("d_model", [64, 128, 256, 512]),
-            "dropout": trial.suggest_float("dropout", 0, 0.5),
-            "epochs": epochs,
+            "dropout": trial.suggest_float("dropout", 0, 0.4),
+            "epochs": 5,
+            "trial": trial,
+            "device": device,
         }
 
         model = train_transformer(**model_hyperparams)
@@ -43,7 +45,7 @@ def objective(trial):
             "num_layers": trial.suggest_int("num_layers", 1, 3),
             "learning_rate": learning_rate,
             "batch_size": batch_size,
-            "epochs": epochs,
+            "epochs": 5,
             "gamma": trial.suggest_float("gamma", 0.7, 1),
             "trial": trial,
             "device": device,
