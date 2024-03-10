@@ -13,7 +13,6 @@ model_type = "RNN_LSTM"
 def objective(trial):
     learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-2)
     batch_size = trial.suggest_categorical("batch_size", [8, 16, 32, 64, 128, 256])
-    epochs = trial.suggest_int('epochs', 5, 10)
     gpu_id = trial.number % 4  
     device = torch.device(f"cuda:{gpu_id}" if torch.cuda.is_available() else default_device)
 
@@ -43,8 +42,8 @@ def objective(trial):
             "num_layers": trial.suggest_int("num_layers", 1, 3),
             "learning_rate": learning_rate,
             "batch_size": batch_size,
-            "epochs": epochs,
-            "gamma": trial.suggest_float("gamma", 0.7, 1),
+            "epochs": 5,
+            "gamma": 0.9,
             "trial": trial,
             "device": device,
         }
