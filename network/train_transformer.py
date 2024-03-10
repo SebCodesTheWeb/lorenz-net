@@ -11,15 +11,15 @@ from device import device as default_device
 
 
 def train_transformer(
-    hidden_dim=500,
+    hidden_dim=256,
     nhead=2,
-    num_layers=2,
-    learning_rate=0.0005,
-    batch_size=8,
-    d_model=128,
-    dropout=0.1,
-    epochs=5,
-    trial= None,
+    num_layers=1,
+    learning_rate=0.0007650422933531749,
+    batch_size=128,
+    d_model=64,
+    dropout=0.0041576186043893,
+    epochs=50,
+    trial=None,
     device=default_device
 ):
     assert (
@@ -71,11 +71,11 @@ def train_transformer(
     for t in range(epochs):
         print(f"Epoch {t+1}\n-------------------------------")
         loss = train(train_dataloader, model, loss_fn, optimizer)
+        scheduler.step()
         if trial is not None:
             trial.report(loss, t)
             if trial.should_prune():
                 raise optuna.exceptions.TrialPruned()
-        scheduler.step()
     print("Done")
     torch.save(model.state_dict(), "transformer_lorenz.path")
 

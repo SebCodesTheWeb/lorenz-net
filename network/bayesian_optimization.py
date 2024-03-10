@@ -11,8 +11,8 @@ model_type = "Transformer"
 
 
 def objective(trial):
-    learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-2)
-    batch_size = trial.suggest_categorical("batch_size", [4, 8, 16, 32, 64])
+    learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-3)
+    batch_size = trial.suggest_categorical("batch_size", [64, 128, 256])
     # epochs = trial.suggest_int('epochs', 5, 10)
     gpu_id = trial.number % 4  
     device = torch.device(f"cuda:{gpu_id}" if torch.cuda.is_available() else default_device)
@@ -23,11 +23,11 @@ def objective(trial):
                 "hidden_dim", [256, 512, 768, 1024]
             ),
             "nhead": trial.suggest_int("nhead", 1, 2),
-            "num_layers": trial.suggest_int("num_layers", 1, 4),
+            "num_layers": trial.suggest_int("num_layers", 1, 2),
             "learning_rate": learning_rate,
             "batch_size": batch_size,
-            "d_model": trial.suggest_categorical("d_model", [64, 128, 256, 512]),
-            "dropout": trial.suggest_float("dropout", 0, 0.4),
+            "d_model": trial.suggest_categorical("d_model", [32, 64, 128]),
+            "dropout": trial.suggest_float("dropout", 0, 0.1),
             "epochs": 5,
             "trial": trial,
             "device": device,
@@ -77,7 +77,7 @@ def objective(trial):
 pruner = optuna.pruners.MedianPruner()
 study = optuna.create_study(direction="minimize", pruner=pruner,storage="sqlite:///example_study.db")
 study.optimize(
-    objective, n_trials=100, n_jobs=4, show_progress_bar=True
+    objective, n_trials=50, n_jobs=4, show_progress_bar=True
 )  # n_jobs is number of parallel jobs(one per gpu available)
 
 # Print the best trial's hyperparameters
