@@ -7,7 +7,7 @@ np.random.seed(seed_nbr)
 
 #Keep low, just seems to make things worse
 offset_len = 0
-total_data_points = 1e6
+total_data_points = 5e6
 nbr_chunks = int(total_data_points // chunk_len)
 len_before_reset = 2e5
 
