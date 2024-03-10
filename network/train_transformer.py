@@ -18,7 +18,7 @@ def train_transformer(
     batch_size=128,
     d_model=64,
     dropout=0.0041576186043893,
-    epochs=50,
+    epochs=5,
     trial=None,
     device=default_device
 ):
