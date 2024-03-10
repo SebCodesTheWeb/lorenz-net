@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.31)  10 MAR 2024 17:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.31)  10 MAR 2024 23:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -465,7 +465,7 @@ Package hyperref Info: Link coloring OFF on input line 45.
 \openout3 = `main.out'.
 
 \c@lstlisting=\count320
-<lorenz_test.jpeg, id=52, 1103.12125pt x 1007.765pt>
+<lorenz_test.jpeg, id=48, 1103.12125pt x 1007.765pt>
 File: lorenz_test.jpeg Graphic file (type jpg)
 <use lorenz_test.jpeg>
 Package pdftex.def Info: lorenz_test.jpeg  used on input line 54.
@@ -477,29 +477,29 @@ Package pdftex.def Info: lorenz_test.jpeg  used on input line 54.
 \openout4 = `main.toc'.
 
  [2]
-<lorenz_attractor.png, id=82, 682.55pt x 461.725pt>
+<lorenz_attractor.png, id=77, 682.55pt x 461.725pt>
 File: lorenz_attractor.png Graphic file (type png)
 <use lorenz_attractor.png>
 Package pdftex.def Info: lorenz_attractor.png  used on input line 79.
 (pdftex.def)             Requested size: 227.62206pt x 153.97606pt.
-<rnn.png, id=84, 790.955pt x 276.03125pt>
+<rnn.png, id=79, 790.955pt x 276.03125pt>
 File: rnn.png Graphic file (type png)
 <use rnn.png>
 Package pdftex.def Info: rnn.png  used on input line 92.
 (pdftex.def)             Requested size: 364.19667pt x 127.09805pt.
  [3 <./lorenz_attractor.png>] [4 <./rnn.png>]
-<multi-head.png, id=104, 311.1625pt x 399.4925pt>
+<multi-head.png, id=99, 311.1625pt x 399.4925pt>
 File: multi-head.png Graphic file (type png)
 <use multi-head.png>
 Package pdftex.def Info: multi-head.png  used on input line 112.
 (pdftex.def)             Requested size: 136.57462pt x 175.34444pt.
-<transformer-basic.png, id=105, 227.85126pt x 443.6575pt>
+<transformer-basic.png, id=100, 227.85126pt x 443.6575pt>
 File: transformer-basic.png Graphic file (type png)
 <use transformer-basic.png>
 Package pdftex.def Info: transformer-basic.png  used on input line 120.
 (pdftex.def)             Requested size: 136.57462pt x 265.93253pt.
  [5 <./multi-head.png> <./transformer-basic.png>]
-<echo_state_network_diagram.png, id=114, 741.77126pt x 466.74374pt>
+<echo_state_network_diagram.png, id=109, 741.77126pt x 466.74374pt>
 File: echo_state_network_diagram.png Graphic file (type png)
 <use echo_state_network_diagram.png>
 Package pdftex.def Info: echo_state_network_diagram.png  used on input line 131.
@@ -508,48 +508,44 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [6 <./echo_state_network_diagram.png>] [7{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
-<auto_correlation.png, id=167, 586.19pt x 468.75125pt>
+ [6 <./echo_state_network_diagram.png>] [7] [8]
+<auto_correlation.png, id=240, 586.19pt x 468.75125pt>
 File: auto_correlation.png Graphic file (type png)
 <use auto_correlation.png>
-Package pdftex.def Info: auto_correlation.png  used on input line 262.
+Package pdftex.def Info: auto_correlation.png  used on input line 288.
 (pdftex.def)             Requested size: 273.14923pt x 218.42484pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[8] [9 <./auto_correlation.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 308--309
+ [9 <./auto_correlation.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 340--341
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 328--329
-
- []
-
-[10] [11]
-Underfull \hbox (badness 10000) in paragraph at lines 447--448
+[10]
+Underfull \hbox (badness 10000) in paragraph at lines 379--380
 
  []
 
-[12] [13] (./main.aux)
+[11] [12]
+Underfull \hbox (badness 10000) in paragraph at lines 504--505
+
+ []
+
+[13] [14] (./main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 158E25795E0B79561DE42A79CFD3A54C;1936.
+(rerunfilecheck)             Checksum: 0DD905DA9E372EBCDD0F5B8641EBEDEC;1810.
  ) 
 Here is how much of TeX's memory you used:
- 18130 strings out of 476025
- 335075 string characters out of 5790017
- 2243388 words of memory out of 5000000
- 37989 multiletter control sequences out of 15000+600000
- 522700 words of font info for 117 fonts, out of 8000000 for 9000
+ 18240 strings out of 476025
+ 336683 string characters out of 5790017
+ 2247388 words of memory out of 5000000
+ 38020 multiletter control sequences out of 15000+600000
+ 522367 words of font info for 116 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  73i,8n,77p,1440b,2502s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on main.pdf (13 pages, 1026134 bytes).
+</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+Output written on main.pdf (14 pages, 1022090 bytes).
 PDF statistics:
- 543 PDF objects out of 1000 (max. 8388607)
- 484 compressed objects within 5 object streams
- 296 named destinations out of 1000 (max. 500000)
- 27780 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 633 PDF objects out of 1000 (max. 8388607)
+ 574 compressed objects within 6 object streams
+ 377 named destinations out of 1000 (max. 500000)
+ 25724 words of extra memory for PDF output out of 29859 (max. 10000000)
 

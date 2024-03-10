@@ -140,25 +140,6 @@ Training an ESN involves collecting the states of the reservoir for a known inpu
 The code is written in Python and uses the PyTorch library for the neural network models. The project is publicly available on GitHub at: \url{https://github.com/SebCodesTheWeb/lorents-net}
 
 
-\subsection{Code Overview}
-
-The code is organized into several modules, each responsible for a specific part of the process. The main modules are:
-
-\begin{itemize}
-\item \texttt{lorenz.py}: This module implements the Lorenz system as well as the RK4 method.
-
-\item \texttt{generate\_dataset.py}: This module generates the dataset used to train the networks. It uses the RK4 method to solve the Lorenz system and generates sequential data of the x, y, z values over time and saves them in a csv file
-
-\item \texttt{get\_training\_data.py}: Splits the dataset into training and testing data as well as into individual sequences of data.
-
-\item \texttt{train\_network.py and train\_transfomer.py}: These files train the RNN neural network and transformer network respectively.
-
-\item \texttt{lstm\_rnn.py and transfomer.py}: These modules contain the class definitions for the neural networks. 
-
-\item \texttt{backend.py}: Implements a simple backend to evaulate the networks in the 3d-visualizer frontend.
-
-\end{itemize}
-
 \subsection{Generating Data}
 
 The training data is processed via the RK4 method:
@@ -186,33 +167,35 @@ def RK4(pos_vector, dt):
     k4 = dt * get_derivative(pos_vector + k3)
 
     return pos_vector + (k1 + 2*k2 + 2*k3 + k4) / 6
+
 \end{lstlisting}
 
 
 Which is used in the \texttt{generate\_dataset.py} module.
 
 \begin{lstlisting}[language=Python]
-from lorenz import RK4  
+from lorenz import RK4
 import pandas as pd
 import numpy as np
-from constants import seed_nbr, chunk_len, dt
+from constants import seed_nbr, dt, chunk_len
 
 np.random.seed(seed_nbr)
-nbr_chunks = 100
+
+total_data_points = 1e6
+nbr_chunks = int(total_data_points // chunk_len)
+len_before_reset = 2e5
 
 dataset = []
 
-for chunk_idx in range(nbr_chunks):
-    init_pos = np.random.rand(3)
-    pos = init_pos
+initial_positions = np.random.rand(nbr_chunks, 3) 
+pos = initial_positions[0]
 
-    #offset each chunk by 2000 timsteps
-    if chunk_idx > 0:
-        for _ in range(2000):
-            pos = RK4(pos, dt)
-    
-    for i in range(chunk_len):
-        elapsedTime = i * dt
+for i, _ in enumerate(initial_positions):
+    pos = initial_positions[i] if i * chunk_len % len_before_reset == 0 else pos
+   
+    # Generate the actual data chunk
+    for j in range(chunk_len):
+        elapsedTime = j * dt + i * offset_len * dt
         pos = RK4(pos, dt)
         x, y, z = pos
         dataset.append({
@@ -223,47 +206,90 @@ for chunk_idx in range(nbr_chunks):
         })
 \end{lstlisting}
 
-In this code the constants are $dt = 0.05$, $seed\_nbr = 0$ and $chunk\_len = 2000$. The code generates 100 chunks of 2000 timesteps of the Lorenz system. The initial conditions are randomly generated and the system is solved using the RK4 method. The data is handled in separate chunks offsetted by 2000 timesteps to be trained on indivudually. 
+In this code the constants are $dt = 0.04$, $seed\_nbr = 0$ and $chunk\_len = 10$, this values have proven effective in generating good data to train the models on. The code generates 1 million datapoints of the Lorenz system. The initial conditions are randomly generated and the system is solved using the RK4 method.
 
 \begin{lstlisting}
+dataset = pd.DataFrame(dataset)
+
+dataset.to_csv('lorenz-sequences_raw.csv', index=False)
+
 numerical_cols = ['x', 'y', 'z']
 dataset[numerical_cols] = (
     dataset[numerical_cols] - dataset[numerical_cols].mean()
-    ) / dataset[numerical_cols].std()
+
+) / dataset[numerical_cols].std()
 
 dataset.to_csv('lorentz-sequences.csv', index=False)
 \end{lstlisting}
 
-The dataset is then normalized to improve gradient flow and saved to a csv filel. Afterwards it is split into trainable sequences in the \texttt{get\_training\_data.py} module.
+The dataset is then normalized using z-score normalization to improve gradient flow, which is critical. The raw unnormalized data is saved in a separate csv file to move the model prediction out of phase space when comparing it to the RK4 method. Afterwards it is split into trainable sequences in the \texttt{get\_training\_data.py} module.
 \begin{lstlisting}
 import pandas as pd
 import torch
 import numpy as np
-from constants import inp_seq_len, test_ratio, seed_nbr
+from constants import (
+    inp_seq_len,
+    test_ratio,
+    val_ratio,
+    seed_nbr,
+)
 
-dataset = pd.read_csv('lorentz-sequences.csv')
-data_tensor = torch.tensor(dataset[['x', 'y', 'z']].values, dtype=torch.float32)
+dataset = pd.read_csv("lorentz-sequences.csv")
+data_tensor = torch.tensor(dataset[["x", "y", "z"]].values, dtype=torch.float32)
 
-def create_seq(input):
+
+def create_seq(data):
     seq = []
-    for i in range(len(input) - inp_seq_len):
-        chunk = input[i:i + inp_seq_len]
-        label = input[i + inp_seq_len:i + inp_seq_len+1]
-        seq.append((chunk, label))
+    for i in range(0, len(data) - inp_seq_len, inp_seq_len):
+        input = data[i : i + inp_seq_len]
+        label = data[i + inp_seq_len]
+        # Given input sequence, predict the next value(label)
+        seq.append((input, label))
     return seq
 
+
 data_seq = create_seq(data_tensor)
-    
+
+
+def manual_split(data, test_ratio, val_ratio, seed):
+    np.random.seed(seed)
+    num_examples = len(data)
+    test_size = int(num_examples * test_ratio)
+    val_size = int(num_examples * val_ratio)
+
+    shuffled_indices = np.random.permutation(num_examples)
+    test_indices = shuffled_indices[:test_size]
+    val_indices = shuffled_indices[test_size : test_size + val_size]
+    train_indices = shuffled_indices[test_size + val_size :]
+
+    train_data = [data[i] for i in train_indices]
+    val_data = [data[i] for i in val_indices]
+    test_data = [data[i] for i in test_indices]
+
+    return train_data, val_data, test_data
+
+
+inout_seq_train, inout_seq_val, inout_seq_test = manual_split(
+    data_seq, test_ratio, val_ratio, seed_nbr
+)
+
+# item[0] is input sequence, item[1] is label
+x_train = torch.stack([item[0] for item in inout_seq_train])
+y_train = torch.stack([item[1] for item in inout_seq_train])
+x_val = torch.stack([item[0] for item in inout_seq_val])
+y_val = torch.stack([item[1] for item in inout_seq_val])
+x_test = torch.stack([item[0] for item in inout_seq_test])
+y_test = torch.stack([item[1] for item in inout_seq_test])
 \end{lstlisting}
 
-Here the $inp\_seq\_len$ is the number of most recent data points the model will take into consideration when predicting the next point. By performing autocorrelation analysis a suitable $inp\_seq\_len$ could be found.
+Here the $inp\_seq\_len$ is the number of most recent data points the model will take into consideration when predicting the next point. $inp\_seq\_len$ is equal to the chunk length minus one. Performing autocorrelation analysis shows how much data is correlated with itself and was used to find a suitable $chunk\_len$ value.
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.6\textwidth]{auto_correlation.png}
 \caption{Autocorrelation shows how much the data is correlated with itself at different time lags}
 \end{figure}
 
-A significant drop of occurs at around lag 10-15, which  makes $inp\_seq\_len$ set to 10 a good value. Furthermore the function splits the training data into a list of separate, trainable sequences, where each individual sequence has a label(the next value to predict) associated with it. These data sequences are later split into a training and testing set with a 99/1 ratio. 
+A significant drop of occurs at around lag 10-15, which  makes $chunk\_len$ set to 10 a good value. Furthermore the function splits the training data into a list of separate, trainable sequences, where each individual sequence has a label(the next value to predict) associated with it. These data sequences are later split into a training and testing set with a 99/1 ratio. 
 
 \subsection{Setting up the RNN}
 
@@ -272,10 +298,10 @@ The \texttt{LSTM\_RNN} class defines a RNN network based on PyTorch's \texttt{nn
 \begin{lstlisting}
 import torch
 import torch.nn as nn
-from device import device
+from device import device as default_device
 
 class LSTM_RNN(nn.Module):
-    def __init__(self, input_size, hidden_size, output_size, num_layers=1):
+    def __init__(self, input_size, hidden_size, output_size, num_layers=1, device=default_device):
         """
         input_size: input feature size, in this case 3 for the Lorenz system
         output_size: output feature size, in this case 3 for the Lorenz system
@@ -285,11 +311,15 @@ class LSTM_RNN(nn.Module):
         self.hidden_size = hidden_size
         self.num_layers = num_layers
 
-        self.lstm = nn.LSTM(input_size, hidden_size, num_layers=num_layers, batch_first=True)
+        self.lstm = nn.LSTM(
+            input_size, hidden_size, num_layers=num_layers, batch_first=True
+        )
         self.output_activation = nn.Linear(hidden_size, output_size)
-    
+        self.device = device
+
     def forward(self, inputSeq):
-        batch_size = inputSeq.size(0) # inputSeq shape [batch_size, seq_len, feature_size]
+        # inputSeq shape [batch_size, seq_len, feature_size]
+        batch_size = inputSeq.size(0)
         state = self.init_state(batch_size)
         lstm_out, _ = self.lstm(inputSeq, state)
 
@@ -300,8 +330,10 @@ class LSTM_RNN(nn.Module):
 
     def init_state(self, batch_size):
         # Initializing the hidden and cell states for the LSTM based on the batch size
-        state = (torch.zeros(self.num_layers, batch_size, self.hidden_size).to(device),
-                        torch.zeros(self.num_layers, batch_size, self.hidden_size).to(device))
+        state = (
+            torch.zeros(self.num_layers, batch_size, self.hidden_size).to(self.device),
+            torch.zeros(self.num_layers, batch_size, self.hidden_size).to(self.device),
+        )
         return state
 \end{lstlisting}
 
@@ -309,23 +341,42 @@ class LSTM_RNN(nn.Module):
 
 The model is then instantiated like this:
 \begin{lstlisting}
-#Hyperparams
-hidden_size = 50  
-num_layers = 1  
-learning_rate = 0.0005
+from get_training_data import x_train, y_train
+from lstm_rnn import LSTM_RNN
+from torch import nn
+from torch.utils.data import DataLoader, TensorDataset
+import torch.optim as optim
+import torch
+from torch.optim.lr_scheduler import ExponentialLR
+import optuna
+from device import device as default_device
 
-train_data = TensorDataset(x_train, y_train)
-train_dataloader = DataLoader(train_data, batch_size=batch_size)
+def train_rnn_lstm(
+    hidden_size=32,
+    num_layers=1,
+    learning_rate=0.0005,
+    batch_size=32,
+    epochs=5,
+    gamma=0.8,
+    trial = None,
+    device=default_device,
+):
+    x_train_device = x_train.to(device)
+    y_train_device = y_train.to(device)
 
-input_size = x_train.shape[2]  
-output_size = y_train.shape[2] 
-model = LSTM_RNN(input_size, hidden_size, output_size, num_layers).to(device)
+    train_data = TensorDataset(x_train_device, y_train_device)
+    train_dataloader = DataLoader(train_data, batch_size=batch_size)
 
-loss_fn = nn.MSELoss()
-optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+    input_size = x_train_device.shape[2]
+    output_size = y_train_device.shape[1]
+    model = LSTM_RNN(input_size, hidden_size, output_size, num_layers, device).to(device)
+
+    loss_fn = nn.MSELoss()
+    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+    scheduler = ExponentialLR(optimizer, gamma=gamma)
 \end{lstlisting}
 
-In this case it uses a size for the hidden state of 50, which has proven effective, and uses a simple single layer RNN(as described in the theory). It uses mean squared error loss function and the adam optimizer with a learning rate of 0.0005. \\ \\  The RNN network is later on trained with the following training loop:
+ It uses mean squared error loss function and the adam optimizer. It also uses an exponentially decaying learning step scheduler, which has proven great for manaing learning rate at many epochs. \\ \\  The RNN network is later on trained with the following training loop:
 
 \begin{lstlisting}
 def train(dataloader, model, loss_fn, optimizer):
@@ -351,14 +402,20 @@ def train(dataloader, model, loss_fn, optimizer):
 
     running_loss /= num_batches
     print(f"Average loss for epoch: {running_loss:>7f}")
+    return running_loss
 
 epochs = 5
 for t in range(epochs):
     print(f"epoch {t + 1} \n--------------")
     train(train_dataloader, model, loss_fn, optimizer)
+    if trial is not None:
+        trial.report(loss, t)
+        if trial.should_prune():
+            raise optuna.exceptions.TrialPruned()
+
+    scheduler.step()
 print("Done")
 torch.save(model.state_dict(), 'lstm_rnn_lorenz.path')
-    
 \end{lstlisting}
 The training loop iterates over the dataset, feeding batches of data to the model, calculating the loss, and updating the model parameters through backpropagation. Finally after five epochs, the model's parameters are saved.
 
@@ -447,38 +504,42 @@ class PositionalEncoding(nn.Module):
 The positional encoding is a sine and cosine function of different frequencies that are added to the input data. This is to give the network information about the position of the tokens in the sequence. The frequencies are chosen to be logarithmically spaced. \\ \\ The model is then trained in a similar fashion to the RNN model.
 
 \begin{lstlisting}
-from get_transformer_training_data import x_train, y_train
-from transformer import TransformerModel
-from torch import nn
-from device import device
-from torch.utils.data import DataLoader, TensorDataset
-import torch.optim as optim
-from torch.optim.lr_scheduler import ExponentialLR
-import torch
+def train_transformer(
+    hidden_dim=500,
+    nhead=2,
+    num_layers=2,
+    learning_rate=0.0005,
+    batch_size=8,
+    d_model=128,
+    dropout=0.1,
+    epochs=5,
+    trial= None,
+    device=default_device
+):
+    assert (
+        d_model % 2 == 0
+    ), "d_model must be an even number! This is due to how positional encoding is implemented."
 
-# Hyperparams
-hidden_dim = 500
-nhead = 2
-num_layers = 2
-learning_rate = 0.0005
-batch_size = 64
-#vocab_size does not matter for this implementation
-vocab_size = 3
-# d_model has to be even due to how positional encoding is implemented, requiring pairs of sin and cosine positions
-d_model = 128
-dropout=0
+    x_train_device = x_train.to(device)
+    y_train_device = y_train.to(device)
 
-train_data = TensorDataset(x_train, y_train)
-train_dataloader = DataLoader(train_data, batch_size=batch_size)
+    train_data = TensorDataset(x_train_device, y_train_device)
+    train_dataloader = DataLoader(train_data, batch_size=batch_size)
 
-model = TransformerModel(ntoken=vocab_size, d_model=d_model, nhead=nhead, d_hid=hidden_dim, nlayers=num_layers,dropout=dropout).to(device)
+    model = TransformerModel(
+        d_model=d_model,
+        nhead=nhead,
+        d_hid=hidden_dim,
+        nlayers=num_layers,
+        dropout=dropout,
+    ).to(device)
 
-loss_fn = nn.MSELoss()
-optimizer = optim.Adam(model.parameters(), lr=learning_rate)
-scheduler = ExponentialLR(optimizer, gamma=0.9)
+    loss_fn = nn.MSELoss()
+    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+    scheduler = ExponentialLR(optimizer, gamma=0.9)
 \end{lstlisting}
 
-The main difference is that the model is trained with a learning rate scheduler to decay the learning rate over time, and there are some other hyperparameters that are different. 
+It also uses the same training loop.
 
 \subsection{Setting up the RC-ESN}
 
