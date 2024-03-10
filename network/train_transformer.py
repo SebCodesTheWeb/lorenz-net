@@ -15,7 +15,7 @@ def train_transformer(
     learning_rate=0.0005,
     batch_size=8,
     d_model=128,
-    dropout=0,
+    dropout=0.1,
     epochs=5,
 ):
     assert (

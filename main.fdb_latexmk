@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1710086108 "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" "main.pdf" "main" 1710086109 0
-  "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" 1710086108 26292 9c74c70af5a8100dd9193441c06da2f3 ""
+["pdflatex"] 1710086554 "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" "main.pdf" "main" 1710086555 0
+  "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" 1710086553 25035 d453418851102fa665f80d6f1f18315a ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/jknappen/ec/tcrm1095.tfm" 1136768653 1536 02c06700a42be0f5a28664c7273f82e7 ""
@@ -112,10 +112,10 @@
   "echo_state_network_diagram.png" 1710085873 177762 2ce03320a0d94d8003610906a005b94d ""
   "lorenz_attractor.png" 1710063653 137294 3b529934a21cad04adfa11b2b9cf8499 ""
   "lorenz_test.jpeg" 1710063653 485555 540a548f876330b2f2b860b83f466757 ""
-  "main.aux" 1710086109 3480 9051b6aea5c8073b26d12b2b98e8b51f "pdflatex"
-  "main.out" 1710086109 1936 158e25795e0b79561de42a79cfd3a54c "pdflatex"
-  "main.tex" 1710086108 26292 9c74c70af5a8100dd9193441c06da2f3 ""
-  "main.toc" 1710086109 1016 3f2719314f8325da869021fddc122f38 "pdflatex"
+  "main.aux" 1710086555 3480 de8de75be67368085627eced56fff8b1 "pdflatex"
+  "main.out" 1710086555 1936 158e25795e0b79561de42a79cfd3a54c "pdflatex"
+  "main.tex" 1710086553 25035 d453418851102fa665f80d6f1f18315a ""
+  "main.toc" 1710086555 1016 533c01e130f0caec4e95bdf44d4f2bd7 "pdflatex"
   "multi-head.png" 1710063653 35873 9240b14122a8da39f66a8880ffc40ac1 ""
   "rnn.png" 1710063653 51037 e80050558673ff0253bde49ecc838968 ""
   "transformer-basic.png" 1710063653 31559 b28c84a23ceb10486b92c5612a2c339e ""
