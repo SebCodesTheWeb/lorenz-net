@@ -30,7 +30,7 @@ np.random.seed(seed_nbr + 5)
 nbrTimeSteps = 1000
 nbrIterations = 1
 
-rnn_model = LSTM_RNN(input_size=3, output_size=3, hidden_size=32, num_layers=2).to(
+rnn_model = LSTM_RNN(input_size=3, output_size=3, hidden_size=256, num_layers=2).to(
     device
 )
 rnn_model.load_state_dict(torch.load("lstm_rnn_lorenz.path"))
