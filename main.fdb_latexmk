@@ -1,6 +1,11 @@
 # Fdb version 4
+<<<<<<< HEAD
 ["pdflatex"] 1710110656 "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" "main.pdf" "main" 1710110657 0
   "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" 1710110656 26310 bc069bb5cfde978ebc1063015626919f ""
+=======
+["pdflatex"] 1710149737 "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" "main.pdf" "main" 1710149738 0
+  "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" 1710149735 29487 7c5b2747d5b5219150440ae6ca4195e2 ""
+>>>>>>> d472b77 (more pdf)
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -106,6 +111,7 @@
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1685541180 7883454 4871d3a3ed6f478eef528419cad6c280 ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
   "auto_correlation.png" 1710063653 28266 31bd207c356c563a7b2b04de1746c8c4 ""
+<<<<<<< HEAD
   "echo_state_network_diagram.png" 1710102471 177762 2ce03320a0d94d8003610906a005b94d ""
   "lorenz_attractor.png" 1710063653 137294 3b529934a21cad04adfa11b2b9cf8499 ""
   "lorenz_test.jpeg" 1710063653 485555 540a548f876330b2f2b860b83f466757 ""
@@ -113,6 +119,15 @@
   "main.out" 1710110657 1810 0dd905da9e372ebcdd0f5b8641ebedec "pdflatex"
   "main.tex" 1710110656 26310 bc069bb5cfde978ebc1063015626919f ""
   "main.toc" 1710110657 937 eb16749b8885004b0344259e8888e17a "pdflatex"
+=======
+  "echo_state_network_diagram.png" 1710112169 177762 2ce03320a0d94d8003610906a005b94d ""
+  "lorenz_attractor.png" 1710063653 137294 3b529934a21cad04adfa11b2b9cf8499 ""
+  "lorenz_test.jpeg" 1710063653 485555 540a548f876330b2f2b860b83f466757 ""
+  "main.aux" 1710149738 3465 c1c62897e7920791b1ee0e9ebe16f855 "pdflatex"
+  "main.out" 1710149738 1889 5903ee45222c068f52694aec9b384f82 "pdflatex"
+  "main.tex" 1710149735 29487 7c5b2747d5b5219150440ae6ca4195e2 ""
+  "main.toc" 1710149738 1001 22760679f4f4e7af00b28dc4f4288499 "pdflatex"
+>>>>>>> d472b77 (more pdf)
   "multi-head.png" 1710063653 35873 9240b14122a8da39f66a8880ffc40ac1 ""
   "rnn.png" 1710063653 51037 e80050558673ff0253bde49ecc838968 ""
   "transformer-basic.png" 1710063653 31559 b28c84a23ceb10486b92c5612a2c339e ""

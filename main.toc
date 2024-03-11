@@ -9,3 +9,7 @@
 \contentsline {subsection}{\numberline {2.3}Setting up the transformers architecture}{12}{subsection.2.3}%
 \contentsline {subsection}{\numberline {2.4}Setting up the RC-ESN}{14}{subsection.2.4}%
 \contentsline {subsection}{\numberline {2.5}Training process}{14}{subsection.2.5}%
+<<<<<<< HEAD
+=======
+\contentsline {section}{\numberline {3}Results}{15}{section.3}%
+>>>>>>> d472b77 (more pdf)
