@@ -3,7 +3,8 @@ import torch
 from train_transformer import train_transformer
 from train_network import train_rnn_lstm
 from train_rc import train_rc_esn
-from evaluate_networks import evaluate_model
+# from evaluate_networks import evaluate_model
+from true_loss import evaluate_model
 from evaluate_esn import evaluate_esn
 import csv
 from device import device as default_device

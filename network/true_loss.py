@@ -47,7 +47,7 @@ for _ in range(inp_seq_len - 1):
     next_pos = RK4(np.array(init_seq[-1]), dt)
     init_seq.append(next_pos.tolist())
 
-def evaulate_model(model):
+def evaluate_model(model):
     loss = validate_long_term(
         1000,
         init_seq,
