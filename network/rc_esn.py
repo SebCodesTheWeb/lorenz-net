@@ -9,8 +9,10 @@ class EchoStateNetwork(nn.Module):
         input_size,
         reservoir_size,
         output_size,
-        spectral_radius=0.9,
+        spectral_radius=0.95,
         sparsity=0.02,
+        input_scaling=100,
+        input_weights_scaling=0.01,
     ):
         """
         input_size: feature size, in this case 3 for the Lorenz system
@@ -22,10 +24,11 @@ class EchoStateNetwork(nn.Module):
         self.input_size = input_size
         self.reservoir_size = reservoir_size
         self.output_size = output_size
+        self.input_weights_scaling = input_weights_scaling
 
         # Input weights and reservoir weights are not trained
         self.input_weights = nn.Parameter(
-            torch.randn(reservoir_size, input_size), requires_grad=False
+            torch.randn(reservoir_size, input_size) * input_scaling, requires_grad=False
         )
         self.reservoir_weights = nn.Parameter(
             self.generate_reservoir(reservoir_size, spectral_radius, sparsity),
@@ -38,7 +41,7 @@ class EchoStateNetwork(nn.Module):
         )
 
     def generate_reservoir(self, size, spectral_radius, sparsity):
-        random_reservoir = torch.rand(size, size) - 0.5
+        random_reservoir = (torch.rand(size, size) - 0.5) * self.input_weights_scaling
         mask = torch.rand(size, size) > sparsity
         # Mask is applied with 1-sparsity percentage of the random weights set to 0
         random_reservoir[mask] = 0

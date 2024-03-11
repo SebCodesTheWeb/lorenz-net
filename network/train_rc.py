@@ -1,6 +1,6 @@
 from get_training_data  import x_train, y_train
 from rc_esn import EchoStateNetwork
-from device import device
+from device import device as default_device
 from torch.utils.data import DataLoader, TensorDataset
 import torch
 
@@ -13,8 +13,14 @@ def train_rc_esn(
     spectral_radius=0.9,
     sparsity=0.01,
     ridge_param=1e-6,
+    input_scaling=100,
+    input_weights_scaling=0.01,
+    device=default_device
 ):
-    train_data = TensorDataset(x_train, y_train)
+    x_train_device = x_train.to(device)
+    y_train_device = y_train.to(device)
+
+    train_data = TensorDataset(x_train_device, y_train_device)
     train_dataloader = DataLoader(train_data, batch_size=batch_size)
 
     model = EchoStateNetwork(
@@ -23,6 +29,8 @@ def train_rc_esn(
         output_size=output_size,
         spectral_radius=spectral_radius,
         sparsity=sparsity,
+        input_scaling=input_scaling,
+        input_weights_scaling=input_weights_scaling,
     ).to(device)
 
     def train_esn_with_ridge_regression(dataloader, model, ridge_param):
@@ -36,7 +44,7 @@ def train_rc_esn(
                 inputs, outputs = inputs.to(device), outputs.to(device)
 
                 # Use the last reservoir state for each sequence in the batch
-                model_output, states = model(inputs)
+                _, states = model(inputs)
                 last_states = states[:, -1, :]  # Get the state from the last time step of each sequence
 
                 reservoir_states.append(last_states)
