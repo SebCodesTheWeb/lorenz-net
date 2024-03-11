@@ -1,7 +1,8 @@
 parameter,value
-learning_rate,0.005091694841110634
-batch_size,64
-epochs,9
-hidden_size,64
-num_layers,1
-gamma,0.8222640315523118
+batch_size,128
+reservoir_hidden_size,1500
+spectral_radius,1.4758676015928727
+sparsity,0.3065343838364985
+ridge_param,4.5585475471582514e-06
+input_scaling,4.558889944809806
+input_weights_scaling,0.9213917701193003

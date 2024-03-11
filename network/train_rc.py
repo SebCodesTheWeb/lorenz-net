@@ -6,15 +6,15 @@ import torch
 
 
 def train_rc_esn(
-    batch_size=64,
+    batch_size=128,
     input_size=3,
     output_size=3,
-    reservoir_hidden_size=1000,
-    spectral_radius=0.9,
-    sparsity=0.01,
-    ridge_param=1e-6,
-    input_scaling=100,
-    input_weights_scaling=0.01,
+    reservoir_hidden_size=1500,
+    spectral_radius=1.4758676014928727,
+    sparsity=0.3065343838364985,
+    ridge_param=4.5585475471582514e-06,
+    input_scaling=4.558889944809806,
+    input_weights_scaling=0.9213917701193003,
     device=default_device
 ):
     x_train_device = x_train.to(device)
