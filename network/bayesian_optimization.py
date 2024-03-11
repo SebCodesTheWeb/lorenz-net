@@ -3,7 +3,7 @@ import torch
 from train_transformer import train_transformer
 from train_network import train_rnn_lstm
 from train_rc import train_rc_esn
-# from evaluate_networks import evaluate_model
+#from evaluate_networks import evaluate_model
 from true_loss import evaluate_model
 from evaluate_esn import evaluate_esn
 import csv
@@ -38,8 +38,8 @@ def objective(trial):
         }
 
         model = train_transformer(**model_hyperparams)
-        val_loss = evaluate_model(model)
-        return val_loss
+        val_loss = evaluate_model(model, device)
+        return val_loss 
 
     elif model_type == "RNN_LSTM":
         model_hyperparams = {
