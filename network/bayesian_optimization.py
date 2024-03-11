@@ -8,11 +8,11 @@ from evaluate_esn import evaluate_esn
 import csv
 from device import device as default_device
 
-model_type = "ESN"
+model_type = "Transformer"
 
 
 def objective(trial):
-    # learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-2)
+    learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-2)
     batch_size = trial.suggest_categorical("batch_size", [8, 16, 32, 64, 128, 256])
     # epochs = trial.suggest_int('epochs', 5, 10)
     gpu_id = trial.number % 4
@@ -37,7 +37,7 @@ def objective(trial):
         }
 
         model = train_transformer(**model_hyperparams)
-        val_loss = evaluate_model(model, device)
+        val_loss = evaluate_model(model)
         return val_loss
 
     elif model_type == "RNN_LSTM":
