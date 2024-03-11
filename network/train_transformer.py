@@ -15,10 +15,10 @@ def train_transformer(
     nhead=2,
     num_layers=2,
     learning_rate=0.002569758352546269,
-    batch_size=16,
+    batch_size=8,
     d_model=64,
     dropout=0.020779607365612865,
-    epochs=10,
+    epochs=5,
     trial= None,
     device=default_device
 ):
@@ -42,7 +42,7 @@ def train_transformer(
 
     loss_fn = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
-    scheduler = ExponentialLR(optimizer, gamma=0.9)
+    scheduler = ExponentialLR(optimizer, gamma=0.95)
 
     def train(dataloader, model, loss_fn, optimizer):
         size = len(dataloader.dataset)
