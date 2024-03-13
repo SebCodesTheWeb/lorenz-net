@@ -1,5 +1,4 @@
 import numpy as np
-from device import device
 import torch
 from constants import inp_seq_len, dt, seed_nbr
 from lorenz import RK4
@@ -12,7 +11,7 @@ from device import device as default_device
 
 np.random.seed(3)
 
-def validate_long_term(nbrIter, init_input_seq, model):
+def validate_long_term(nbrIter, init_input_seq, model, device):
     predicted_path = [*init_input_seq]
     for _ in range(nbrIter):
         input_seq = np.array(predicted_path[-inp_seq_len:])
@@ -47,10 +46,11 @@ for _ in range(inp_seq_len - 1):
     next_pos = RK4(np.array(init_seq[-1]), dt)
     init_seq.append(next_pos.tolist())
 
-def evaluate_model(model):
+def evaluate_model(model, device=default_device):
     loss = validate_long_term(
         1000,
         init_seq,
         model,
+        device,
     )
     print(f"Validation loss: {loss}")
