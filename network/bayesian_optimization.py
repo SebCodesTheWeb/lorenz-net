@@ -12,7 +12,7 @@ from device import device as default_device
 model_type = "ESN"
 
 def objective(trial):
-    learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-2)
+    #learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-2)
     batch_size = trial.suggest_categorical("batch_size", [8, 16, 32, 64, 128, 256])
     # epochs = trial.suggest_int('epochs', 5, 10)
     gpu_id = trial.number % 4
@@ -68,9 +68,9 @@ def objective(trial):
                 "reservoir_hidden_size", [500, 1000, 1500, 2000]
             ),
             "spectral_radius": trial.suggest_float("spectral_radius", 0.5, 1.5),
-            "sparsity": trial.suggest_float("sparsity", 0, 0.5),
-            "ridge_param": trial.suggest_float("ridge_param", 1e-8, 1e-4),
-            "input_scaling": trial.suggest_float("input_scaling", 1, 1000),
+            "sparsity": trial.suggest_float("sparsity", 0.05, 0.4),
+            "ridge_param": trial.suggest_float("ridge_param", 1e-7, 1e-5),
+            "input_scaling": trial.suggest_float("input_scaling", 100, 1000),
             "input_weights_scaling": trial.suggest_float(
                 "input_weights_scaling", 0.001, 1
             ),
@@ -112,4 +112,4 @@ with open(best_params_filename, mode="w", newline="") as csvfile:
 print(f"Best trial parameters saved to {best_params_filename}")
 
 print("Saving best params by re-training...")
-best_model = train_rnn_lstm(**trial.params)
+best_model = train_rc_esn(**trial.params)
