@@ -1,9 +1,10 @@
 from get_training_data  import x_train, y_train
-from rc_esn import EchoStateNetwork
+# from rc_esn import EchoStateNetwork
 from device import device as default_device
 from torch.utils.data import DataLoader, TensorDataset
 import torch
-import echotorch.nn as etnn
+# import echotorch as etnn
+import echotorch.nn.reservoir as etnn
 from torch.autograd import Variable
 
 def train_rc_esn(
