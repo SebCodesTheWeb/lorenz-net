@@ -9,8 +9,7 @@ from evaluate_esn import evaluate_esn
 import csv
 from device import device as default_device
 
-model_type = "Transformer"
-
+model_type = "ESN"
 
 def objective(trial):
     learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-2)

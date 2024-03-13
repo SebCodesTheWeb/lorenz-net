@@ -20,11 +20,11 @@ np.random.seed(seed_nbr + 5)
 nbrTimeSteps = 1000
 nbrIterations = 1
 
-rnn_model = LSTM_RNN(input_size=3, output_size=3, hidden_size=32, num_layers=1).to(
-    device
-)
-rnn_model.load_state_dict(torch.load("lstm_rnn_lorenz.path"))
-rnn_model.eval()
+# rnn_model = LSTM_RNN(input_size=3, output_size=3, hidden_size=32, num_layers=1).to(
+#     device
+# )
+# rnn_model.load_state_dict(torch.load("lstm_rnn_lorenz.path"))
+# rnn_model.eval()
 
 # transformers_model = TransformerModel(
 #     d_model=128, nhead=2, d_hid=500, nlayers=2, dropout=0
@@ -32,15 +32,15 @@ rnn_model.eval()
 # transformers_model.load_state_dict(torch.load("transformer_lorenz.path"))
 # transformers_model.eval()
 
-# rc_model = EchoStateNetwork(
-#     input_size=3,
-#     reservoir_size=1000,
-#     output_size=3,
-#     spectral_radius=0.9,
-#     sparsity=0.01,
-# ).to(device)
-# rc_model.load_state_dict(torch.load("rc_esn_lorenz.path", map_location="cpu"))
-# rc_model.eval()
+rc_model = EchoStateNetwork(
+    input_size=3,
+    reservoir_size=1000,
+    output_size=3,
+    spectral_radius=0.9,
+    sparsity=0.01,
+).to(device)
+rc_model.load_state_dict(torch.load("rc_esn_lorenz.path", map_location="cpu"))
+rc_model.eval()
 
 
 init_positions = np.random.rand(nbrIterations, 3)
@@ -62,8 +62,8 @@ for i in range(nbrIterations):
             .to(device)
             .unsqueeze(0)
         )
-        # next_pos, _ = rc_model(current_pos_tensor)
-        next_pos = rnn_model(current_pos_tensor)
+        next_pos, _ = rc_model(current_pos_tensor)
+        # next_pos = rnn_model(current_pos_tensor)
         next_pos = next_pos.cpu().detach().numpy()[0].tolist()
         model_path.append(next_pos)
 
