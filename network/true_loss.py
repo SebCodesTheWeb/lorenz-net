@@ -54,3 +54,4 @@ def evaluate_model(model, device=default_device):
         device,
     )
     print(f"Validation loss: {loss}")
+    return loss

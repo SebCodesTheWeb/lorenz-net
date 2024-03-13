@@ -54,6 +54,7 @@ def evaluate_esn(model, device=default_device):
         device,
     )
     print(f"Validation loss: {loss}")
+    return loss
 
 
 # import torch
