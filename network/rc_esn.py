@@ -1,7 +1,9 @@
 import torch
 from torch import Tensor
 import torch.nn as nn
+from constants import seed_nbr
 
+# torch.manual_seed(seed_nbr)
 
 class EchoStateNetwork(nn.Module):
     def __init__(
@@ -13,6 +15,7 @@ class EchoStateNetwork(nn.Module):
         sparsity=0.02,
         input_scaling=100,
         input_weights_scaling=0.01,
+        noise_level=0.01,
     ):
         """
         input_size: feature size, in this case 3 for the Lorenz system
@@ -25,6 +28,7 @@ class EchoStateNetwork(nn.Module):
         self.reservoir_size = reservoir_size
         self.output_size = output_size
         self.input_weights_scaling = input_weights_scaling
+        self.noise_level = noise_level
 
         # Input weights and reservoir weights are not trained
         self.input_weights = nn.Parameter(
@@ -58,10 +62,12 @@ class EchoStateNetwork(nn.Module):
         states = []
         # state shape: [batch_size, reservoir_size]
         state = torch.zeros(input.size(0), self.reservoir_size).to(input.device)
+        noise = torch.randn_like(state) * self.noise_level
         for t in range(input.size(1)):
             state = torch.tanh(
                 self.input_weights @ input[:, t].t()
                 + self.reservoir_weights @ state.t()
+                + noise.t()
             ).t()
             states.append(state.unsqueeze(1))
 
