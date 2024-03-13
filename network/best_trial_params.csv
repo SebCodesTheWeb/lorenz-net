@@ -1,8 +1,8 @@
 parameter,value
-batch_size,32
-reservoir_hidden_size,500
-spectral_radius,0.6453970170624845
-sparsity,0.35153644078434493
-ridge_param,5.334995699980188e-06
-input_scaling,680.3687152527102
-input_weights_scaling,0.7051347207275984
+batch_size,256
+reservoir_hidden_size,1000
+spectral_radius,0.9396929311643651
+sparsity,0.2577555767968806
+ridge_param,4.95718520670631e-06
+input_scaling,857.684787155165
+input_weights_scaling,0.22893350277118119

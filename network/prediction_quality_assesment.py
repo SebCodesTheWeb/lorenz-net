@@ -34,10 +34,10 @@ nbrIterations = 1
 
 rc_model = EchoStateNetwork(
     input_size=3,
-    reservoir_size=500,
+    reservoir_size=1000,
     output_size=3,
-    spectral_radius=0.6453970170624845,
-    sparsity=0.35153644078434493,
+    spectral_radius=0.9396929311643651,
+    sparsity=0.2577555767968806,
 ).to(device)
 rc_model.load_state_dict(torch.load("rc_esn_lorenz.path", map_location="cpu"))
 rc_model.eval()

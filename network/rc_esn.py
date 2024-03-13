@@ -1,7 +1,9 @@
 import torch
 from torch import Tensor
 import torch.nn as nn
+from constants import seed_nbr
 
+torch.manual_seed(seed_nbr)
 
 class EchoStateNetwork(nn.Module):
     def __init__(

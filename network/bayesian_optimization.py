@@ -65,7 +65,7 @@ def objective(trial):
             "input_size": 3,
             "output_size": 3,
             "reservoir_hidden_size": trial.suggest_categorical(
-                "reservoir_hidden_size", [500, 1000, 1500, 2000]
+                "reservoir_hidden_size", [500, 750, 1000, 1500, 2000, 3000]
             ),
             "spectral_radius": trial.suggest_float("spectral_radius", 0.5, 1.5),
             "sparsity": trial.suggest_float("sparsity", 0.05, 0.4),
