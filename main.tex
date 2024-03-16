@@ -621,6 +621,26 @@ study.optimize(
 It was parallelizad to run on four gpus and took use of purning to preemptively end unpromising trials. Once the best combination of hyperparams was found the networks was retrained over more epochs for optimal results. The optimization took place over 100 trials trained on four RTX 4090s.
 
 \section{Results}
+\subsection{RNN}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\textwidth]{rnn_lorenz.jpeg}
+\caption{RNN Lorenz}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\textwidth]{rnn_mse.jpeg}
+\caption{RNN MSE}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\textwidth]{rnn_path.jpeg}
+\caption{RNN path}
+\end{figure}
+
 
 \end{document}
 
