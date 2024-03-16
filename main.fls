@@ -708,11 +708,11 @@ INPUT ./transformer-basic.png
 INPUT transformer-basic.png
 INPUT ./transformer-basic.png
 INPUT ./transformer-basic.png
-INPUT ./echo_state_network_diagram.png
-INPUT ./echo_state_network_diagram.png
-INPUT echo_state_network_diagram.png
-INPUT ./echo_state_network_diagram.png
-INPUT ./echo_state_network_diagram.png
+INPUT ./echo_diagram.png
+INPUT ./echo_diagram.png
+INPUT echo_diagram.png
+INPUT ./echo_diagram.png
+INPUT ./echo_diagram.png
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmtt9.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmr9.tfm
