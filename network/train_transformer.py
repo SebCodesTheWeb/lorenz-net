@@ -11,13 +11,13 @@ from device import device as default_device
 
 
 def train_transformer(
-    hidden_dim=500,
+    hidden_dim=512,
     nhead=2,
-    num_layers=2,
-    learning_rate=0.0005,
-    batch_size=8,
-    d_model=128,
-    dropout=0.1,
+    num_layers=4,
+    learning_rate=0.0033649975,
+    batch_size=16,
+    d_model=512,
+    dropout=0.048629,
     epochs=5,
     trial= None,
     device=default_device

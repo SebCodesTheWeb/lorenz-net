@@ -1,7 +1,8 @@
 parameter,value
-learning_rate,0.005091694841110634
-batch_size,64
-epochs,9
-hidden_size,64
-num_layers,1
-gamma,0.8222640315523118
+learning_rate,0.0033649975773024517
+batch_size,16
+hidden_dim,512
+nhead,2
+num_layers,4
+d_model,512
+dropout,0.048629912338936834
