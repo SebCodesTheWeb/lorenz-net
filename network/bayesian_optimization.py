@@ -37,7 +37,7 @@ def objective(trial):
         }
 
         model = train_transformer(**model_hyperparams)
-        val_loss = evaluate_model(model)
+        val_loss = evaluate_model(model, device)
         return val_loss
 
     elif model_type == "RNN_LSTM":
