@@ -9,11 +9,11 @@ from evaluate_esn import evaluate_esn
 import csv
 from device import device as default_device
 
-model_type = "ESN"
+model_type = "Transformer"
 
 def objective(trial):
     learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-2)
-    batch_size = trial.suggest_categorical("batch_size", [8, 16, 32, 64, 128, 256])
+    batch_size = trial.suggest_categorical("batch_size", [4, 8, 16, 32, 64, 128, 256])
     # epochs = trial.suggest_int('epochs', 5, 10)
     gpu_id = trial.number % 4
     device = torch.device(

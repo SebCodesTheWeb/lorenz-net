@@ -1,5 +1,5 @@
 seed_nbr = 0
-chunk_len = 10
+chunk_len = 100
 dt = 0.04
 test_ratio = 0.01
 val_ratio = 0.15

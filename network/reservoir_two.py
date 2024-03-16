@@ -12,18 +12,18 @@ timesteps = 2000
 x0 = [17.67715816276679, 12.931379185960404, 43.91404334248268]
 X = lorenz(timesteps, x0=x0, method="RK45", h=dt)
 
-fig = plt.figure(figsize=(10, 10))
-ax  = fig.add_subplot(111, projection='3d')
-ax.set_title("Lorenz")
-ax.set_xlabel("x")
-ax.set_ylabel("y")
-ax.set_zlabel("z")
-ax.grid(False)
+# fig = plt.figure(figsize=(10, 10))
+# ax  = fig.add_subplot(111, projection='3d')
+# ax.set_title("Lorenz")
+# ax.set_xlabel("x")
+# ax.set_ylabel("y")
+# ax.set_zlabel("z")
+# ax.grid(False)
 
-for i in range(timesteps-1):
-    ax.plot(X[i:i+2, 0], X[i:i+2, 1], X[i:i+2, 2], color=plt.cm.cividis(255*i//timesteps), lw=1.0)
+# for i in range(timesteps-1):
+#     ax.plot(X[i:i+2, 0], X[i:i+2, 1], X[i:i+2, 2], color=plt.cm.cividis(255*i//timesteps), lw=1.0)
 
-plt.show()
+# plt.show()
 
 train_len = 1000
 

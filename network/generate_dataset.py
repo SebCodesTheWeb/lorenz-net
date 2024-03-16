@@ -9,16 +9,25 @@ np.random.seed(seed_nbr)
 offset_len = 0
 total_data_points = 1e6
 nbr_chunks = int(total_data_points // chunk_len)
-len_before_reset = 2e5
+len_before_reset = 1e6
 
 dataset = []
 
 initial_positions = np.random.rand(nbr_chunks, 3) 
-pos = initial_positions[0]
+# pos = initial_positions[0]
+x0 = [17.67715816276679, 12.931379185960404, 43.91404334248268]
+pos = x0.copy()
+
+dataset.append({
+    't': 0,
+    'x': pos[0],
+    'y': pos[1],
+    'z': pos[2],
+})
 
 for i, _ in enumerate(initial_positions):
     # print(i, len(initial_positions))
-    pos = initial_positions[i] if i * chunk_len % len_before_reset == 0 else pos
+    pos = x0.copy() if i * chunk_len % len_before_reset == 0 else pos
     if(i*chunk_len % len_before_reset == 0):
         print(len(dataset))
     # Offset each initial chunk to decorrelate the data
@@ -27,7 +36,7 @@ for i, _ in enumerate(initial_positions):
    
     # Generate the actual data chunk
     for j in range(chunk_len):
-        elapsedTime = j * dt + i * offset_len * dt
+        elapsedTime = j * dt + i * offset_len * dt + dt
         pos = RK4(pos, dt)
         x, y, z = pos
         dataset.append({
