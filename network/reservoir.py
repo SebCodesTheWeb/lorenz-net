@@ -1,33 +1,32 @@
 import reservoirpy as rpy
-# from constants import seed_nbr, dt
-from reservoirpy.nodes import Reservoir, Ridge, NVAR
+from constants import seed_nbr, dt
+from reservoirpy.nodes import Reservoir, Ridge
 import matplotlib.pyplot as plt
 import numpy as np
 from reservoirpy.datasets import lorenz
+from unnormalize_data import get_unnormalized_prediction
+import json
+import pandas as pd
 
 rpy.verbosity(999)
-rpy.set_seed(0)
+rpy.set_seed(seed_nbr)
 
-dt = 0.025
 train_time = 10.
-test_time = 120.
+test_time = 20.
 warm_time = 5.
 
 train_steps = round(train_time / dt)
 test_steps  = round(test_time  / dt)
 warm_steps  = round(warm_time  / dt)
 
-# x0 = np.random.rand(3)
-#Seems like good starting position for training data
-x0 = [17.67715816276679, 12.931379185960404, 43.91404334248268]
 n_timesteps = train_steps + test_steps + warm_steps
 
-X = lorenz(n_timesteps, x0=x0, h=dt, method="RK45")
+dataset = pd.read_csv("lorentz-sequences.csv")
+X = dataset[["x", "y", "z"]].values
 
 reservoir = Reservoir(1000,  lr=0.5, sr=0.9)
-nvar = NVAR(delay=2, order=2, strides=1)
 readout = Ridge(3, ridge=2.5e-6)
-esn_model = nvar >> readout
+esn_model = reservoir >> readout
 
 X_train = X[:train_steps + warm_steps -1]
 Y_train = X[1:train_steps + warm_steps] - X[:train_steps + warm_steps -1]
@@ -35,7 +34,7 @@ Y_train = X[1:train_steps + warm_steps] - X[:train_steps + warm_steps -1]
 model = esn_model.fit(X_train, Y_train, warmup=warm_steps)
 
 
-nvar.run(X[warm_steps+train_steps-2:warm_steps+train_steps])
+reservoir.run(X[warm_steps+train_steps-2:warm_steps+train_steps])
 u = X[warm_steps+train_steps]
 res = np.zeros((test_steps, readout.output_dim))
 for i in range(test_steps):
@@ -65,3 +64,12 @@ for i in range(N-1):
 
 plt.show()
 
+
+with open("latest_path.json", "w") as file:
+    data = {
+        "model": [
+            p if isinstance(p, list) else p.tolist() for p in get_unnormalized_prediction(res)
+        ],
+        "rk4": [p if isinstance(p, list) else p.tolist() for p in get_unnormalized_prediction(Y[:N])],
+    }
+    json.dump(data, file)
