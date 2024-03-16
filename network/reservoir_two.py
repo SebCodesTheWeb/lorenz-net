@@ -6,26 +6,20 @@ from reservoirpy.nodes import Reservoir, Ridge
 import json
 from reservoirpy.hyper import research, plot_hyperopt_report
 from constants import dt
+import pandas as pd
+import reservoirpy as rpy
+
+# rpy.verbosity(0)
 
 
-timesteps = 2000
-x0 = [17.67715816276679, 12.931379185960404, 43.91404334248268]
-X = lorenz(timesteps, x0=x0, method="RK45", h=dt)
+dataset = pd.read_csv("lorentz-sequences.csv")
+X = dataset[["x", "y", "z"]].values
 
-# fig = plt.figure(figsize=(10, 10))
-# ax  = fig.add_subplot(111, projection='3d')
-# ax.set_title("Lorenz")
-# ax.set_xlabel("x")
-# ax.set_ylabel("y")
-# ax.set_zlabel("z")
-# ax.grid(False)
+train_time = 5.
+test_time = 20.
 
-# for i in range(timesteps-1):
-#     ax.plot(X[i:i+2, 0], X[i:i+2, 1], X[i:i+2, 2], color=plt.cm.cividis(255*i//timesteps), lw=1.0)
-
-# plt.show()
-
-train_len = 1000
+train_len = round(train_time / dt)
+test_steps  = round(test_time  / dt)
 
 X_train = X[:train_len]
 y_train = X[1 : train_len + 1]
@@ -35,7 +29,7 @@ y_test = X[train_len + 1:]
 
 dataset = ((X_train, y_train), (X_test, y_test))
 
-def objective(dataset, config, *, iss, N, sr, lr, ridge, seed):
+def objective(dataset, config, *, N, sr, lr, ridge, seed):
 
     # This step may vary depending on what you put inside 'dataset'
     train_data, validation_data = dataset
@@ -58,7 +52,6 @@ def objective(dataset, config, *, iss, N, sr, lr, ridge, seed):
         reservoir = Reservoir(N,
                               sr=sr,
                               lr=lr,
-                              input_scaling=iss,
                               seed=variable_seed)
 
         readout = Ridge(ridge=ridge)
@@ -86,29 +79,28 @@ def objective(dataset, config, *, iss, N, sr, lr, ridge, seed):
 
 hyperopt_config = {
     "exp": f"hyperopt-multiscroll", # the experimentation name
-    "hp_max_evals": 200,             # the number of differents sets of parameters hyperopt has to try
+    "hp_max_evals": 100,             # the number of differents sets of parameters hyperopt has to try
     "hp_method": "random",           # the method used by hyperopt to chose those sets (see below)
     "seed": 42,                      # the random state seed, to ensure reproducibility
     "instances_per_trial": 3,        # how many random ESN will be tried with each sets of parameters
     "hp_space": {                    # what are the ranges of parameters explored
-        "N": ["choice", 500],             # the number of neurons is fixed to 300
-        "sr": ["loguniform", 1e-2, 10],   # the spectral radius is log-uniformly distributed between 1e-6 and 10
-        "lr": ["loguniform", 1e-3, 1],  # idem with the leaking rate, from 1e-3 to 1
-        "iss": ["choice", 0.9],           # the input scaling is fixed
-        "ridge": ["choice", 1e-7],        # and so is the regularization parameter.
+        "N": ["choice", 1000],             # the number of neurons is fixed to 300
+        "sr": ["loguniform", 0.5, 1.5],   # the spectral radius is log-uniformly distributed between 1e-6 and 10
+        "lr": ["loguniform", 0.1, 0.8],  # idem with the leaking rate, from 1e-3 to 1
+        "ridge": ["choice", 2.5e-6],# and so is the regularization parameter.
         "seed": ["choice", 1234]          # an other random seed for the ESN initialization
     }
 }
 
 # we precautionously save the configuration in a JSON file
 # each file will begin with a number corresponding to the current experimentation run number.
-# with open(f"{hyperopt_config['exp']}.config.json", "w+") as f:
-#     json.dump(hyperopt_config, f)
+with open(f"{hyperopt_config['exp']}.config.json", "w+") as f:
+    json.dump(hyperopt_config, f)
 
-# best = research(objective, dataset, f"{hyperopt_config['exp']}.config.json", ".")
+best = research(objective, dataset, f"{hyperopt_config['exp']}.config.json", ".")
 
-# fig = plot_hyperopt_report(hyperopt_config["exp"], ("lr", "sr"), metric="r2")
-# plt.show()
+fig = plot_hyperopt_report(hyperopt_config["exp"], ("lr", "sr"), metric="r2")
+plt.show()
 
 with open(f"hyperopt-multiscroll/results/0.0288120_hyperopt_results_1call.json", "r") as f:
     best_params = json.load(f)['current_params']
@@ -117,12 +109,11 @@ with open(f"hyperopt-multiscroll/results/0.0288120_hyperopt_results_1call.json",
 N = best_params['N']
 sr = best_params['sr']
 lr = best_params['lr']
-iss = best_params['iss']
 ridge_param = best_params['ridge']
 seed = best_params['seed']
 
 # Rebuild the model using the best hyperparameters
-reservoir = Reservoir(N, sr=sr, lr=lr, input_scaling=iss, seed=seed)
+reservoir = Reservoir(N, sr=sr, lr=lr, seed=seed)
 readout = Ridge(ridge=ridge_param)
 model = reservoir >> readout
 
