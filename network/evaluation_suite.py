@@ -24,10 +24,12 @@ model_path = data['model']
 ground_zero_path = data['rk4']
 
 fig, axs = plt.subplots(3, 1, figsize=(8, 12))  # Three subplots for x, y, z
+total_mse = 0
 for i in range(3):
     coordModel = [point[i] for point in model_path]
     coordGroundZero = [point[i] for point in ground_zero_path]
     aggregate_mse = calculate_aggregate_mse(coordModel, coordGroundZero)
+    total_mse += aggregate_mse
     print(f"The aggregate MSE for the entire lists is: {aggregate_mse:.4f}")
 
     x_axis = range(1, len(model_path) + 1)
@@ -39,6 +41,7 @@ for i in range(3):
     axs[i].set_ylabel(f"Coordinate {chr(120+i)}")
 
     axs[i].legend()
+print(f"The total aggregate MSE for the entire lists is: {total_mse / 3:.4f}")
 
 plt.tight_layout()
 plt.show()
@@ -101,6 +104,35 @@ ani = FuncAnimation(
 
 # Show the animation
 plt.legend()
+plt.show()
+
+
+
+#Finnished drawing
+fig = plt.figure(figsize=(15, 10))
+ax  = fig.add_subplot(121, projection='3d')
+ax.set_title("Generated attractor")
+ax.set_xlabel("$x$")
+ax.set_ylabel("$y$")
+ax.set_zlabel("$z$")
+ax.grid(False)
+
+x_coords = [p[0] for p in model_path]
+y_coords = [p[1] for p in model_path]
+z_coords = [p[2] for p in model_path]
+N = len(model_path)
+# ax.scatter([p[0] for p in model_path], [p[1] for p in model_path], [p[2] for p in model_path], color=plt.cm.magma(255*i//len(model_path)))
+
+for i in range(N-1):
+    ax.plot(x_coords[i:i+2], y_coords[i:i+2], z_coords[i:i+2], color=plt.cm.magma(255*i//N), lw=1.0)
+
+# ax2 = fig.add_subplot(122, projection='3d')
+# ax2.set_title("Real attractor")
+# ax2.grid(False)
+
+# for i in range(N-1):
+#     ax2.plot(Y[i:i+2, 0], Y[i:i+2, 1], Y[i:i+2, 2], color=plt.cm.magma(255*i//N), lw=1.0)
+
 plt.show()
 
 # Calculate the MSE for each pair of points
