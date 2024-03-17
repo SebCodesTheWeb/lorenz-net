@@ -281,7 +281,7 @@ where $\text{Sublayer}(x)$ is the function implemented by the multi-head or feed
 \subsection{Reservoir Computing and Echo State Networks}
 Reservoir Computing (RC) is a variant of RNNs that has proven particularly effective in predicting chaotic systems. The fundamental principle behind reservoir computing is that only a part of the network is trained, while the rest of the network, the "reservoir" remains unchanged during training. This approach significantly reduces the computational cost of training RNNs and overcomes some of the issues related to gradient-based learning in traditional RNNs, such as vanishing and exploding gradients.
 
-Echo State Networks (ESNs) are a particularly well-known implementation of reservoir computing. ESNs consist of a sparsely connected and randomly reservoir. The reservoir serves to project the input into a higher-dimensional space where the different parts of the input sequence become more linearly separable. Training only occurs in a readout layer, which is typically a linear model that is adjusted to map the reservoir states to the desired output.
+Echo State Networks (ESNs) are a particularly well-known implementation of reservoir computing. ESNs consist of a sparsely connected and a randomly generated reservoir. The reservoir serves to project the input into a higher-dimensional space where the different parts of the input sequence become more linearly separable. Training only occurs in a readout layer, which is typically a linear model that is adjusted to map the reservoir states to the desired output.
 
 \begin{figure}[h] 
 \centering 
@@ -289,7 +289,7 @@ Echo State Networks (ESNs) are a particularly well-known implementation of reser
 \caption{rservoirpy user guide docs}
 \end{figure}
 
-The key properties of an ESN are its dynamical richness and memory capacity, enabling it to process time-dependent information effectively. Reservoirs in ESNs possess a "fading memory," enabling them to handle input sequences with varying time scales. This property allows ESNs to maintain the context of earlier inputs while also adapting quickly to recent changes in the input stream.
+Reservoirs in ESNs possess a "fading memory," enabling them to handle input sequences with varying time scales. This property allows ESNs to maintain the context of earlier inputs while also adapting quickly to recent changes in the input stream.
 
 Training an ESN involves collecting the states of the reservoir for a known input sequence, then using a supervised learning technique, such as linear regression, to train the readout weights such that the error between the predicted output and the actual target output is minimized.
 

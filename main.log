@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.31)  17 MAR 2024 19:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.31)  17 MAR 2024 19:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -644,17 +644,21 @@ File: auto_correlation.png Graphic file (type png)
 <use auto_correlation.png>
 Package pdftex.def Info: auto_correlation.png  used on input line 445.
 (pdftex.def)             Requested size: 273.14923pt x 218.42484pt.
- [12] [13 <./auto_correlation.png>]
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[12] [13 <./auto_correlation.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 497--498
 
  []
 
-[14]
+
 Underfull \hbox (badness 10000) in paragraph at lines 536--537
 
  []
 
-[15] [16]
+[14] [15] [16]
 Underfull \hbox (badness 10000) in paragraph at lines 661--662
 
  []
@@ -744,7 +748,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  73i,8n,77p,1440b,2552s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on main.pdf (24 pages, 2931470 bytes).
+Output written on main.pdf (24 pages, 2931455 bytes).
 PDF statistics:
  849 PDF objects out of 1000 (max. 8388607)
  763 compressed objects within 8 object streams
