@@ -149,7 +149,7 @@ where \(y\) is the output, \(W\) is the weights matrix, \(x\) is the input vecto
 
 \[ \text{ReLU}(z) = \max(0, z) \]
 
-Which maps all positive inputs to themselves while negative inputs are mapped to zero. The ReLU activation function introduces non-linearity to the model and mitigates the common vanishing and exploding gradient problem that occurs in deep networks. On the other hand, for the final output layer, the softmax activation function is commonly used. It maps the input to a vector whose values sum up to 1, which is great for a probabilistic interpretation.
+Which maps all positive inputs to themselves while negative inputs are mapped to zero. The ReLU activation function introduces non-linearity to the model, which is critical for capturing complex behavior. On the other hand, for the final output layer, the softmax activation function is commonly used. It maps the input to a vector whose values sum up to 1, which is great for a probabilistic interpretation.
 
 \[
 \text{softmax}(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}}
@@ -161,7 +161,7 @@ Given a predicted value \(\hat{y}_i\) and a true value \(y_i\) a cost function i
 
 where \(C\) is the cost, \(n\) is the number of samples, \(y_i\) is the true value, and \(\hat{y}_i\) is the predicted value.
 
-During the training process, optimization strategies such as stochastic gradient descent (SGD) are used. The gradient of the cost function is computed with respect to the weights, which is just for adjusting the weights in the direction that minimizes the cost:
+During the training process, optimization strategies such as stochastic gradient descent (SGD) are used. The gradient of the cost function is computed with respect to the weights in a process called backpropagation, and is used to adjust the weights in the direction that minimizes the cost:
 
 \[ W_{\text{new}} = W_{\text{old}} - \eta \nabla C \]
 
@@ -170,16 +170,57 @@ where \(W_{\text{new}}\) and \(W_{\text{old}}\) are the values of the weights af
 Via processes like SGD, the network can compute a gradient to slowly shift the parameters and minimize the error of the network's predictions. Over time the network can generalize and learn the underlying patterns of the data to make accurate predictions on unseen data.
 
 \subsection{RNNs}
-A Recurrent Neural Network (RNN) is a type of neural network architecture designed to recognize patterns in sequential data. What makes the RNN architecture special is that it's composed of a train of nodes, called cells, each connected to the next, where all the cells share the same parameters. When the input vector is fed to the first cell of the train, it creates an output and then the state of the node(the hidden state) is updated and passed along to the next cell. This update in hidden state makes it so the next cell can 'remember' the previous data inputed. 
+A Recurrent Neural Network (RNN) is a type of neural network architecture designed to recognize patterns in sequential data. What makes the RNN architecture special is that it's composed of a train of nodes, called cells, each connected to the next, where all the cells share the same trainable weights and biases. Each node in the train has it's own hidden state that is used when computing the next ouput. When the input vector is fed to the first cell of the train, it creates an output and then the hidden state is updated and passed along to the next node. The hidden state makes it so the next cell can 'remember' the previous data inputed. The RNN is governed by these equations:
+
+\begin{equation}
+h^{(t)} = \tanh(Wh^{(t-1)} + Ux^{(t)} + b_h)
+\end{equation}
+
+\begin{equation}
+y^{(t)} = \text{softmax}(Vh^{(t)} + b_y)
+\end{equation}
+
+Here \(h^{(t)}\) is the hiddens state at timestep $t$, and \(y^{(t)}\) the equivalent output at that timestep. The weights $W$, $U$ and $V$ and the biases $b_h$ and $b_y$ are trainable parameters of the network and they are the same for all nodes. These equations highlight the recurrent nature of the RNN, as the computation of the hidden state at time $t$ depends on the previous state at $t-1$. This is what allows the network to maintain a form of memory over time. See Figure 2 for a visual representation of the RNN architecture, where $o^{(t)}$ represents $y^{(t)}$ before softmax
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.8\textwidth]{rnn.png}
-\caption{RNN architecture - https://www.analyticsvidhya.com/blog/2022/03/a-brief-overview-of-recurrent-neural-networks-rnn/}
+\includegraphics[width=0.8\textwidth]{rnn_diagram.jpeg}
+\caption{https://www.deeplearningbook.org/contents/rnn.html}
 \end{figure}
 
-However, RNNs have a significant limitation in that they struggle to learn long term dependencies due to the vanishing and exploding gradient problem. Long Short-Term Memory (LSTM) networks  aim to solve this problem. The LSTM network is a modification of the RNN that introduces a second hidden state, called the cell state, which is updated differently from the traditional hidden state. This update process is controlled by some gates which detemine when to update the cell state. This modification of the hidden state is more effective when performing backpropgation which allows the network to learn long-term dependencies.
+However, RNNs have a significant limitation in that they often struggle to learn long term dependencies, since during backpropgation, the gradients are propagated through the same weights matrix multiple times, which especially when dealing with long sequences can lead to the vanishing and exploding gradient problem where the gradients either becomes extremely small or extremely big. Long Short-Term Memory (LSTM) networks  aim to solve this problem. The LSTM network is a modification of the RNN that introduces a second hidden state, called the cell state, which is updated differently from the traditional hidden state. It is governed by these equations:
 
+\begin{equation} a^{(t)} = Wh^{(t-1)} + Ux^{(t)} + b_h\end{equation}
+
+Now $a^{(t)}$ is used to compute four gates, $i$, $f$, $o$, and $g$ with different biases and activation functions:
+
+\begin{equation} i^{(t)} = \sigma(a^{(t)} + b_i) \end{equation}
+
+\begin{equation} f^{(t)} = \sigma(a^{(t)} + b_f) \end{equation}
+
+\begin{equation} o^{(t)} = \sigma(a^{(t)} + b_o) \end{equation}
+
+\begin{equation} g^{(t)} = \tanh(a^{(t)} + b_g) \end{equation}
+
+The gates are used to compute the next cell state, where the $f$ gate decides how much to 'remember' or 'forget' from the previous cell state, and the $i$ and $g$ gate together decide how much new information to write.
+
+\begin{equation} C^{(t)} = f^{(t)} \odot C^{(t-1)} + i^{(t)} \odot g^{(t)} \end{equation}
+
+The $o$ gate then detemines how much of the cell state to output to the next hidden state.
+
+\begin{equation} h^{(t)} = o^{(t)} \odot \tanh(C^{(t)}) \end{equation}
+
+Usually the output vector equals the hidden state in a LSTM.
+
+\begin{equation} y^{(t)} = h^{(t)} \end{equation}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\textwidth]{lstm_diagram.png}
+\caption{http://cs231n.stanford.edu/slides/2017/cs231n\_2017\_lecture10.pdf}
+\end{figure}
+
+Figure 3 showcases an LSTM cell, notice the red arrows which show the gradient flow. Because the hadamard product is used instead of matrix multiplication and the gates can vary between cells, gradient flow becomes more stable, which allows the network to learn long-term dependencies without an exploding or vanishing gradient.
 \subsection{Transformers}
 
 Transformers are a type of neural network architecture that was introduced in the paper "Attention is All You Need"(2017) by Google. Unlike RNNs, Transformers do not process the data in sequence, instead, they process the entire sequence at once. Transformers transform the data into an embedding layer where the positions are encoded into the data vectors themselves. This makes the network highly parallelizable. Transfomers has been quite revolutionary and is the basis of the state-of-the-art model GPT-4.

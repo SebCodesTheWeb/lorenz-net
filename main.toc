@@ -3,15 +3,15 @@
 \contentsline {subsection}{\numberline {2.1}The Lorenz System}{4}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Neural Networks}{5}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3}RNNs}{6}{subsection.2.3}%
-\contentsline {subsection}{\numberline {2.4}Transformers}{6}{subsection.2.4}%
-\contentsline {subsection}{\numberline {2.5}Reservoir Computing and Echo State Networks}{7}{subsection.2.5}%
-\contentsline {section}{\numberline {3}Method}{8}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Generating Data}{8}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Setting up the RNN}{11}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Setting up the transformers architecture}{14}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Setting up the RC-ESN}{16}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}Training process}{16}{subsection.3.5}%
-\contentsline {section}{\numberline {4}Results}{17}{section.4}%
-\contentsline {subsection}{\numberline {4.1}RNN}{17}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Echos state network}{17}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Transformers}{18}{subsection.4.3}%
+\contentsline {subsection}{\numberline {2.4}Transformers}{8}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Reservoir Computing and Echo State Networks}{9}{subsection.2.5}%
+\contentsline {section}{\numberline {3}Method}{10}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Generating Data}{10}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Setting up the RNN}{12}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Setting up the transformers architecture}{15}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Setting up the RC-ESN}{17}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Training process}{17}{subsection.3.5}%
+\contentsline {section}{\numberline {4}Results}{19}{section.4}%
+\contentsline {subsection}{\numberline {4.1}RNN}{19}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Echos state network}{19}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Transformers}{20}{subsection.4.3}%
