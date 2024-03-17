@@ -11,7 +11,9 @@
 \contentsline {subsection}{\numberline {3.3}Setting up the Transformers Model}{16}{subsection.3.3}%
 \contentsline {subsection}{\numberline {3.4}Setting up the RC-ESN}{18}{subsection.3.4}%
 \contentsline {subsection}{\numberline {3.5}Hyperparameter optimization process}{18}{subsection.3.5}%
-\contentsline {section}{\numberline {4}Results}{21}{section.4}%
-\contentsline {subsection}{\numberline {4.1}RNN}{21}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Echos state network}{21}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Transformers}{22}{subsection.4.3}%
+\contentsline {section}{\numberline {4}Results}{22}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Lorenz attractor}{22}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Trajectory}{22}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Mean Squared Error}{22}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Discussion}{22}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Conclusion}{26}{subsection.5.1}%

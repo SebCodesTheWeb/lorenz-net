@@ -128,7 +128,7 @@ The original Lorenz system is a set of three differential equations. It is one o
 
 where $x$, $y$, and $z$ make up the system's positional state with respect to time $t$, and $\sigma$, $\rho$, and $\beta$ are parameters. Typically, the values $\sigma = 10$, $\rho = 28$, and $\beta = \frac{8}{3}$ are used.
 
-The Lorenz system is known for its butterfly-shaped attractor, which is a set of two points the systems tends to evolve around, regardless of the starting conditions. The attractor is visualized in Figure \ref{fig:lorenz_attractor}.
+The Lorenz system is known for its butterfly-shaped attractor, which is a set of points the system, regardless of the starting condition, always end up at. The attractor is visualized in Figure \ref{fig:lorenz_attractor}.
 
 \begin{figure}[h]
 \centering
@@ -805,7 +805,7 @@ def evaluate_model(model, device=default_device):
     return loss
 \end{lstlisting}
 
-The hyperparameters of the Transformesr and RNN networks were then optimized using the optuna library implementation of the Tree-structured Parzen Estimator(TPE) algorithm. 
+The hyperparameters of the Transformers and RNN networks were then optimized using the optuna library implementation of the Tree-structured Parzen Estimator(TPE) algorithm. 
 
 \begin{lstlisting}
 import optuna
@@ -875,11 +875,11 @@ study.optimize(
 )  # n_jobs is number of parallel jobs(one per gpu available)
 \end{lstlisting}
 
-It was parallelizad to run on four gpus and took use of purning to preemptively end unpromising trials. Once the best combination of hyperparams was found the networks was retrained over more epochs for optimal results. The optimization took place over 100 trials and was trained on four RTX 4090s.
+It was parallelizad to run on four gpus and took use of pruning to preemptively end unpromising trials. Once the best combination of hyperparameters was found the networks was retrained over more epochs for optimal results. The optimization took place over 100 trials and was trained on four RTX 4090s.
 
 The ESN was on the hand manually optimized by trial and error, as the reservoirpy library does not support optuna.
 
-In the end the following hyperparams were used in the final models:
+In the end the following hyperparameters were used in the final models:
 
 \begin{itemize}
     \item \textbf{ESN:}
@@ -900,41 +900,69 @@ In the end the following hyperparams were used in the final models:
         \item d\_model: 64
         \item dropout: 0.020779607365612865
         \item epochs: 30
-        \item inp\_seq\_len: 99
+        \item inp\_seq\_len: 49
+    \end{itemize}
+    \item \textbf{RNN LSTM:}
+    \begin{itemize}
+        \item hidden\_size: 32
+        \item num\_layers: 1
+        \item learning\_rate: 0.0005
+        \item batch\_size: 32
+        \item epochs: 10
+        \item gamma: 8
+        \item inp\_seq\_len: 9
     \end{itemize}
 \end{itemize}
 
+The models were then finally evaluated by predicting 500 time steps of size 0.04dt and comparing the predictions to the testing data set. To evaluate the models their Lorenz attractor shape, trajectory and mean squared error was plotted and calculated.
 
 \section{Results}
-\subsection{RNN}
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.6\textwidth]{rnn_lorenz.jpeg}
-\caption{RNN Lorenz}
+\subsection{Lorenz attractor}
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{rnn_lorenz.jpeg}
+        \caption{RNN}
+    \end{minipage}\hfill
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{echo_lorenz.jpeg}
+        \caption{ESN}
+    \end{minipage}\hfill
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{transformers_lorenz.jpeg}
+        \caption{Transformers}
+    \end{minipage}
 \end{figure}
 
+\subsection{Trajectory}
+View figures 10, 11 and 12.
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=\textwidth]{rnn_path.jpeg}
+    \caption{RNN path(true path is red, model path is blue)}
+\end{figure}
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=\textwidth]{echo_path.jpeg}
+    \caption{ESN path(true path is red, model path is blue)}
+\end{figure}
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=\textwidth]{transformers_path.jpeg}
+    \caption{Transformers path(true path is red, model path is blue)}
+\end{figure}
+
+\subsection{Mean Squared Error}
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.6\textwidth]{rnn_mse.jpeg}
 \caption{RNN MSE}
-\end{figure}
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.6\textwidth]{rnn_path.jpeg}
-\caption{RNN path}
-\end{figure}
-
-The average MSE for RNN was 50.1579
-
-\subsection{Echos state network}
-The average MSE for RNN was 48.7797
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.6\textwidth]{echo_lorenz.jpeg}
-\caption{ESN Lorenz}
 \end{figure}
 
 \begin{figure}[h]
@@ -945,30 +973,30 @@ The average MSE for RNN was 48.7797
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.6\textwidth]{echo_path.jpeg}
-\caption{ESN path}
-\end{figure}
-
-\subsection{Transformers}
-The average MSE for RNN was 29.1590
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.6\textwidth]{transformers_lorenz.jpeg}
-\caption{Transfomers Lorenz}
-\end{figure}
-
-\begin{figure}[h]
-\centering
 \includegraphics[width=0.6\textwidth]{transformers_mse.jpeg}
 \caption{Transformers MSE}
 \end{figure}
+The average MSE for RNN was 50.1579 \\
+The average MSE for RNN was 48.7797 \\
+The average MSE for RNN was 29.1590 \\ \\
+For a more detailed overview of MSE over time view figures 13, 14 and 15.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.6\textwidth]{transformers_path.jpeg}
-\caption{Transformers path}
-\end{figure}
+\section{Discussion}
+Looking at figures 7-9, it is clear that all models have learned the Lorenz patterns, thereby the underlying dynamics of the system. They all generated attractors of similar scale with two rings centering around two focal points. They differ slightly, however, and when comparing the figures, it is hard to tell which of the models has captured the best attractor shape (see figure 1). The Transformers model seems to have the most accurate angle between the two rings, but the left wing radius should be smaller and the outer right wing radius should be bigger. The ESN has more accurate outer wing radii, but the RNN seems to have more accurate inner wing radii. Overall, however, it seems like the ESN network has the most accurate Lorenz attractor shape.
+
+The results from the trajectory plots are clear. In figure 10, the RNN path seems to deviate from the true path around timestep 40-50, which is confirmed by figure 13 where the MSE could be seen spiking. The MSE then goes down for a bit, showing that the RNN has learned the pattern of the Lorenz attractor but not with great accuracy.
+
+Viewing figure 11, the ESN seems to diverge from the true path around timestep 60-100, which also is confirmed by figure 14 showcasing some big up and down spikes. The MSE seems to vary a lot, which shows that the ESN has not learned the Lorenz system's trajectory very accurately, but has learned the overall pattern and can follow it for a while.
+
+Looking at figure 12, the Transformers model seems to follow the true path very well up till timestep 100-120. This is confirmed by figure 15 where the MSE is very low and stable untill slightly after timestep 100. The Transformers model also appears to hop back on track around timestep 400 and follow the true path accurately for another 100 timesteps.
+
+Keeping in mind that the ESN has a $inp\_seq\_len$ of 1, the RNN a $inp\_seq\_len$ of 9, and the Transformers model a $inp\_seq\_len$ of 49, the ESN could hold an accurate prediction for about 70-80 timesteps. The RNN could hold an accurate prediction for about 30-40 timesteps. And the Transformers model could hold an accurate prediction for about 60 timesteps with a small bounce back where it held a good prediction for about another 100 more timesteps. Overall, the Transformers model had the lowest MSE.
+
+\subsection{Conclusion}
+The results are a bit mixed but it seems clear that the RNN was the worst performing model. It had the highest MSE, could hold a prediction for only 30-40 timesteps and did not have a very impressive Lorenz attractor. The ESN had an accurate Lorenz attractor and could hold the initial prediction the longest, but the Transformers model had much lower MSE without much shorter initial prediction accuracy. The difference does not seem significant enough to make a data-driven conclusion, but seeing as less efforts was spent optimizing the ESN model and it has in other literature shown great capabilities in predicting chaotic systems \cite{npg-27-373-2020}, it seems reasonable to assume the ESN has a slight edge over the Transformers model, although a small one. Hence the results of this study show that the ESN seems to be the best neural network architecture for predicting chaotic systems, tightly followed by the Transformers model and RNN last.
+
+The results show that the Transformers architecture has an impressive capacity to capture chaotic dynamics, similar to the level of an ESN, whilst the RNN is not as well suited towards capturing chaotic dynamics. For future research the NVAR reservoir computing variant could be explored, as it in other literature(\cite{cite-key}) has shown great promise. Other hyperparameters of the ESN such as noise could be explored for further optimization, which was not attempted in this study. Regarding the Transformers architecture, different positional embeddings could be used, and the variations of the self attention mechanism like sparse attention could be investigated. With further research it may be possible to conclusively state the peak potential of the Transformers and ESN models in predicting chaotic systems.
+
 
 \bibliographystyle{apalike}
 \bibliography{references}
