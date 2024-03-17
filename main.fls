@@ -839,7 +839,6 @@ INPUT ./rnn_path.jpeg
 INPUT rnn_path.jpeg
 INPUT ./rnn_path.jpeg
 INPUT ./rnn_path.jpeg
-INPUT /usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 INPUT ./echo_lorenz.jpeg
 INPUT ./echo_lorenz.jpeg
 INPUT echo_lorenz.jpeg
@@ -860,6 +859,7 @@ INPUT ./transformers_lorenz.jpeg
 INPUT transformers_lorenz.jpeg
 INPUT ./transformers_lorenz.jpeg
 INPUT ./transformers_lorenz.jpeg
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 INPUT ./transformers_mse.jpeg
 INPUT ./transformers_mse.jpeg
 INPUT transformers_mse.jpeg
