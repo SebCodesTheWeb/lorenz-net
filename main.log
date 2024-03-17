@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.31)  16 MAR 2024 22:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.31)  17 MAR 2024 11:56
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -354,35 +354,146 @@ File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
 File: listings.cfg 2023/02/27 1.9 listings configuration
 ))
 Package: listings 2023/02/27 1.9 (Carsten Heinz)
- (/usr/local/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2023/02/27 1.9 listings language file
-)
-Package translations Info: No language package found. I am going to use `english' as default language. on input line 45.
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/titling/titling.sty
+Package: titling 2009/09/04 v2.1d maketitle typesetting
+\thanksmarkwidth=\skip57
+\thanksmargin=\skip58
+\droptitle=\skip59
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/mdframed/mdframed.sty
+Package: mdframed 2013/07/01 1.9b: mdframed
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/l3packages/xparse/xparse.sty (/usr/local/texlive/2023/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2023-02-22 L3 programming layer (loader) 
  (/usr/local/texlive/2023/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count313
 \l__pdf_internal_box=\box66
-) (./main.aux)
+))
+Package: xparse 2023-02-02 L3 Experimental document command parser
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/zref/zref-abspage.sty
+Package: zref-abspage 2022-04-07 v2.34 Module abspage for zref (HO)
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/zref/zref-base.sty
+Package: zref-base 2022-04-07 v2.34 Module base for zref (HO)
+Package zref Info: New property list: main on input line 767.
+Package zref Info: New property: default on input line 768.
+Package zref Info: New property: page on input line 769.
+)
+\c@abspage=\count314
+Package zref Info: New property: abspage on input line 65.
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/needspace/needspace.sty
+Package: needspace 2010/09/12 v1.3d reserve vertical space
+)
+\mdf@templength=\skip60
+\c@mdf@globalstyle@cnt=\count315
+\mdf@skipabove@length=\skip61
+\mdf@skipbelow@length=\skip62
+\mdf@leftmargin@length=\skip63
+\mdf@rightmargin@length=\skip64
+\mdf@innerleftmargin@length=\skip65
+\mdf@innerrightmargin@length=\skip66
+\mdf@innertopmargin@length=\skip67
+\mdf@innerbottommargin@length=\skip68
+\mdf@splittopskip@length=\skip69
+\mdf@splitbottomskip@length=\skip70
+\mdf@outermargin@length=\skip71
+\mdf@innermargin@length=\skip72
+\mdf@linewidth@length=\skip73
+\mdf@innerlinewidth@length=\skip74
+\mdf@middlelinewidth@length=\skip75
+\mdf@outerlinewidth@length=\skip76
+\mdf@roundcorner@length=\skip77
+\mdf@footenotedistance@length=\skip78
+\mdf@userdefinedwidth@length=\skip79
+\mdf@needspace@length=\skip80
+\mdf@frametitleaboveskip@length=\skip81
+\mdf@frametitlebelowskip@length=\skip82
+\mdf@frametitlerulewidth@length=\skip83
+\mdf@frametitleleftmargin@length=\skip84
+\mdf@frametitlerightmargin@length=\skip85
+\mdf@shadowsize@length=\skip86
+\mdf@extratopheight@length=\skip87
+\mdf@subtitleabovelinewidth@length=\skip88
+\mdf@subtitlebelowlinewidth@length=\skip89
+\mdf@subtitleaboveskip@length=\skip90
+\mdf@subtitlebelowskip@length=\skip91
+\mdf@subtitleinneraboveskip@length=\skip92
+\mdf@subtitleinnerbelowskip@length=\skip93
+\mdf@subsubtitleabovelinewidth@length=\skip94
+\mdf@subsubtitlebelowlinewidth@length=\skip95
+\mdf@subsubtitleaboveskip@length=\skip96
+\mdf@subsubtitlebelowskip@length=\skip97
+\mdf@subsubtitleinneraboveskip@length=\skip98
+\mdf@subsubtitleinnerbelowskip@length=\skip99
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/mdframed/md-frame-0.mdf
+File: md-frame-0.mdf 2013/07/01\ 1.9b: md-frame-0
+)
+\mdf@frametitlebox=\box67
+\mdf@footnotebox=\box68
+\mdf@splitbox@one=\box69
+\mdf@splitbox@two=\box70
+\mdf@splitbox@save=\box71
+\mdfsplitboxwidth=\skip100
+\mdfsplitboxtotalwidth=\skip101
+\mdfsplitboxheight=\skip102
+\mdfsplitboxdepth=\skip103
+\mdfsplitboxtotalheight=\skip104
+\mdfframetitleboxwidth=\skip105
+\mdfframetitleboxtotalwidth=\skip106
+\mdfframetitleboxheight=\skip107
+\mdfframetitleboxdepth=\skip108
+\mdfframetitleboxtotalheight=\skip109
+\mdffootnoteboxwidth=\skip110
+\mdffootnoteboxtotalwidth=\skip111
+\mdffootnoteboxheight=\skip112
+\mdffootnoteboxdepth=\skip113
+\mdffootnoteboxtotalheight=\skip114
+\mdftotallinewidth=\skip115
+\mdfboundingboxwidth=\skip116
+\mdfboundingboxtotalwidth=\skip117
+\mdfboundingboxheight=\skip118
+\mdfboundingboxdepth=\skip119
+\mdfboundingboxtotalheight=\skip120
+\mdf@freevspace@length=\skip121
+\mdf@horizontalwidthofbox@length=\skip122
+\mdf@verticalmarginwhole@length=\skip123
+\mdf@horizontalspaceofbox=\skip124
+\mdfsubtitleheight=\skip125
+\mdfsubsubtitleheight=\skip126
+\c@mdfcountframes=\count316
+
+****** mdframed patching \endmdf@trivlist
+
+****** -- success******
+
+\mdf@envdepth=\count317
+\c@mdf@env@i=\count318
+\c@mdf@env@ii=\count319
+\c@mdf@zref@counter=\count320
+Package zref Info: New property: mdf@pagevalue on input line 895.
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2023/02/27 1.9 listings language file
+)
+Package translations Info: No language package found. I am going to use `english' as default language. on input line 81.
+ (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -420,16 +531,16 @@ LaTeX Font Info:    ... okay on input line 45.
 
 (/usr/local/texlive/2023/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count314
+\scratchcounter=\count321
 \scratchdimen=\dimen189
-\scratchbox=\box67
-\nofMPsegments=\count315
-\nofMParguments=\count316
+\scratchbox=\box72
+\nofMPsegments=\count322
+\nofMParguments=\count323
 \everyMPshowfont=\toks27
-\MPscratchCnt=\count317
+\MPscratchCnt=\count324
 \MPscratchDim=\dimen190
-\MPnumerator=\count318
-\makeMPintoPDFobject=\count319
+\MPnumerator=\count325
+\makeMPintoPDFobject=\count326
 \everyMPtoPDFconversion=\toks28
 ) (/usr/local/texlive/2023/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -439,36 +550,36 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 )) (/usr/local/texlive/2023/texmf-dist/tex/latex/translations/translations-basic-dictionary-english.trsl
 File: translations-basic-dictionary-english.trsl (english translation file `translations-basic-dictionary')
 )
-Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 45.
-LaTeX Info: Redefining \microtypecontext on input line 45.
-Package microtype Info: Applying patch `item' on input line 45.
-Package microtype Info: Applying patch `toc' on input line 45.
-Package microtype Info: Applying patch `eqnum' on input line 45.
-Package microtype Info: Applying patch `footnote' on input line 45.
-Package microtype Info: Applying patch `verbatim' on input line 45.
+Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 81.
+LaTeX Info: Redefining \microtypecontext on input line 81.
+Package microtype Info: Applying patch `item' on input line 81.
+Package microtype Info: Applying patch `toc' on input line 81.
+Package microtype Info: Applying patch `eqnum' on input line 81.
+Package microtype Info: Applying patch `footnote' on input line 81.
+Package microtype Info: Applying patch `verbatim' on input line 81.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 45.
+LaTeX Info: Redefining \showhyphens on input line 81.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 )
-Package hyperref Info: Link coloring OFF on input line 45.
+Package hyperref Info: Link coloring OFF on input line 81.
  (./main.out) (./main.out)
 \@outlinefile=\write3
 \openout3 = `main.out'.
 
-\c@lstlisting=\count320
+\c@lstlisting=\count327
 <lorenz_test.jpeg, id=64, 1103.12125pt x 1007.765pt>
 File: lorenz_test.jpeg Graphic file (type jpg)
 <use lorenz_test.jpeg>
-Package pdftex.def Info: lorenz_test.jpeg  used on input line 54.
+Package pdftex.def Info: lorenz_test.jpeg  used on input line 88.
 (pdftex.def)             Requested size: 273.14923pt x 249.54178pt.
  [1
 
@@ -480,143 +591,154 @@ Package pdftex.def Info: lorenz_test.jpeg  used on input line 54.
 <lorenz_attractor.png, id=97, 682.55pt x 461.725pt>
 File: lorenz_attractor.png Graphic file (type png)
 <use lorenz_attractor.png>
-Package pdftex.def Info: lorenz_attractor.png  used on input line 79.
+Package pdftex.def Info: lorenz_attractor.png  used on input line 120.
 (pdftex.def)             Requested size: 227.62206pt x 153.97606pt.
-<rnn.png, id=99, 790.955pt x 276.03125pt>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[3]
+<rnn.png, id=110, 790.955pt x 276.03125pt>
 File: rnn.png Graphic file (type png)
 <use rnn.png>
-Package pdftex.def Info: rnn.png  used on input line 92.
+Package pdftex.def Info: rnn.png  used on input line 133.
 (pdftex.def)             Requested size: 364.19667pt x 127.09805pt.
- [3 <./lorenz_attractor.png>] [4 <./rnn.png>]
-<multi-head.png, id=119, 311.1625pt x 399.4925pt>
+ [4 <./lorenz_attractor.png> <./rnn.png>]
+<multi-head.png, id=118, 311.1625pt x 399.4925pt>
 File: multi-head.png Graphic file (type png)
 <use multi-head.png>
-Package pdftex.def Info: multi-head.png  used on input line 112.
+Package pdftex.def Info: multi-head.png  used on input line 153.
 (pdftex.def)             Requested size: 136.57462pt x 175.34444pt.
-<transformer-basic.png, id=120, 227.85126pt x 443.6575pt>
+<transformer-basic.png, id=119, 227.85126pt x 443.6575pt>
 File: transformer-basic.png Graphic file (type png)
 <use transformer-basic.png>
-Package pdftex.def Info: transformer-basic.png  used on input line 120.
+Package pdftex.def Info: transformer-basic.png  used on input line 161.
 (pdftex.def)             Requested size: 136.57462pt x 265.93253pt.
- [5 <./multi-head.png> <./transformer-basic.png>]
-<echo_diagram.png, id=129, 682.55pt x 342.27875pt>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[5 <./multi-head.png>]
+<echo_diagram.png, id=127, 682.55pt x 342.27875pt>
 File: echo_diagram.png Graphic file (type png)
 <use echo_diagram.png>
-Package pdftex.def Info: echo_diagram.png  used on input line 131.
+Package pdftex.def Info: echo_diagram.png  used on input line 172.
 (pdftex.def)             Requested size: 364.19667pt x 182.6342pt.
+ [6 <./transformer-basic.png> <./echo_diagram.png>]
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [6 <./echo_diagram.png>] [7] [8]
-<auto_correlation.png, id=267, 586.19pt x 468.75125pt>
+ [7] [8]
+<auto_correlation.png, id=247, 586.19pt x 468.75125pt>
 File: auto_correlation.png Graphic file (type png)
 <use auto_correlation.png>
-Package pdftex.def Info: auto_correlation.png  used on input line 288.
+Package pdftex.def Info: auto_correlation.png  used on input line 329.
 (pdftex.def)             Requested size: 273.14923pt x 218.42484pt.
  [9 <./auto_correlation.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 340--341
+Underfull \hbox (badness 10000) in paragraph at lines 381--382
 
  []
 
 [10]
-Underfull \hbox (badness 10000) in paragraph at lines 379--380
+Underfull \hbox (badness 10000) in paragraph at lines 420--421
 
  []
 
 [11] [12]
-Underfull \hbox (badness 10000) in paragraph at lines 504--505
+Underfull \hbox (badness 10000) in paragraph at lines 545--546
 
  []
 
 [13] [14]
-<rnn_lorenz.jpeg, id=567, 606.265pt x 536.0025pt>
+<rnn_lorenz.jpeg, id=548, 606.265pt x 536.0025pt>
 File: rnn_lorenz.jpeg Graphic file (type jpg)
 <use rnn_lorenz.jpeg>
-Package pdftex.def Info: rnn_lorenz.jpeg  used on input line 628.
+Package pdftex.def Info: rnn_lorenz.jpeg  used on input line 669.
 (pdftex.def)             Requested size: 273.14923pt x 241.49333pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<rnn_mse.jpeg, id=568, 855.195pt x 520.94624pt>
+<rnn_mse.jpeg, id=549, 855.195pt x 520.94624pt>
 File: rnn_mse.jpeg Graphic file (type jpg)
 <use rnn_mse.jpeg>
-Package pdftex.def Info: rnn_mse.jpeg  used on input line 634.
+Package pdftex.def Info: rnn_mse.jpeg  used on input line 675.
 (pdftex.def)             Requested size: 273.14923pt x 166.38824pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<rnn_path.jpeg, id=569, 1252.68pt x 1344.02126pt>
+<rnn_path.jpeg, id=550, 1252.68pt x 1344.02126pt>
 File: rnn_path.jpeg Graphic file (type jpg)
 <use rnn_path.jpeg>
-Package pdftex.def Info: rnn_path.jpeg  used on input line 640.
+Package pdftex.def Info: rnn_path.jpeg  used on input line 681.
 (pdftex.def)             Requested size: 273.14923pt x 293.06055pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<echo_lorenz.jpeg, id=570, 587.19376pt x 523.9575pt>
+<echo_lorenz.jpeg, id=551, 587.19376pt x 523.9575pt>
 File: echo_lorenz.jpeg Graphic file (type jpg)
 <use echo_lorenz.jpeg>
-Package pdftex.def Info: echo_lorenz.jpeg  used on input line 651.
+Package pdftex.def Info: echo_lorenz.jpeg  used on input line 692.
 (pdftex.def)             Requested size: 273.14923pt x 243.73366pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<echo_mse.jpeg, id=571, 847.165pt x 522.95375pt>
+<echo_mse.jpeg, id=552, 847.165pt x 522.95375pt>
 File: echo_mse.jpeg Graphic file (type jpg)
 <use echo_mse.jpeg>
-Package pdftex.def Info: echo_mse.jpeg  used on input line 657.
+Package pdftex.def Info: echo_mse.jpeg  used on input line 698.
 (pdftex.def)             Requested size: 273.14923pt x 168.60939pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<echo_path.jpeg, id=572, 1262.7175pt x 1352.05125pt>
+<echo_path.jpeg, id=553, 1262.7175pt x 1352.05125pt>
 File: echo_path.jpeg Graphic file (type jpg)
 <use echo_path.jpeg>
-Package pdftex.def Info: echo_path.jpeg  used on input line 663.
+Package pdftex.def Info: echo_path.jpeg  used on input line 704.
 (pdftex.def)             Requested size: 273.14923pt x 292.45958pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<transformers_lorenz.jpeg, id=573, 575.14874pt x 509.905pt>
+<transformers_lorenz.jpeg, id=554, 575.14874pt x 509.905pt>
 File: transformers_lorenz.jpeg Graphic file (type jpg)
 <use transformers_lorenz.jpeg>
-Package pdftex.def Info: transformers_lorenz.jpeg  used on input line 672.
+Package pdftex.def Info: transformers_lorenz.jpeg  used on input line 713.
 (pdftex.def)             Requested size: 273.14923pt x 242.16849pt.
+[15]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<transformers_mse.jpeg, id=574, 846.16125pt x 525.965pt>
+<transformers_mse.jpeg, id=604, 846.16125pt x 525.965pt>
 File: transformers_mse.jpeg Graphic file (type jpg)
 <use transformers_mse.jpeg>
-Package pdftex.def Info: transformers_mse.jpeg  used on input line 678.
+Package pdftex.def Info: transformers_mse.jpeg  used on input line 719.
 (pdftex.def)             Requested size: 273.14923pt x 169.78091pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<transformers_path.jpeg, id=575, 1218.5525pt x 1343.0175pt>
+<transformers_path.jpeg, id=605, 1218.5525pt x 1343.0175pt>
 File: transformers_path.jpeg Graphic file (type jpg)
 <use transformers_path.jpeg>
-Package pdftex.def Info: transformers_path.jpeg  used on input line 684.
+Package pdftex.def Info: transformers_path.jpeg  used on input line 725.
 (pdftex.def)             Requested size: 273.14923pt x 301.0388pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[15] [16 <./rnn_lorenz.jpeg> <./rnn_mse.jpeg>] [17 <./rnn_path.jpeg> <./echo_lorenz.jpeg>] [18 <./echo_mse.jpeg> <./echo_path.jpeg>] [19 <./transformers_lorenz.jpeg> <./transformers_mse.jpeg>] [20 <./transformers_path.jpeg>] (./main.aux)
+[16 <./rnn_lorenz.jpeg> <./rnn_mse.jpeg>] [17 <./rnn_path.jpeg> <./echo_lorenz.jpeg>] [18 <./echo_mse.jpeg> <./echo_path.jpeg>] [19 <./transformers_lorenz.jpeg> <./transformers_mse.jpeg>] [20 <./transformers_path.jpeg>] (./main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 7EEAE6D89592DD70569374C296AB3CC4;2239.
  ) 
 Here is how much of TeX's memory you used:
- 18422 strings out of 476025
- 339610 string characters out of 5790017
- 2281388 words of memory out of 5000000
- 38102 multiletter control sequences out of 15000+600000
- 522418 words of font info for 117 fonts, out of 8000000 for 9000
+ 19396 strings out of 476025
+ 360151 string characters out of 5790017
+ 2232388 words of memory out of 5000000
+ 39048 multiletter control sequences out of 15000+600000
+ 521579 words of font info for 114 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 73i,8n,77p,1440b,2552s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 73i,8n,77p,1440b,2485s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on main.pdf (20 pages, 3214700 bytes).
+Output written on main.pdf (20 pages, 3215508 bytes).
 PDF statistics:
  786 PDF objects out of 1000 (max. 8388607)
  710 compressed objects within 8 object streams
