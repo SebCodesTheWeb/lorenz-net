@@ -701,7 +701,47 @@ The PositionalEncoding module in this code leverages sine and cosine functions t
 
 \subsection{Setting up the RC-ESN}
 
-\subsection{Training process}
+The echo state network was implemented with reservoirpy, a library for reservoir computing in Python.
+\begin{lstlisting}
+import reservoirpy as rpy
+from constants import seed_nbr, dt
+from reservoirpy.nodes import Reservoir, Ridge
+import matplotlib.pyplot as plt
+import numpy as np
+from unnormalize_data import get_unnormalized_prediction
+import json
+import pandas as pd
+
+rpy.verbosity(999)
+rpy.set_seed(seed_nbr)
+
+train_time = 10.
+test_time = 20.
+warm_time = 5.
+
+train_steps = round(train_time / dt)
+test_steps  = round(test_time  / dt)
+warm_steps  = round(warm_time  / dt)
+
+n_timesteps = train_steps + test_steps + warm_steps
+
+dataset = pd.read_csv("lorentz-sequences.csv")
+X = dataset[["x", "y", "z"]].values
+
+reservoir = Reservoir(1000,  lr=0.5, sr=0.9)
+readout = Ridge(3, ridge=2.5e-6)
+esn_model = reservoir >> readout
+
+X_train = X[:train_steps + warm_steps -1]
+Y_train = X[1:train_steps + warm_steps] - X[:train_steps + warm_steps -1]
+
+model = esn_model.fit(X_train, Y_train, warmup=warm_steps)
+    
+\end{lstlisting}
+
+The ESN is structured with a Reservoir node and a Ridge regression readout, connected sequentially to construct the model. Training data is prepared by segmenting the input array and generating target output through shifting forward by one step(in this case $inp\_seq\_len$ is 1). Lastly, the model fitting process is carried out, adjusting output weights matrix.
+
+\subsection{Hyperparameter optimization process}
 The hyperparameters of the network were optimized using the optuna library implementation of the Tree-structured Parzen Estimator(TPE) algorithm. 
 
 \begin{lstlisting}

@@ -10,8 +10,8 @@
 \contentsline {subsection}{\numberline {3.2}Setting up the RNN}{14}{subsection.3.2}%
 \contentsline {subsection}{\numberline {3.3}Setting up the Transformers Model}{16}{subsection.3.3}%
 \contentsline {subsection}{\numberline {3.4}Setting up the RC-ESN}{18}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}Training process}{18}{subsection.3.5}%
-\contentsline {section}{\numberline {4}Results}{19}{section.4}%
-\contentsline {subsection}{\numberline {4.1}RNN}{19}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Echos state network}{19}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Transformers}{19}{subsection.4.3}%
+\contentsline {subsection}{\numberline {3.5}Hyperparameter optimization process}{18}{subsection.3.5}%
+\contentsline {section}{\numberline {4}Results}{20}{section.4}%
+\contentsline {subsection}{\numberline {4.1}RNN}{20}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Echos state network}{20}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Transformers}{20}{subsection.4.3}%

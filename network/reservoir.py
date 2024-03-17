@@ -3,7 +3,6 @@ from constants import seed_nbr, dt
 from reservoirpy.nodes import Reservoir, Ridge
 import matplotlib.pyplot as plt
 import numpy as np
-from reservoirpy.datasets import lorenz
 from unnormalize_data import get_unnormalized_prediction
 import json
 import pandas as pd
