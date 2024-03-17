@@ -788,11 +788,11 @@ INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
 OUTPUT main.toc
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-INPUT ./lorenz_attractor.png
-INPUT ./lorenz_attractor.png
-INPUT lorenz_attractor.png
-INPUT ./lorenz_attractor.png
-INPUT ./lorenz_attractor.png
+INPUT ./lorenz_attractor.jpeg
+INPUT ./lorenz_attractor.jpeg
+INPUT lorenz_attractor.jpeg
+INPUT ./lorenz_attractor.jpeg
+INPUT ./lorenz_attractor.jpeg
 INPUT ./rnn.png
 INPUT ./rnn.png
 INPUT rnn.png
@@ -866,6 +866,11 @@ INPUT ./transformers_path.jpeg
 INPUT transformers_path.jpeg
 INPUT ./transformers_path.jpeg
 INPUT ./transformers_path.jpeg
+INPUT ./main.bbl
+INPUT main.bbl
+INPUT ./main.bbl
+INPUT main.bbl
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
 INPUT main.aux
 INPUT ./main.out
 INPUT ./main.out
@@ -879,5 +884,6 @@ INPUT /usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pf
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb

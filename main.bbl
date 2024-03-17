@@ -1,0 +1,13 @@
+\begin{thebibliography}{}
+
+\bibitem[Chattopadhyay et~al., 2020]{npg-27-373-2020}
+Chattopadhyay, A., Hassanzadeh, P., and Subramanian, D. (2020).
+\newblock Data-driven predictions of a multiscale lorenz 96 chaotic system using machine-learning methods: reservoir computing, artificial neural network, and long short-term memory network.
+\newblock {\em Nonlinear Processes in Geophysics}, 27(3):373--389.
+
+\bibitem[Vaswani et~al., 2017]{DBLP:journals/corr/VaswaniSPUJGKP17}
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A.~N., Kaiser, L., and Polosukhin, I. (2017).
+\newblock Attention is all you need.
+\newblock {\em CoRR}, abs/1706.03762.
+
+\end{thebibliography}

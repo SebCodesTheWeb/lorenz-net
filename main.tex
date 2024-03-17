@@ -113,8 +113,7 @@ A comparative study between RNN, Transformers and Echo State Networks regarding 
 \newpage
 
 \section{Introduction}
-A chaotic system is a dynamical system that is highly sensitive to intiial conditions, leading to long-term unpredictability despite its deterministic nature. Chaotic systems are found in many natural phenomena, such as weather, water flows, and planetary orbits. Traditionally chaotic systems have been modeled using numerical methods, however the use of neural networks to predict chaotic systems has been gaining traction in recent years.  
-
+A chaotic system is a dynamical system that is highly sensitive to initial conditions, leading to long-term unpredictability despite its deterministic nature. Chaotic systems are found in many natural phenomena, such as weather, water flows, and planetary orbits. Traditionally chaotic systems have been modeled using numerical methods, however papers such as \cite{npg-27-373-2020} have tried to apply neural network models instead. Neural networks are computing systems that mimic the brain to learn from data and recognize patterns without explicit instructions. Results have shown that neural networks, specifically echo state networks, can be promising in capturing chaotic dynamics. The goal of this study is to further explore the application of neural networks by also testing out the Transformers architecture as introduced by Google in their research paper \cite{DBLP:journals/corr/VaswaniSPUJGKP17} and compare it to the RNN and ESN architectures. The networks will be judged on their mean squared error over time and their ability to capture the Lorenz 63 system's chaotic patterns. The objective is to detemine which of these architecture prove most effective in predicting chaotic systems.
 \section{Theory}
 
 \subsection{The Lorenz System}
@@ -127,21 +126,22 @@ The original Lorenz system is a set of three differential equations. It is one o
 \frac{dz}{dt} &= xy - \beta z
 \end{align}
 
-where $x$, $y$, and $z$ make up the state, $t$ is time, and $\sigma$, $\rho$, and $\beta$ are parameters. Typically, the values $\sigma = 10$, $\rho = 28$, and $\beta = \frac{8}{3}$ are used.
+where $x$, $y$, and $z$ make up the system's positional state with respect to time $t$, and $\sigma$, $\rho$, and $\beta$ are parameters. Typically, the values $\sigma = 10$, $\rho = 28$, and $\beta = \frac{8}{3}$ are used.
 
 The Lorenz system is known for its butterfly-shaped attractor, which is a set of two points the systems tends to evolve around, regardless of the starting conditions. The attractor is visualized in Figure \ref{fig:lorenz_attractor}.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.5\textwidth]{lorenz_attractor.png}
-\caption{The Lorenz attractor for $\sigma = 10$, $\rho = 28$, and $\beta = \frac{8}{3}$.}
+\includegraphics[width=0.3\textwidth]{lorenz_attractor.jpeg}
+\caption{The Lorenz attractor for $\sigma = 10$, $\rho = 28$, and $\beta = \frac{8}{3}$. Generated with RK4 method for 100 time units}
 \label{fig:lorenz_attractor}
 \end{figure}
 
-\subsection{Recurrent Neural Networks and LSTM}
+\subsection{Neural networks}
 
-Neural networks are a type of machine learning AI model that are inspired by the structure of the human brain. They are composed of layers of interconnected nodes, which represent neurons, that process input data and produce an output. These nodes are usually connected to each other with linear transformations called weights and biases. The weights and biases are the parameters of the network that intially are randomly initialized and are optimized during the training process. Via the process of stochastic gradient descent the network can compute a gradient to slowly shift the parameters and minimize the error of the network's predictions. Over time the network can learn to make accurate predictions on the training data.
+Neural networks are a type of machine learning model that are inspired by the structure of the human brain. They are composed of layers with interconnected nodes, which represent neurons, that process input data and produce an output. These nodes are usually connected to each other with linear transformations called weights and biases. The weights and biases are the parameters of the network that intially are randomly initialized and are optimized during the training process. Via processes like stochastic gradient descent the network can compute a gradient to slowly shift the parameters and minimize the error of the network's predictions. Over time the network can generalize and learn the underlying patterns of the data to make accurate predictions on unseen data.
 
+\subsection{RNN}
 A Recurrent Neural Network (RNN) is a type of neural network architecture designed to recognize patterns in sequential data. What makes the RNN architecture special is that it's composed of a train of nodes, called cells, each connected to the next, where all the cells share the same parameters. When the input vector is fed to the first cell of the train, it creates an output and then the state of the node(the hidden state) is updated and passed along to the next cell. This update in hidden state makes it so the next cell can 'remember' the previous data inputed. 
 
 \begin{figure}[h]
@@ -742,6 +742,8 @@ The average MSE for RNN was 29.1590
 \caption{Transformers path}
 \end{figure}
 
+\bibliographystyle{apalike}
+\bibliography{references}
 
 \end{document}
 
