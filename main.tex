@@ -13,6 +13,7 @@
 \usepackage{listings}
 \usepackage{titling}
 \usepackage{mdframed}
+\usepackage{changepage}
 
 \definecolor{codegreen}{rgb}{0.33, 0.71, 0.36}
 \definecolor{codegray}{rgb}{0.5, 0.5, 0.5}
@@ -40,7 +41,7 @@
     language=Python
 }
 
-\title{Which Neural Network Architecture is Optimal for Predicting the Chaotic Dynamics of the Lorenz 63 System?}
+\title{}
 \author{Sebastian M.D.}
 \date{March 2024}
 
@@ -69,8 +70,22 @@
     \end{mdframed} 
     \vspace{3em}
   \huge
+Which Neural Network Architecture is Optimal for Predicting Chaotic Dynamics? \\
+\vspace{1em}
+\small
+\begin{adjustwidth}{2cm}{2cm}
+A comparative study between RNN, Transformers and Echo State Networks of their capacity to predict the Lorenz 63 system.
+\end{adjustwidth}
+\vspace{14em}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{title_page_image.jpeg}
+\end{figure}
+
 }
 \posttitle{\end{center}}
+
+
 
 \preauthor{\vfill\begin{center}\large}
 \postauthor{\end{center}}
@@ -82,12 +97,7 @@
 
 
 \maketitle
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.6\textwidth]{lorenz_test.jpeg}
-\caption{}
-\end{figure}
+\thispagestyle{empty} % Removes the page number
 
 
 \newpage

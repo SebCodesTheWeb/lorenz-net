@@ -3,10 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import Normalize
 
-dt = 0.01
+dt = 0.001
 init_pos = np.random.rand(3)
 path = [init_pos]
-for _ in range(10000):
+for _ in range(100000):
     new_pos = RK4(path[-1], dt)
     path.append(new_pos)
 
@@ -37,12 +37,12 @@ z_coords = [p[2] for p in path]
 N = len(path)
 norm = Normalize(vmin=0, vmax=N)
 
-# Color mapping for points
-colors = plt.cm.inferno(norm(range(N)))
+# Use the 'twilight' colormap for a purple/orange gradient
+colors = plt.cm.twilight(norm(range(N)))
 
 # Adjust the line width variation here, making the lines thinner
 for i in range(N-1):
-    lw = 0.06 + 0.4 * (i / (N-1))  # Reduced maximum line width for a thinner plot
+    lw = 0.06 + 0.4 * (i / (N-1))  # Thinner plot with adjusted line width
     ax.plot(x_coords[i:i+2], y_coords[i:i+2], z_coords[i:i+2], color=colors[i], lw=lw)
 
 # Hide the axis
