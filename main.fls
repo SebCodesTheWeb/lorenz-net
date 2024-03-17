@@ -808,11 +808,6 @@ INPUT ./multi-head.png
 INPUT multi-head.png
 INPUT ./multi-head.png
 INPUT ./multi-head.png
-INPUT ./transformer-basic.png
-INPUT ./transformer-basic.png
-INPUT transformer-basic.png
-INPUT ./transformer-basic.png
-INPUT ./transformer-basic.png
 INPUT ./echo_diagram.png
 INPUT ./echo_diagram.png
 INPUT echo_diagram.png

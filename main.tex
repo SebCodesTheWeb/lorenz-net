@@ -237,29 +237,46 @@ Usually the output vector equals the hidden state in a LSTM.
 Figure 3 showcases an LSTM cell, notice the red arrows which show the gradient flow. Because the hadamard product is used instead of matrix multiplication and the gates can vary between cells, gradient flow becomes more stable, which allows the network to learn long-term dependencies without an exploding or vanishing gradient.
 \subsection{Transformers}
 
-Transformers is a type of neural network architecture that was introduced in the paper "Attention is alll you need" \cite{DBLP:journals/corr/VaswaniSPUJGKP17}. Unlike RNNs, Transformers do not process the data in sequence, instead, they process the entire sequence at once. Transformers transform the data into an embedding layer where the positions are encoded into the data vectors themselves which allows for parallelization.
+% add this figure somewhere
+% \begin{figure}[h]
+% \centering
+% \includegraphics[width=0.2\textwidth]{decoder.png}
+% \caption{Transformers decoder architecture, taken from "All you need is attention" by Google. }
+% \end{figure}
+
+Transformers is a type of neural network architecture that was introduced in the paper "Attention is all you need" \cite{DBLP:journals/corr/VaswaniSPUJGKP17}. Unlike RNNs, Transformers do not process the data in sequence, instead, they process the entire sequence at once. Transformers transform the data into an embedding layer where the positions are encoded into the data vectors themselves which allows for parallelization.
 
 The key element in Transformers is the self-attention mechanism. In self-attention, each token in the input sequence is transformed with trainable weights into three vectors, a query $Q$, a key $K$ and a value $V$ vector. The query vector represents what a given token is looking for, the key vector what the token offers, whilst the value vector is the information the token contains.
 
-$$\text{Attention}(Q, K , V) = \text{softmax}(\frac{QK^T}{\sqrt{d_k}})V$$
+$$\text{Attention}(Q, K , V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
 
-The self-attention mechanism takes the dot product between the keys and queries of the tokens, divides it by the square root of the key dimension(to prevent too small gradients) and then applies softmax to create a weights matrix. The weights matrix is used to determine how much each token in the sequence should contribute to the value vector of another token. For example, let the tokens be words in a sentence. In the sentence "The cat sat on the mat", the word "cat" would have a high affinity for the word "mat"(a query vector looking for the object of the sentence) and a low affinity for the word "the". This mechanism allows the network to learn the relationships between the tokens in the sequence.
+The self-attention mechanism takes the dot product between the keys and queries of the tokens, divides it by the square root of the key dimension (to prevent too small gradients) and then applies softmax to create a weights matrix. The weights matrix is used to determine how much each token in the sequence should contribute to the value vector of another token. For example, let the tokens be words in a sentence. In the sentence "The cat sat on the mat", the word "cat" would have a high affinity for the word "mat" (a query vector looking for the object of the sentence) and a low affinity for the word "the". This mechanism allows the network to learn the relationships between the tokens in the sequence. Usually, a specfic form of attention is used, called causal attention or masked attention. In masked attention each output position is only allowed to attend to earlier positions in the input or output sequence, effectively preventing the model from using future information to make its predictions.
 
-The self attention mechanism is usually applied multiple times on the same tokens in parallell. This is called multi-head attention. Each 'head' has its own trainable transformations to look for different things in the tokens. The results are then concatenated and then aggregated through a trainable transformation to create the final ouput of the multi-head layer.
+The self-attention mechanism is usually applied multiple times on the same tokens in parallel. This is called multi-head attention. For each head $i$, separate trainable transformations are applied to produce new $Q^i$, $K^i$, and $V^i$.
+
+$$\text{head}_i = \text{Attention}(Q^i, K^i, V^i)$$
+
+The results of each head are then concatenated and then linearly transformed to create the final output of the multi-head layer.
+
+$$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h)W^O$$
+
+where $W^O$ is also a trainable weight matrix.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.3\textwidth]{multi-head.png}
-\caption{Taken from "All you need is attention" by Google. }
+\caption{Taken from "All you need is attention" by Google.}
 \end{figure}
 
-The multi-head layer is paired with a position-wise feed-forward layer. The feed-forward layer applies two trainable linear transformations with a ReLU activation in between. The feed forward layer makes it so the network can learn more complex representations of the data. The multi-head layer and feed-forward layer is usually repeated in blocks to form the transformer network. Between the layers goes a residual conection called layer normalization. Each time a multi-head or feed-forward layer has made a computation the result is added to the residual connection. This makes the gradient flow more stable.
+The multi-head layer is paired with a position-wise feed-forward layer. The feed-forward layer applies two trainable linear transformations with a ReLU activation in between:
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.3\textwidth]{transformer-basic.png}
-\caption{Basic Transformers architecture, taken from "All you need is attention" by Google. }
-\end{figure}
+$$\text{FFN}(x) = \text{ReLU}(xW_1 + b_1)W_2 + b_2$$
+
+The feed-forward layer allows the network to learn more complex representations of the data. The multi-head layer and feed-forward layer is usually repeated in blocks to form the transformer network. Between the layers goes a residual connection called layer normalization. Each time a multi-head or a feed-forward layer has made a computation, the result is added to the original input and normalized:
+
+$$\text{LayerNorm}(x + \text{Sublayer}(x))$$
+
+where $\text{Sublayer}(x)$ is the function implemented by the multi-head or feed-forward layer and $x$ is the original input. This residual connection and normalization make the gradient flow more stable through the network.
 
 \subsection{Reservoir Computing and Echo State Networks}
 Reservoir Computing (RC) is a variant of RNNs that has proven particularly effective in predicting chaotic systems. The fundamental principle behind reservoir computing is that only a part of the network is trained, while the rest of the network, the "reservoir" remains unchanged during training. This approach significantly reduces the computational cost of training RNNs and overcomes some of the issues related to gradient-based learning in traditional RNNs, such as vanishing and exploding gradients.
