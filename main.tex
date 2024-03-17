@@ -429,13 +429,15 @@ import torch
 import numpy as np
 from constants import (
     inp_seq_len,
-    test_ratio,
     val_ratio,
     seed_nbr,
 )
 
 dataset = pd.read_csv("lorentz-sequences.csv")
 data_tensor = torch.tensor(dataset[["x", "y", "z"]].values, dtype=torch.float32)
+
+test_set = data_tensor[-10000:].numpy().tolist()
+data_tensor = data_tensor[:-10000]
 
 
 def create_seq(data):
@@ -451,45 +453,40 @@ def create_seq(data):
 data_seq = create_seq(data_tensor)
 
 
-def manual_split(data, test_ratio, val_ratio, seed):
+def manual_split(data, val_ratio, seed):
     np.random.seed(seed)
     num_examples = len(data)
-    test_size = int(num_examples * test_ratio)
     val_size = int(num_examples * val_ratio)
 
     shuffled_indices = np.random.permutation(num_examples)
-    test_indices = shuffled_indices[:test_size]
-    val_indices = shuffled_indices[test_size : test_size + val_size]
-    train_indices = shuffled_indices[test_size + val_size :]
+    val_indices = shuffled_indices[:val_size]
+    train_indices = shuffled_indices[val_size:]
 
     train_data = [data[i] for i in train_indices]
     val_data = [data[i] for i in val_indices]
-    test_data = [data[i] for i in test_indices]
 
-    return train_data, val_data, test_data
+    return train_data, val_data
 
 
-inout_seq_train, inout_seq_val, inout_seq_test = manual_split(
-    data_seq, test_ratio, val_ratio, seed_nbr
-)
+inout_seq_train, inout_seq_val = manual_split(data_seq, val_ratio, seed_nbr)
 
 # item[0] is input sequence, item[1] is label
 x_train = torch.stack([item[0] for item in inout_seq_train])
 y_train = torch.stack([item[1] for item in inout_seq_train])
 x_val = torch.stack([item[0] for item in inout_seq_val])
 y_val = torch.stack([item[1] for item in inout_seq_val])
-x_test = torch.stack([item[0] for item in inout_seq_test])
-y_test = torch.stack([item[1] for item in inout_seq_test])
+
 \end{lstlisting}
 
-Here the $inp\_seq\_len$ is the number of most recent data points the model will take into consideration when predicting the next point. $inp\_seq\_len$ is equal to the chunk length minus one. Performing autocorrelation analysis shows how much data is correlated with itself and was used to find a suitable $chunk\_len$ value.
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.6\textwidth]{auto_correlation.png}
 \caption{Autocorrelation shows how much the data is correlated with itself at different time lags}
 \end{figure}
 
-A significant drop of occurs at around lag 10-15, which  makes $chunk\_len$ set to 10 a good value. Furthermore the function splits the training data into a list of separate, trainable sequences, where each individual sequence has a label(the next value to predict) associated with it. These data sequences are later split into a training and testing set with a 99/1 ratio. 
+Here the $inp\_seq\_len$ is the number of most recent data points the model will take into consideration when predicting the next point. $inp\_seq\_len$ is equal to the chunk length minus one. Performing autocorrelation analysis shows how much data is correlated with itself and was used to find a suitable $chunk\_len$ value.
+
+In figure 6 a significant drop occurs at around lag 10-15, which  makes $chunk\_len$ set to 10 a good value. However the Transformers architecture seems to benefit from a higher $inp\_seq\_len$ so when training the Transformers model $chunk\_len$ was set to 100. Furthermore the function splits the training data into a list of separate, trainable sequences, where each individual sequence has a label(the next value to predict) associated with it. These data sequences are later split into a training and validation sets with a 85/15 ratio. The validation set will be used to optimize the hyperparameters of the models. Notice also that the last 10000 data points were split off for a final testing set.
 
 \subsection{Setting up the RNN}
 
@@ -576,7 +573,7 @@ def train_rnn_lstm(
     scheduler = ExponentialLR(optimizer, gamma=gamma)
 \end{lstlisting}
 
- It uses mean squared error loss function and the adam optimizer. It also uses an exponentially decaying learning step scheduler, which has proven great for manaing learning rate at many epochs. \\ \\  The RNN network is later on trained with the following training loop:
+ It uses mean squared error loss function and the adam optimizer. It also uses an exponentially decaying learning step scheduler, which has proven great for managing learning rate with many training epochs. \\ \\  The RNN network is later on trained with the following training loop:
 
 \begin{lstlisting}
 def train(dataloader, model, loss_fn, optimizer):
@@ -604,7 +601,6 @@ def train(dataloader, model, loss_fn, optimizer):
     print(f"Average loss for epoch: {running_loss:>7f}")
     return running_loss
 
-epochs = 5
 for t in range(epochs):
     print(f"epoch {t + 1} \n--------------")
     train(train_dataloader, model, loss_fn, optimizer)
@@ -619,9 +615,9 @@ torch.save(model.state_dict(), 'lstm_rnn_lorenz.path')
 \end{lstlisting}
 The training loop iterates over the dataset, feeding batches of data to the model, calculating the loss, and updating the model parameters through backpropagation. Finally after five epochs, the model's parameters are saved.
 
-\subsection{Setting up the transformers architecture}
+\subsection{Setting up the Transformers Model}
 
-The transfomers class is written as follows:
+The transfomers class is written with PyTorch TransformerEncoder and TransformerEncoderLayer classes and is defined as follows:
 
 \begin{lstlisting}
 import math
@@ -677,7 +673,7 @@ class TransformerModel(nn.Module):
     
 \end{lstlisting}
 
-This transformers class utilizes the inbuild TransofrmerEncoder and TransformerEncoderLayer built into pytorch. The input is first passed through a linear layer to transform the input data into the d\_model dimensionality. The input is then passed through a positional encoding layer to add information about the position of the tokens in the sequence. The output is then passed through the transformer encoder and then through a linear layer to transform the output back to the original dimensionality. The positional encoding is defined as:
+The input is first passed through a linear layer to transform the input data into the d\_model dimensionality. The input is then passed through a positional encoding layer to add information about the position of the tokens in the sequence. The output is then passed through the transformer encoder and then through a linear layer to transform the output back to the original dimensionality. The positional encoding is defined as:
 
 \begin{lstlisting}
 class PositionalEncoding(nn.Module):
@@ -701,45 +697,7 @@ class PositionalEncoding(nn.Module):
         return self.dropout(x)
 \end{lstlisting}
 
-The positional encoding is a sine and cosine function of different frequencies that are added to the input data. This is to give the network information about the position of the tokens in the sequence. The frequencies are chosen to be logarithmically spaced. \\ \\ The model is then trained in a similar fashion to the RNN model.
-
-\begin{lstlisting}
-def train_transformer(
-    hidden_dim=500,
-    nhead=2,
-    num_layers=2,
-    learning_rate=0.0005,
-    batch_size=8,
-    d_model=128,
-    dropout=0.1,
-    epochs=5,
-    trial= None,
-    device=default_device
-):
-    assert (
-        d_model % 2 == 0
-    ), "d_model must be an even number! This is due to how positional encoding is implemented."
-
-    x_train_device = x_train.to(device)
-    y_train_device = y_train.to(device)
-
-    train_data = TensorDataset(x_train_device, y_train_device)
-    train_dataloader = DataLoader(train_data, batch_size=batch_size)
-
-    model = TransformerModel(
-        d_model=d_model,
-        nhead=nhead,
-        d_hid=hidden_dim,
-        nlayers=num_layers,
-        dropout=dropout,
-    ).to(device)
-
-    loss_fn = nn.MSELoss()
-    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
-    scheduler = ExponentialLR(optimizer, gamma=0.9)
-\end{lstlisting}
-
-It also uses the same training loop.
+The PositionalEncoding module in this code leverages sine and cosine functions to generate a sequence of positional encoding vectors up a maximum length of 5000. Even indices are used with sine and odd indices with cosine to give each vector a unique sequence position. Upon forward pass the positional encoding are added to the input vectors and then passed through a dropout layer to prevent overfitting.  \\ \\ The model is then trained in a similar fashion to the RNN model and uses the same training loop.
 
 \subsection{Setting up the RC-ESN}
 
