@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.31)  17 MAR 2024 20:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.31)  17 MAR 2024 21:42
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -639,118 +639,116 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
  [10 <./echo_diagram.png>] [11] [12]
-<auto_correlation.png, id=300, 586.19pt x 468.75125pt>
+<auto_correlation.png, id=297, 586.19pt x 468.75125pt>
 File: auto_correlation.png Graphic file (type png)
 <use auto_correlation.png>
-Package pdftex.def Info: auto_correlation.png  used on input line 465.
+Package pdftex.def Info: auto_correlation.png  used on input line 488.
 (pdftex.def)             Requested size: 273.14923pt x 218.42484pt.
- [13 <./auto_correlation.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 517--518
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[13] [14 <./auto_correlation.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 540--541
 
  []
 
-[14]
-Underfull \hbox (badness 10000) in paragraph at lines 556--557
+
+Underfull \hbox (badness 10000) in paragraph at lines 579--580
 
  []
 
 [15] [16]
-Underfull \hbox (badness 10000) in paragraph at lines 681--682
+Underfull \hbox (badness 10000) in paragraph at lines 704--705
 
  []
 
-[17] [18]
-<rnn_lorenz.jpeg, id=598, 606.265pt x 536.0025pt>
+[17] [18] [19]
+<rnn_lorenz.jpeg, id=662, 606.265pt x 536.0025pt>
 File: rnn_lorenz.jpeg Graphic file (type jpg)
 <use rnn_lorenz.jpeg>
-Package pdftex.def Info: rnn_lorenz.jpeg  used on input line 805.
+Package pdftex.def Info: rnn_lorenz.jpeg  used on input line 828.
 (pdftex.def)             Requested size: 273.14923pt x 241.49333pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<rnn_mse.jpeg, id=599, 855.195pt x 520.94624pt>
+<rnn_mse.jpeg, id=663, 855.195pt x 520.94624pt>
 File: rnn_mse.jpeg Graphic file (type jpg)
 <use rnn_mse.jpeg>
-Package pdftex.def Info: rnn_mse.jpeg  used on input line 811.
+Package pdftex.def Info: rnn_mse.jpeg  used on input line 834.
 (pdftex.def)             Requested size: 273.14923pt x 166.38824pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<rnn_path.jpeg, id=600, 1252.68pt x 1344.02126pt>
+<rnn_path.jpeg, id=664, 1252.68pt x 1344.02126pt>
 File: rnn_path.jpeg Graphic file (type jpg)
 <use rnn_path.jpeg>
-Package pdftex.def Info: rnn_path.jpeg  used on input line 817.
+Package pdftex.def Info: rnn_path.jpeg  used on input line 840.
 (pdftex.def)             Requested size: 273.14923pt x 293.06055pt.
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<echo_lorenz.jpeg, id=601, 587.19376pt x 523.9575pt>
+<echo_lorenz.jpeg, id=665, 587.19376pt x 523.9575pt>
 File: echo_lorenz.jpeg Graphic file (type jpg)
 <use echo_lorenz.jpeg>
-Package pdftex.def Info: echo_lorenz.jpeg  used on input line 828.
+Package pdftex.def Info: echo_lorenz.jpeg  used on input line 851.
 (pdftex.def)             Requested size: 273.14923pt x 243.73366pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<echo_mse.jpeg, id=602, 847.165pt x 522.95375pt>
+<echo_mse.jpeg, id=666, 847.165pt x 522.95375pt>
 File: echo_mse.jpeg Graphic file (type jpg)
 <use echo_mse.jpeg>
-Package pdftex.def Info: echo_mse.jpeg  used on input line 834.
+Package pdftex.def Info: echo_mse.jpeg  used on input line 857.
 (pdftex.def)             Requested size: 273.14923pt x 168.60939pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<echo_path.jpeg, id=603, 1262.7175pt x 1352.05125pt>
+<echo_path.jpeg, id=667, 1262.7175pt x 1352.05125pt>
 File: echo_path.jpeg Graphic file (type jpg)
 <use echo_path.jpeg>
-Package pdftex.def Info: echo_path.jpeg  used on input line 840.
+Package pdftex.def Info: echo_path.jpeg  used on input line 863.
 (pdftex.def)             Requested size: 273.14923pt x 292.45958pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<transformers_lorenz.jpeg, id=604, 575.14874pt x 509.905pt>
+<transformers_lorenz.jpeg, id=668, 575.14874pt x 509.905pt>
 File: transformers_lorenz.jpeg Graphic file (type jpg)
 <use transformers_lorenz.jpeg>
-Package pdftex.def Info: transformers_lorenz.jpeg  used on input line 849.
+Package pdftex.def Info: transformers_lorenz.jpeg  used on input line 872.
 (pdftex.def)             Requested size: 273.14923pt x 242.16849pt.
-[19]
+[20 <./rnn_lorenz.jpeg> <./rnn_mse.jpeg>]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<transformers_mse.jpeg, id=651, 846.16125pt x 525.965pt>
+<transformers_mse.jpeg, id=675, 846.16125pt x 525.965pt>
 File: transformers_mse.jpeg Graphic file (type jpg)
 <use transformers_mse.jpeg>
-Package pdftex.def Info: transformers_mse.jpeg  used on input line 855.
+Package pdftex.def Info: transformers_mse.jpeg  used on input line 878.
 (pdftex.def)             Requested size: 273.14923pt x 169.78091pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<transformers_path.jpeg, id=652, 1218.5525pt x 1343.0175pt>
+<transformers_path.jpeg, id=676, 1218.5525pt x 1343.0175pt>
 File: transformers_path.jpeg Graphic file (type jpg)
 <use transformers_path.jpeg>
-Package pdftex.def Info: transformers_path.jpeg  used on input line 861.
+Package pdftex.def Info: transformers_path.jpeg  used on input line 884.
 (pdftex.def)             Requested size: 273.14923pt x 301.0388pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-(./main.bbl) [20 <./rnn_lorenz.jpeg> <./rnn_mse.jpeg>] [21 <./rnn_path.jpeg> <./echo_lorenz.jpeg>] [22 <./echo_mse.jpeg> <./echo_path.jpeg>] [23 <./transformers_lorenz.jpeg> <./transformers_mse.jpeg>] [24 <./transformers_path.jpeg>] (./main.aux)
+(./main.bbl) [21 <./rnn_path.jpeg>] [22 <./echo_lorenz.jpeg> <./echo_mse.jpeg>] [23 <./echo_path.jpeg> <./transformers_lorenz.jpeg>] [24 <./transformers_mse.jpeg> <./transformers_path.jpeg>] (./main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: F640C31395B21854BF06196E7D54562C;2317.
  ) 
 Here is how much of TeX's memory you used:
- 19521 strings out of 476025
- 362191 string characters out of 5790017
- 2234388 words of memory out of 5000000
- 39116 multiletter control sequences out of 15000+600000
+ 19544 strings out of 476025
+ 362551 string characters out of 5790017
+ 2348388 words of memory out of 5000000
+ 39120 multiletter control sequences out of 15000+600000
  523369 words of font info for 130 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 73i,8n,77p,1440b,2502s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 73i,8n,77p,1440b,2487s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on main.pdf (24 pages, 2950908 bytes).
+Output written on main.pdf (24 pages, 2952002 bytes).
 PDF statistics:
- 863 PDF objects out of 1000 (max. 8388607)
- 773 compressed objects within 8 object streams
- 487 named destinations out of 1000 (max. 500000)
+ 885 PDF objects out of 1000 (max. 8388607)
+ 795 compressed objects within 8 object streams
+ 506 named destinations out of 1000 (max. 500000)
  31961 words of extra memory for PDF output out of 35830 (max. 10000000)
 

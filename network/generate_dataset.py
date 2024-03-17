@@ -5,19 +5,12 @@ from constants import seed_nbr, dt, chunk_len
 
 np.random.seed(seed_nbr)
 
-#Keep low, just seems to make things worse
-offset_len = 0
 total_data_points = 1e6
 nbr_chunks = int(total_data_points // chunk_len)
-len_before_reset = 1e6
+
+pos = [17.67715816276679, 12.931379185960404, 43.91404334248268]
 
 dataset = []
-
-initial_positions = np.random.rand(nbr_chunks, 3) 
-# pos = initial_positions[0]
-x0 = [17.67715816276679, 12.931379185960404, 43.91404334248268]
-pos = x0.copy()
-
 dataset.append({
     't': 0,
     'x': pos[0],
@@ -25,18 +18,9 @@ dataset.append({
     'z': pos[2],
 })
 
-for i, _ in enumerate(initial_positions):
-    # print(i, len(initial_positions))
-    pos = x0.copy() if i * chunk_len % len_before_reset == 0 else pos
-    if(i*chunk_len % len_before_reset == 0):
-        print(len(dataset))
-    # Offset each initial chunk to decorrelate the data
-    for _ in range(offset_len):
-        pos = RK4(pos, dt)
-   
-    # Generate the actual data chunk
+for i, _ in enumerate(nbr_chunks):
     for j in range(chunk_len):
-        elapsedTime = j * dt + i * offset_len * dt + dt
+        elapsedTime = j * dt + dt
         pos = RK4(pos, dt)
         x, y, z = pos
         dataset.append({
@@ -50,11 +34,11 @@ dataset = pd.DataFrame(dataset)
 
 dataset.to_csv('lorenz-sequences_raw.csv', index=False)
 
+#Z-score normalization, 
 numerical_cols = ['x', 'y', 'z']
 dataset[numerical_cols] = (
     dataset[numerical_cols] - dataset[numerical_cols].mean()
 
 ) / dataset[numerical_cols].std()
 
-# Save to CSV
 dataset.to_csv('lorentz-sequences.csv', index=False)

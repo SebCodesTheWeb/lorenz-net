@@ -314,7 +314,7 @@ Training an ESN involves collecting the states of the reservoir for a known inpu
 Where $n$ is the number of training samples, and $\lambda$ is the regularization parameter that controls the trade-off between fitting the training data and keeping the weights small to avoid overfitting. Notice that this is MSE with an added regularization term.
 
 \section{Method}
-The code is written in Python and uses the PyTorch library for the neural network models. The project is publicly available on GitHub at: \url{https://github.com/SebCodesTheWeb/lorents-net}
+The code is written in Python and uses the PyTorch library for implementation of the Transformers and RNN models as well as the ReservoirPy library for the implementation of the ESN. The project is publicly available on GitHub at: \url{https://github.com/SebCodesTheWeb/lorents-net}
 
 
 \subsection{Generating Data}
@@ -360,19 +360,20 @@ np.random.seed(seed_nbr)
 
 total_data_points = 1e6
 nbr_chunks = int(total_data_points // chunk_len)
-len_before_reset = 2e5
+
+pos = [17.67715816276679, 12.931379185960404, 43.91404334248268]
 
 dataset = []
+dataset.append({
+    't': 0,
+    'x': pos[0],
+    'y': pos[1],
+    'z': pos[2],
+})
 
-initial_positions = np.random.rand(nbr_chunks, 3) 
-pos = initial_positions[0]
-
-for i, _ in enumerate(initial_positions):
-    pos = initial_positions[i] if i * chunk_len % len_before_reset == 0 else pos
-   
-    # Generate the actual data chunk
+for i, _ in enumerate(nbr_chunks):
     for j in range(chunk_len):
-        elapsedTime = j * dt + i * offset_len * dt
+        elapsedTime = j * dt + dt
         pos = RK4(pos, dt)
         x, y, z = pos
         dataset.append({
@@ -383,13 +384,14 @@ for i, _ in enumerate(initial_positions):
         })
 \end{lstlisting}
 
-In this code the constants are $dt = 0.04$, $seed\_nbr = 0$ and $chunk\_len = 10$, this values have proven effective in generating good data to train the models on. The code generates 1 million datapoints of the Lorenz system. The initial conditions are randomly generated and the system is solved using the RK4 method.
+In this code the constants are $dt = 0.04$, $seed\_nbr = 0$ and $chunk\_len = 10$(100 was used for transformers). These values for $dt$ and $chunk\_len$ have after some trial and error proven effective in generating good data to train the models on. The code generates 1 million datapoints of the Lorenz system with the initial position [17.67715816276679, 12.931379185960404, 43.91404334248268], which was arbitrarily chosen. 
 
 \begin{lstlisting}
 dataset = pd.DataFrame(dataset)
 
 dataset.to_csv('lorenz-sequences_raw.csv', index=False)
 
+#Z-score normalization
 numerical_cols = ['x', 'y', 'z']
 dataset[numerical_cols] = (
     dataset[numerical_cols] - dataset[numerical_cols].mean()
@@ -399,7 +401,28 @@ dataset[numerical_cols] = (
 dataset.to_csv('lorentz-sequences.csv', index=False)
 \end{lstlisting}
 
-The dataset is then normalized using z-score normalization to improve gradient flow, which is critical. The raw unnormalized data is saved in a separate csv file to move the model prediction out of phase space when comparing it to the RK4 method. Afterwards it is split into trainable sequences in the \texttt{get\_training\_data.py} module.
+The dataset is then normalized using Z-score normalization to improve gradient flow, which is critical. The raw unnormalized data is saved in a separate csv file to later on move the model predictions out of normalized space with inverse Z-score normalization. 
+
+\begin{lstlisting}
+import pandas as pd
+
+dataset = pd.read_csv("lorenz-sequences_raw.csv")
+
+mean_x, std_x = dataset["x"].mean(), dataset["x"].std()
+mean_y, std_y = dataset["y"].mean(), dataset["y"].std()
+mean_z, std_z = dataset["z"].mean(), dataset["z"].std()
+
+
+def get_unnormalized_prediction(predictions: list):
+    unnormalized_predictions = [
+        [(x * std_x) + mean_x, (y * std_y) + mean_y, (z * std_z) + mean_z]
+        for x, y, z in predictions
+    ]
+
+    return unnormalized_predictions
+\end{lstlisting}
+
+Afterwards it is split into trainable sequences in the \texttt{get\_training\_data.py} module.
 \begin{lstlisting}
 import pandas as pd
 import torch
