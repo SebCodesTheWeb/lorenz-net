@@ -2,10 +2,7 @@ import optuna
 import torch
 from train_transformer import train_transformer
 from train_network import train_rnn_lstm
-from train_rc import train_rc_esn
-# from evaluate_networks import evaluate_model
 from true_loss import evaluate_model
-from evaluate_esn import evaluate_esn
 import csv
 from device import device as default_device
 
@@ -56,36 +53,13 @@ def objective(trial):
 
         model = train_rnn_lstm(**model_hyperparams)
         val_loss = evaluate_model(model, device)
-        print(val_loss)
-        return val_loss
-
-    elif model_type == "ESN":
-        model_hyperparams = {
-            "batch_size": batch_size,
-            "input_size": 3,
-            "output_size": 3,
-            "reservoir_hidden_size": trial.suggest_categorical(
-                "reservoir_hidden_size", [500, 1000, 1500, 2000]
-            ),
-            "spectral_radius": trial.suggest_float("spectral_radius", 0.5, 1.5),
-            "sparsity": trial.suggest_float("sparsity", 0, 0.5),
-            "ridge_param": trial.suggest_float("ridge_param", 1e-8, 1e-4),
-            "input_scaling": trial.suggest_float("input_scaling", 1, 1000),
-            "input_weights_scaling": trial.suggest_float(
-                "input_weights_scaling", 0.001, 1
-            ),
-            "device": device,
-        }
-
-        model = train_rc_esn(**model_hyperparams)
-        val_loss = evaluate_esn(model, device)
         return val_loss
 
 
 # Optuna study
 pruner = optuna.pruners.MedianPruner()
 study = optuna.create_study(
-    direction="minimize", pruner=pruner, storage="sqlite:///example_study.db"
+    direction="minimize", pruner=pruner, storage="sqlite:///lorenz_study.db"
 )
 study.optimize(
     objective, n_trials=100, n_jobs=4, show_progress_bar=True

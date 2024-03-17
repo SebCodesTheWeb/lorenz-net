@@ -742,15 +742,89 @@ model = esn_model.fit(X_train, Y_train, warmup=warm_steps)
 The ESN is structured with a Reservoir node and a Ridge regression readout, connected sequentially to construct the model. Training data is prepared by segmenting the input array and generating target output through shifting forward by one step(in this case $inp\_seq\_len$ is 1). Lastly, the model fitting process is carried out, adjusting output weights matrix.
 
 \subsection{Hyperparameter optimization process}
-The hyperparameters of the network were optimized using the optuna library implementation of the Tree-structured Parzen Estimator(TPE) algorithm. 
+Firstly a new loss functoin was defined to evaluate the models on unseen data. This was done via generating a new random path with the RK4 method and then comparing the model's predictions to the actual path. The average MSE error was then computed to evaluate the model's performance.
 
 \begin{lstlisting}
-    def objective(trial):
+import numpy as np
+import torch
+from constants import inp_seq_len, dt, seed_nbr
+from lorenz import RK4
+from mse import calculate_aggregate_mse
+from unnormalize_data import get_unnormalized_prediction
+from device import device as default_device
+
+np.random.seed(seed_nbr)
+
+
+def validate_long_term(nbrIter, init_input_seq, model, device):
+    predicted_path = [*init_input_seq]
+    for _ in range(nbrIter):
+        input_seq = np.array(predicted_path[-inp_seq_len:])
+        input_seq_tensor = (
+            torch.tensor(input_seq, dtype=torch.float32).unsqueeze(0).to(device)
+        )
+        with torch.no_grad():
+            next_pos = model(input_seq_tensor)
+
+        next_pos = next_pos.cpu().numpy().reshape(-1)
+        predicted_path.append(next_pos)
+
+    true_path = [*init_input_seq]
+    for _ in range(nbrIter):
+        true_path.append(RK4(np.array(true_path[-1]), dt).tolist())
+
+    unnormalized_path = true_path[:inp_seq_len] + get_unnormalized_prediction(
+        predicted_path[inp_seq_len:]
+    )
+
+    total = 0
+    for i in range(3):
+        list_a = [x[i] for x in true_path[inp_seq_len:]]
+        list_b = [x[i] for x in unnormalized_path[inp_seq_len:]]
+        mse_loss_ag = calculate_aggregate_mse(list_a, list_b)
+        total += mse_loss_ag
+    total /= 3
+
+    return total
+
+
+init_seq = [np.random.rand(3)]
+for _ in range(inp_seq_len - 1):
+    next_pos = RK4(np.array(init_seq[-1]), dt)
+    init_seq.append(next_pos.tolist())
+
+
+def evaluate_model(model, device=default_device):
+    loss = validate_long_term(
+        1000,
+        init_seq,
+        model,
+        device,
+    )
+    print(f"Validation loss: {loss}")
+    return loss
+\end{lstlisting}
+
+The hyperparameters of the Transformesr and RNN networks were then optimized using the optuna library implementation of the Tree-structured Parzen Estimator(TPE) algorithm. 
+
+\begin{lstlisting}
+import optuna
+import torch
+from train_transformer import train_transformer
+from train_network import train_rnn_lstm
+from true_loss import evaluate_model
+import csv
+from device import device as default_device
+
+model_type = "Transformer"
+
+def objective(trial):
     learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-2)
-    batch_size = trial.suggest_categorical("batch_size", [4, 8, 16, 32, 64])
-    # epochs = trial.suggest_int('epochs', 5, 10)
-    gpu_id = trial.number % 4  
-    device = torch.device(f"cuda:{gpu_id}" if torch.cuda.is_available() else default_device)
+    batch_size = trial.suggest_categorical("batch_size", [4, 8, 16, 32, 64, 128, 256])
+    gpu_id = trial.number % 4
+    device = torch.device(
+        f"cuda:{gpu_id}" if torch.cuda.is_available() else default_device
+    )
 
     if model_type == "Transformer":
         model_hyperparams = {
@@ -788,35 +862,36 @@ The hyperparameters of the network were optimized using the optuna library imple
 
         model = train_rnn_lstm(**model_hyperparams)
         val_loss = evaluate_model(model, device)
-        print(val_loss)
         return val_loss
 
-    elif model_type == "ESN":
-        model_hyperparams = {
-            "batch_size": batch_size,
-            "input_size": 3,
-            "output_size": 3,
-            "reservoir_hidden_size": trial.suggest_categorical(
-                "reservoir_hidden_size", [500, 1000, 1500]
-            ),
-            "spectral_radius": trial.suggest_float("spectral_radius", 0.5, 1.5),
-            "sparsity": trial.suggest_float("sparsity", 0, 0.5),
-            "ridge_param": trial.suggest_float("ridge_param", 1e-8, 1e-4),
-        }
-
-        model = train_rc_esn(**model_hyperparams)
-        val_loss = evaluate_model(model)
-        return val_loss
 
 # Optuna study
 pruner = optuna.pruners.MedianPruner()
-study = optuna.create_study(direction="minimize", pruner=pruner,storage="sqlite:///example_study.db")
+study = optuna.create_study(
+    direction="minimize", pruner=pruner, storage="sqlite:///lorenz_study.db"
+)
 study.optimize(
     objective, n_trials=100, n_jobs=4, show_progress_bar=True
 )  # n_jobs is number of parallel jobs(one per gpu available)
 \end{lstlisting}
 
-It was parallelizad to run on four gpus and took use of purning to preemptively end unpromising trials. Once the best combination of hyperparams was found the networks was retrained over more epochs for optimal results. The optimization took place over 100 trials trained on four RTX 4090s.
+It was parallelizad to run on four gpus and took use of purning to preemptively end unpromising trials. Once the best combination of hyperparams was found the networks was retrained over more epochs for optimal results. The optimization took place over 100 trials and was trained on four RTX 4090s.
+
+The ESN was on the hand manually optimized by trial and error, as the reservoirpy library does not support optuna.
+
+In the end the following hyperparams were used in the final models:
+
+\begin{itemize}
+    \item \textbf{ESN:}
+    \begin{itemize}
+        \item reservoir size: 1000
+        \item leakage rate: 0.5
+        \item spectral radius: 0.9
+        \item ridge parameter: $2.5 \times 10^{-6}$
+        \item inp\_seq\_len: 1
+    \end{itemize}
+\end{itemize}
+
 
 \section{Results}
 \subsection{RNN}
