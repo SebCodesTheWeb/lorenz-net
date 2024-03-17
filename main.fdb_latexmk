@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1710677643 "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" "main.pdf" "main" 1710677645 0
-  "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" 1710677643 31675 f8e1df8145d500c0132dc171e3b086db ""
+["pdflatex"] 1710681453 "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" "main.pdf" "main" 1710681455 0
+  "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" 1710681453 32307 7b1c81cf5185e21ee90629cfdacfeddf ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -119,10 +119,10 @@
   "echo_mse.jpeg" 1710624572 71822 fae14ac330bbe2db2826d1ad80e07502 ""
   "echo_path.jpeg" 1710624572 656430 c601c89e6c172903ba9f8ea33111532b ""
   "lorenz_attractor.png" 1710063653 137294 3b529934a21cad04adfa11b2b9cf8499 ""
-  "main.aux" 1710677644 4804 7fd70e104d29eeac31180c006d895f01 "pdflatex"
-  "main.out" 1710677644 2239 7eeae6d89592dd70569374c296ab3cc4 "pdflatex"
-  "main.tex" 1710677643 31675 f8e1df8145d500c0132dc171e3b086db ""
-  "main.toc" 1710677644 1237 f628f220f9d8a7c7b123304e1d69acfd "pdflatex"
+  "main.aux" 1710681455 4914 d2f4c0be4732c0becf9a39fa531b1c44 "pdflatex"
+  "main.out" 1710681455 2343 89db7da35161328525e3ca56b12c25ea "pdflatex"
+  "main.tex" 1710681453 32307 7b1c81cf5185e21ee90629cfdacfeddf ""
+  "main.toc" 1710681455 1305 7ff79e605c9d08e97e0a46d27c45f824 "pdflatex"
   "multi-head.png" 1710063653 35873 9240b14122a8da39f66a8880ffc40ac1 ""
   "rnn.png" 1710063653 51037 e80050558673ff0253bde49ecc838968 ""
   "rnn_lorenz.jpeg" 1710624573 65164 bee4f7e796dc8e2e23edd4f4d9558a13 ""

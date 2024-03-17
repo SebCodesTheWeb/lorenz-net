@@ -74,7 +74,7 @@ Which Neural Network Architecture is Optimal for Predicting Chaotic Dynamics? \\
 \vspace{1em}
 \small
 \begin{adjustwidth}{2cm}{2cm}
-A comparative study between RNN, Transformers and Echo State Networks of their capacity to predict the Lorenz 63 system.
+A comparative study between RNN, Transformers and Echo State Networks regarding their capacity to predict the Lorenz 63 system.
 \end{adjustwidth}
 \vspace{14em}
 \begin{figure}[h]
@@ -99,15 +99,21 @@ A comparative study between RNN, Transformers and Echo State Networks of their c
 \maketitle
 \thispagestyle{empty} % Removes the page number
 
-
 \newpage
+\null\vspace*{\stretch{1}}
+\begin{abstract}
+    % Should be complete overview of purpose, method, results and conclusion, needs to be rewritten
+\noindent This paper explores the application of neural networks in predicting the trajectory of the Lorenz 63 system, a set of differential equations that showcase chaotic behavior. The Lorenz System was originally stipulated by Edward N. Lorenz in 1963 as a mathematical model for atmospheric convection and is commonly used as a toy problem to explore chaos theory. Traditional numerical methods such as the Runga Kutta 4th order method can be used to solve and predict the system's behavior. This study explores the use of neural networks as an alternative approach to predict chaos. The methodology involves training a neural network on a dataset generated from the Lorenz system via the RK4 method. By using a small step size and high computational resources, the network can generalize patterns and possibly later on efficiently predict the system's future state with different initial conditions. This paper aims to test the RNN LSTM, Transformers, and RC-ESN network architectures. RNN and Transformer architectures are known for their ability to handle sequential data, while RC-ESN is known for its ability to capture chaotic systems. The results of the study will be compared to the RK4 method to determine if the neural networks could surpass it with a greater prediction horizon given similar computational resources.
+\end{abstract}
+\vspace*{\stretch{2}}
+\newpage
+
+
 \tableofcontents
 \newpage
 
-\begin{abstract}
-\noindent This paper explores the application of neural networks in predicting the trajectory of the Lorenz 63 system, a set of differential equations that showcase chaotic behavior. The Lorenz System was originally stipulated by Edward N. Lorenz in 1963 as a mathematical model for atmospheric convection. It is commonly used as a toy problem to explore chaos theory. Traditional numerical methods such as the Runga Kutta 4th order method can be used to solve and predict the system's behavior. This study explores the use of neural networks as an alternative approach to predict chaos. The methodology involves training a neural network on a dataset generated from the Lorenz system via the RK4 method. By using a small step size and high computational resources the network can generalize patterns and possibly later on efficiently predict the system's future state with different initial conditions. This paper aims to test the RNN LSTM, Transformers and RC-ESN network architectures. RNN and Transforms architectures are known for their ability to handle sequential data, while RC-ESN is known for its ability to capture chaotic systems. The results of the study will be compared to the the RK4 method to determine if the neural networks could surpass it with greater prediction horizon given similiar computational resources.
-
-\end{abstract}
+\section{Introduction}
+A chaotic system is a dynamical system that is highly sensitive to intiial conditions, leading to long-term unpredictability despite its deterministic nature. Chaotic systems are found in many natural phenomena, such as weather, water flows, and planetary orbits. Traditionally chaotic systems have been modeled using numerical methods, however the use of neural networks to predict chaotic systems has been gaining traction in recent years.  
 
 \section{Theory}
 
