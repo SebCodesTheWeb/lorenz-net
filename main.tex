@@ -137,11 +137,39 @@ The Lorenz system is known for its butterfly-shaped attractor, which is a set of
 \label{fig:lorenz_attractor}
 \end{figure}
 
-\subsection{Neural networks}
+\subsection{Neural Networks}
 
-Neural networks are a type of machine learning model that are inspired by the structure of the human brain. They are composed of layers with interconnected nodes, which represent neurons, that process input data and produce an output. These nodes are usually connected to each other with linear transformations called weights and biases. The weights and biases are the parameters of the network that intially are randomly initialized and are optimized during the training process. Via processes like stochastic gradient descent the network can compute a gradient to slowly shift the parameters and minimize the error of the network's predictions. Over time the network can generalize and learn the underlying patterns of the data to make accurate predictions on unseen data.
+Neural networks are a type of machine learning model that are inspired by the structure of the human brain. They are composed of layers with interconnected nodes, which represent neurons, that process input data and produce an output. These nodes are usually connected to each other with linear transformations called weights (\(W\)) and biases (\(b\)). The weights and biases are the parameters of the network that initially are randomly initialized and are optimized during the training process. \\
 
-\subsection{RNN}
+At the heart of neural networks is the feedforward computation that passes the data from one layer \(x\) to the next \(y\) as follows:
+
+\[ y = f(Wx + b) \]
+
+where \(y\) is the output, \(W\) is the weights matrix, \(x\) is the input vector, \(b\) is the bias vector, and \(f\) is the activation function, typically the ReLU(rectified linear unit) function is used. the ReLU function is defined as:
+
+\[ \text{ReLU}(z) = \max(0, z) \]
+
+Which maps all positive inputs to themselves while negative inputs are mapped to zero. The ReLU activation function introduces non-linearity to the model and mitigates the common vanishing and exploding gradient problem that occurs in deep networks. On the other hand, for the final output layer, the softmax activation function is commonly used. It maps the input to a vector whose values sum up to 1, which is great for a probabilistic interpretation.
+
+\[
+\text{softmax}(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}}
+\]
+
+Given a predicted value \(\hat{y}_i\) and a true value \(y_i\) a cost function is used to measure the degree of error in the prediction. Commonly used for regression-based tasks is the mean squared error (MSE) function, which is defined by:
+
+\[ C = \frac{1}{2n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 \]
+
+where \(C\) is the cost, \(n\) is the number of samples, \(y_i\) is the true value, and \(\hat{y}_i\) is the predicted value.
+
+During the training process, optimization strategies such as stochastic gradient descent (SGD) are used. The gradient of the cost function is computed with respect to the weights, which is just for adjusting the weights in the direction that minimizes the cost:
+
+\[ W_{\text{new}} = W_{\text{old}} - \eta \nabla C \]
+
+where \(W_{\text{new}}\) and \(W_{\text{old}}\) are the values of the weights after and before the update, respectively, \(\nabla C\) is the gradient of the cost function with respect to the weights, and \(\eta\) is the learning rate.
+
+Via processes like SGD, the network can compute a gradient to slowly shift the parameters and minimize the error of the network's predictions. Over time the network can generalize and learn the underlying patterns of the data to make accurate predictions on unseen data.
+
+\subsection{RNNs}
 A Recurrent Neural Network (RNN) is a type of neural network architecture designed to recognize patterns in sequential data. What makes the RNN architecture special is that it's composed of a train of nodes, called cells, each connected to the next, where all the cells share the same parameters. When the input vector is fed to the first cell of the train, it creates an output and then the state of the node(the hidden state) is updated and passed along to the next cell. This update in hidden state makes it so the next cell can 'remember' the previous data inputed. 
 
 \begin{figure}[h]

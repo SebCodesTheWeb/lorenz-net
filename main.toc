@@ -1,17 +1,17 @@
 \contentsline {section}{\numberline {1}Introduction}{4}{section.1}%
 \contentsline {section}{\numberline {2}Theory}{4}{section.2}%
 \contentsline {subsection}{\numberline {2.1}The Lorenz System}{4}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}Neural networks}{5}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}RNN}{5}{subsection.2.3}%
-\contentsline {subsection}{\numberline {2.4}Transformers}{5}{subsection.2.4}%
-\contentsline {subsection}{\numberline {2.5}Reservoir Computing and Echo State Networks}{6}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.2}Neural Networks}{5}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}RNNs}{6}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Transformers}{6}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Reservoir Computing and Echo State Networks}{7}{subsection.2.5}%
 \contentsline {section}{\numberline {3}Method}{8}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Generating Data}{8}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Setting up the RNN}{11}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Setting up the transformers architecture}{13}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Setting up the RC-ESN}{15}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}Training process}{15}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.3}Setting up the transformers architecture}{14}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Setting up the RC-ESN}{16}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Training process}{16}{subsection.3.5}%
 \contentsline {section}{\numberline {4}Results}{17}{section.4}%
 \contentsline {subsection}{\numberline {4.1}RNN}{17}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}Echos state network}{17}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Transformers}{17}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.3}Transformers}{18}{subsection.4.3}%
