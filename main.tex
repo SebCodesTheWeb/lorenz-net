@@ -237,9 +237,9 @@ Usually the output vector equals the hidden state in a LSTM.
 Figure 3 showcases an LSTM cell, notice the red arrows which show the gradient flow. Because the hadamard product is used instead of matrix multiplication and the gates can vary between cells, gradient flow becomes more stable, which allows the network to learn long-term dependencies without an exploding or vanishing gradient.
 \subsection{Transformers}
 
-Transformers are a type of neural network architecture that was introduced in the paper "Attention is All You Need"(2017) by Google. Unlike RNNs, Transformers do not process the data in sequence, instead, they process the entire sequence at once. Transformers transform the data into an embedding layer where the positions are encoded into the data vectors themselves. This makes the network highly parallelizable. Transfomers has been quite revolutionary and is the basis of the state-of-the-art model GPT-4.
+Transformers is a type of neural network architecture that was introduced in the paper "Attention is alll you need" \cite{DBLP:journals/corr/VaswaniSPUJGKP17}. Unlike RNNs, Transformers do not process the data in sequence, instead, they process the entire sequence at once. Transformers transform the data into an embedding layer where the positions are encoded into the data vectors themselves which allows for parallelization.
 
-The key innovation however in Transformers is the self-attention mechanism. In self-attention, each token in the input sequence is transformed with trainable weights into three vectors, a query $Q$, key $K$ and value $V$ vector. The query vector states what a given token is looking for, the key vector states what the token offers, whilst the value vector is the information the token contains.
+The key element in Transformers is the self-attention mechanism. In self-attention, each token in the input sequence is transformed with trainable weights into three vectors, a query $Q$, a key $K$ and a value $V$ vector. The query vector represents what a given token is looking for, the key vector what the token offers, whilst the value vector is the information the token contains.
 
 $$\text{Attention}(Q, K , V) = \text{softmax}(\frac{QK^T}{\sqrt{d_k}})V$$
 
