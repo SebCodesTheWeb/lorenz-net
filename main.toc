@@ -7,10 +7,10 @@
 \contentsline {subsection}{\numberline {2.5}Reservoir Computing and Echo State Networks}{9}{subsection.2.5}%
 \contentsline {section}{\numberline {3}Method}{10}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Generating Data}{10}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Setting up the RNN}{12}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.2}Setting up the RNN}{13}{subsection.3.2}%
 \contentsline {subsection}{\numberline {3.3}Setting up the transformers architecture}{15}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Setting up the RC-ESN}{17}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}Training process}{17}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.4}Setting up the RC-ESN}{18}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Training process}{18}{subsection.3.5}%
 \contentsline {section}{\numberline {4}Results}{19}{section.4}%
 \contentsline {subsection}{\numberline {4.1}RNN}{19}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}Echos state network}{19}{subsection.4.2}%

@@ -149,11 +149,25 @@ where \(y\) is the output, \(W\) is the weights matrix, \(x\) is the input vecto
 
 \[ \text{ReLU}(z) = \max(0, z) \]
 
-Which maps all positive inputs to themselves while negative inputs are mapped to zero. The ReLU activation function introduces non-linearity to the model, which is critical for capturing complex behavior. On the other hand, for the final output layer, the softmax activation function is commonly used. It maps the input to a vector whose values sum up to 1, which is great for a probabilistic interpretation.
+Which maps all positive inputs to themselves while negative inputs are mapped to zero. The ReLU activation function introduces non-linearity to the model, which is critical for capturing complex behavior. Another popular activation function is the hyperbolic tangent or tanh, which squashes the input values to be within the range \(-1\) and \(1\):
+
+\[
+\text{tanh}(z) = \frac{e^{z} - e^{-z}}{e^{z} + e^{-z}}
+\]
+
+This allows tanh to output values that have mean zero, which can make learning for the subsequent layers slightly easier. Another activation function commonly used for the output layer is the sigmoid function. The sigmoid function maps the input values to a range between \(0\) and \(1\), interpreted as probabilities:
+
+\[
+\sigma(z) = \frac{1}{1 + e^{-z}}
+\]
+
+Due to its shape, the sigmoid function is suitable for binary outputs and is useful when a probabilistic interpretation is desired for the output neuron. However, for multiclass classification tasks, the softmax activation function is commonly used instead. It maps the input vector to a probability distribution:
 
 \[
 \text{softmax}(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}}
 \]
+
+The softmax function ensures that the sum of the probabilities of all classes is \(1\), which is great for a probabilistic interpretation.
 
 Given a predicted value \(\hat{y}_i\) and a true value \(y_i\) a cost function is used to measure the degree of error in the prediction. Commonly used for regression-based tasks is the mean squared error (MSE) function, which is defined by:
 
