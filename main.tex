@@ -279,19 +279,39 @@ $$\text{LayerNorm}(x + \text{Sublayer}(x))$$
 where $\text{Sublayer}(x)$ is the function implemented by the multi-head or feed-forward layer and $x$ is the original input. This residual connection and normalization make the gradient flow more stable through the network.
 
 \subsection{Reservoir Computing and Echo State Networks}
+
 Reservoir Computing (RC) is a variant of RNNs that has proven particularly effective in predicting chaotic systems. The fundamental principle behind reservoir computing is that only a part of the network is trained, while the rest of the network, the "reservoir" remains unchanged during training. This approach significantly reduces the computational cost of training RNNs and overcomes some of the issues related to gradient-based learning in traditional RNNs, such as vanishing and exploding gradients.
 
-Echo State Networks (ESNs) are a particularly well-known implementation of reservoir computing. ESNs consist of a sparsely connected and a randomly generated reservoir. The reservoir serves to project the input into a higher-dimensional space where the different parts of the input sequence become more linearly separable. Training only occurs in a readout layer, which is typically a linear model that is adjusted to map the reservoir states to the desired output.
+Echo State Networks (ESNs) are a particularly well-known implementation of reservoir computing. ESNs consist of a sparsely connected and randomly generated reservoir. The dynamics of the reservoir can be described by:
+
+\begin{equation}
+x^{(t)} = \tanh(\mathbf{W}x^{(t-1)} + \mathbf{W_{in}}u^{(t)} + \mathbf{W_{fb}}y^{(t-1)} + b),
+\end{equation}
+
+where $x^{(t)}$ is the state vector of the reservoir at time $t$, $u^{(t)}$ is the input vector, $\mathbf{W}$ is the reservoir weight matrix, $\mathbf{W_{in}}$ is the input weight matrix, and $\mathbf{W_{fb}}$ represents connections feeding back previous output. These matrices are randomly generated and not trained. Output is then computed as:
+
+\begin{equation}
+y^{(t)} = \mathbf{W_{out}}x{(t)},
+\end{equation}
+
+where $y^{(t)}$ is the output vector, and $\mathbf{W_{out}}$ is the output weight matrix, which is trained.
 
 \begin{figure}[h] 
 \centering 
 \includegraphics[width=0.8\textwidth]{echo_diagram.png} 
-\caption{rservoirpy user guide docs}
+\caption{Echo State Network architecture (image taken from the reservoirpy user guide docs).}
+\label{fig:esn}
 \end{figure}
 
-Reservoirs in ESNs possess a "fading memory," enabling them to handle input sequences with varying time scales. This property allows ESNs to maintain the context of earlier inputs while also adapting quickly to recent changes in the input stream.
+The reservoir serves to project the input into a higher-dimensional space where the different parts of the input sequence become more linearly separable. Training only occurs in a readout layer, which is typically a linear model that is adjusted to map the reservoir states to the desired output. Reservoirs in ESNs also possess a "fading memory," enabling them to handle input sequences with varying time scales. This property allows ESNs to maintain the context of earlier inputs while also adapting quickly to recent changes in the input stream.
 
-Training an ESN involves collecting the states of the reservoir for a known input sequence, then using a supervised learning technique, such as linear regression, to train the readout weights such that the error between the predicted output and the actual target output is minimized.
+Training an ESN involves collecting the states of the reservoir for a known input sequence, then using a supervised learning technique, such as linear regression, to determine $\mathbf{W}_{out}$ such that the error between the predicted output $y^{(t)}$ and the actual target output $\hat{y}^{(t)}$ is minimized. This can be expressed as the following optimization problem:
+
+\begin{equation}
+\mathbf{W_{out}} = \arg\min_{\mathbf{W_{out}}} \left\{\sum_{t=1}^{n} (\hat{y}^{(t)} - y^{(t)})^2 + \lambda \mathbf{W_{out}}^2\right\},
+\end{equation}
+
+Where $n$ is the number of training samples, and $\lambda$ is the regularization parameter that controls the trade-off between fitting the training data and keeping the weights small to avoid overfitting. Notice that this is MSE with an added regularization term.
 
 \section{Method}
 The code is written in Python and uses the PyTorch library for the neural network models. The project is publicly available on GitHub at: \url{https://github.com/SebCodesTheWeb/lorents-net}
