@@ -199,7 +199,7 @@ Here \(h^{(t)}\) is the hiddens state at timestep $t$, and \(y^{(t)}\) the equiv
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{rnn_diagram.jpeg}
-\caption{https://www.deeplearningbook.org/contents/rnn.html}
+\caption{An architecture of a recurrent neural network (adapted from \cite{Goodfellow-et-al-2016}).}
 \label{fig:rnn_diagram}
 \end{figure}
 
@@ -232,7 +232,7 @@ Usually the output vector equals the hidden state in a LSTM.
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.6\textwidth]{lstm_diagram.png}
-\caption{http://cs231n.stanford.edu/slides/2017/cs231n\_2017\_lecture10.pdf}
+\caption{Diagram of LSTM cell (adapted from \cite{StanfordEngineering2020})}
 \label{fig:lstm_diagram}
 \end{figure}
 
@@ -260,7 +260,7 @@ where $W^O$ is also a trainable weight matrix.
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.3\textwidth]{multi-head.png}
-\caption{Taken from "All you need is attention" by Google.}
+\caption{Multi Head attention mechaism (adapted from \cite{DBLP:journals/corr/VaswaniSPUJGKP17})}
 \end{figure}
 
 The multi-head layer is paired with a position-wise feed-forward layer. The feed-forward layer applies two trainable linear transformations with a ReLU activation in between:
@@ -296,7 +296,7 @@ where $y^{(t)}$ is the output vector, and $\mathbf{W_{out}}$ is the output weigh
 \begin{figure}[h] 
 \centering 
 \includegraphics[width=0.8\textwidth]{echo_diagram.png} 
-\caption{Echo State Network architecture (image taken from the reservoirpy user guide docs).}
+\caption{Echo State Network architecture (adapted from \cite{reservoirpy}).}
 \label{fig:esn}
 \end{figure}
 
@@ -993,28 +993,28 @@ def evaluate_model(model, device=default_device):
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.4\textwidth]{decoder.png}
-\caption{Transformers decoder architecture, taken from "All you need is attention" by Google. }
+\includegraphics[width=0.2\textwidth]{decoder.png}
+\caption{Transformers decoder architecture, (adapted from \cite{DBLP:journals/corr/VaswaniSPUJGKP17})}
 \label{fig:transformer_diagram}
 \end{figure}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.8\textwidth]{rnn_mse.jpeg}
+\includegraphics[width=0.6\textwidth]{rnn_mse.jpeg}
 \caption{RNN MSE}
 \label{fig:rnn_mse}
 \end{figure}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.8\textwidth]{echo_mse.jpeg}
+\includegraphics[width=0.6\textwidth]{echo_mse.jpeg}
 \caption{ESN MSE}
 \label{fig:echo_mse}
 \end{figure}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.8\textwidth]{transformers_mse.jpeg}
+\includegraphics[width=0.6\textwidth]{transformers_mse.jpeg}
 \caption{Transformers MSE}
 \label{fig:transformers:mse}
 \end{figure}

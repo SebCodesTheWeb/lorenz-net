@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex main"] 1710723960 "main.aux" "main.bbl" "main" 1710723962 0
-  "./references.bib" 1710717489 3334 b6a8c459c5840dfa11a27b4b43d6424f ""
+["bibtex main"] 1710725017 "main.aux" "main.bbl" "main" 1710725041 0
+  "./references.bib" 1710724898 4026 02b56d32029544d272155a9c810c6db8 ""
   "/usr/local/texlive/2023/texmf-dist/bibtex/bst/base/apalike.bst" 1292289607 24635 604dafcc79f521a11ea73e506e1fbd98 ""
-  "main.aux" 1710723961 8853 4000025c549f5a7fedcab36fc8f400d5 "pdflatex"
+  "main.aux" 1710725040 9389 b50ef6be16a66d16742aa6626d1e6ca3 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1710723960 "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" "main.pdf" "main" 1710723962 0
-  "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" 1710723958 49990 90cb3d43e10e248301a6a64a3ce18c83 ""
+["pdflatex"] 1710725039 "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" "main.pdf" "main" 1710725041 0
+  "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" 1710725039 50058 cff7503ba0676c33957fd2f9d17f1cea ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/jknappen/ec/tcrm1095.tfm" 1136768653 1536 02c06700a42be0f5a28664c7273f82e7 ""
@@ -140,11 +140,11 @@
   "echo_path.jpeg" 1710712056 656430 c601c89e6c172903ba9f8ea33111532b ""
   "lorenz_attractor.jpeg" 1710712056 76444 6057d8d1fefea99573a22eeed24255cb ""
   "lstm_diagram.png" 1710712056 32209 4cd2ceeca4c0fdf6eef47154d0c5e5c1 ""
-  "main.aux" 1710723961 8853 4000025c549f5a7fedcab36fc8f400d5 "pdflatex"
-  "main.bbl" 1710723960 900 c72a9e56adebb74099e879cd6a4f85f2 "bibtex main"
-  "main.out" 1710723961 2828 1bb9f923f4f9d23a30e8259b3098f95f "pdflatex"
-  "main.tex" 1710723958 49990 90cb3d43e10e248301a6a64a3ce18c83 ""
-  "main.toc" 1710723961 1660 cd5225a9dbb8298beedfcbbb1bd0f161 "pdflatex"
+  "main.aux" 1710725040 9389 b50ef6be16a66d16742aa6626d1e6ca3 "pdflatex"
+  "main.bbl" 1710725017 1571 ff1dc51d92fbca32bbb83aa741cf81c7 "bibtex main"
+  "main.out" 1710725040 2828 1bb9f923f4f9d23a30e8259b3098f95f "pdflatex"
+  "main.tex" 1710725039 50058 cff7503ba0676c33957fd2f9d17f1cea ""
+  "main.toc" 1710725040 1660 cd5225a9dbb8298beedfcbbb1bd0f161 "pdflatex"
   "multi-head.png" 1710063653 35873 9240b14122a8da39f66a8880ffc40ac1 ""
   "rnn_diagram.jpeg" 1710712057 37059 a85a4d2955e8ea44fea26648113f2396 ""
   "rnn_lorenz.jpeg" 1710712057 65164 bee4f7e796dc8e2e23edd4f4d9558a13 ""

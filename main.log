@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.31)  18 MAR 2024 02:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.31)  18 MAR 2024 02:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -613,7 +613,7 @@ Package pdftex.def Info: rnn_diagram.jpeg  used on input line 201.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [6]
-<lstm_diagram.png, id=163, 595.22375pt x 393.47pt>
+<lstm_diagram.png, id=165, 595.22375pt x 393.47pt>
 File: lstm_diagram.png Graphic file (type png)
 <use lstm_diagram.png>
 Package pdftex.def Info: lstm_diagram.png  used on input line 234.
@@ -623,13 +623,13 @@ Package pdftex.def Info: lstm_diagram.png  used on input line 234.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [7 <./rnn_diagram.jpeg>] [8 <./lstm_diagram.png>]
-<multi-head.png, id=187, 311.1625pt x 399.4925pt>
+<multi-head.png, id=192, 311.1625pt x 399.4925pt>
 File: multi-head.png Graphic file (type png)
 <use multi-head.png>
 Package pdftex.def Info: multi-head.png  used on input line 262.
 (pdftex.def)             Requested size: 136.57462pt x 175.34444pt.
  [9 <./multi-head.png>]
-<echo_diagram.png, id=196, 682.55pt x 342.27875pt>
+<echo_diagram.png, id=202, 682.55pt x 342.27875pt>
 File: echo_diagram.png Graphic file (type png)
 <use echo_diagram.png>
 Package pdftex.def Info: echo_diagram.png  used on input line 298.
@@ -644,32 +644,32 @@ Underfull \hbox (badness 10000) in paragraph at lines 421--422
  []
 
 [12] [13] [14{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
-<rnn_lorenz.jpeg, id=395, 606.265pt x 536.0025pt>
+<rnn_lorenz.jpeg, id=403, 606.265pt x 536.0025pt>
 File: rnn_lorenz.jpeg Graphic file (type jpg)
 <use rnn_lorenz.jpeg>
 Package pdftex.def Info: rnn_lorenz.jpeg  used on input line 555.
 (pdftex.def)             Requested size: 145.68144pt x 128.79861pt.
-<echo_lorenz.jpeg, id=396, 587.19376pt x 523.9575pt>
+<echo_lorenz.jpeg, id=404, 587.19376pt x 523.9575pt>
 File: echo_lorenz.jpeg Graphic file (type jpg)
 <use echo_lorenz.jpeg>
 Package pdftex.def Info: echo_lorenz.jpeg  used on input line 560.
 (pdftex.def)             Requested size: 145.68144pt x 129.98969pt.
-<transformers_lorenz.jpeg, id=397, 575.14874pt x 509.905pt>
+<transformers_lorenz.jpeg, id=405, 575.14874pt x 509.905pt>
 File: transformers_lorenz.jpeg Graphic file (type jpg)
 <use transformers_lorenz.jpeg>
 Package pdftex.def Info: transformers_lorenz.jpeg  used on input line 565.
 (pdftex.def)             Requested size: 145.68144pt x 129.15652pt.
-<rnn_path.jpeg, id=401, 1252.68pt x 1344.02126pt>
+<rnn_path.jpeg, id=409, 1252.68pt x 1344.02126pt>
 File: rnn_path.jpeg Graphic file (type jpg)
 <use rnn_path.jpeg>
 Package pdftex.def Info: rnn_path.jpeg  used on input line 576.
 (pdftex.def)             Requested size: 223.07211pt x 239.32936pt.
-<echo_path.jpeg, id=402, 1262.7175pt x 1352.05125pt>
+<echo_path.jpeg, id=410, 1262.7175pt x 1352.05125pt>
 File: echo_path.jpeg Graphic file (type jpg)
 <use echo_path.jpeg>
 Package pdftex.def Info: echo_path.jpeg  used on input line 583.
 (pdftex.def)             Requested size: 223.07211pt x 238.84062pt.
-<transformers_path.jpeg, id=403, 1218.5525pt x 1343.0175pt>
+<transformers_path.jpeg, id=411, 1218.5525pt x 1343.0175pt>
 File: transformers_path.jpeg Graphic file (type jpg)
 <use transformers_path.jpeg>
 Package pdftex.def Info: transformers_path.jpeg  used on input line 590.
@@ -689,58 +689,55 @@ Underfull \hbox (badness 10000) in paragraph at lines 750--751
  []
 
 [21] [22] [23] [24]
-<decoder.png, id=759, 325.215pt x 812.03375pt>
+<decoder.png, id=767, 325.215pt x 812.03375pt>
 File: decoder.png Graphic file (type png)
 <use decoder.png>
 Package pdftex.def Info: decoder.png  used on input line 996.
-(pdftex.def)             Requested size: 182.09486pt x 454.68623pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<rnn_mse.jpeg, id=760, 855.195pt x 520.94624pt>
+(pdftex.def)             Requested size: 91.04742pt x 227.33072pt.
+<rnn_mse.jpeg, id=769, 855.195pt x 520.94624pt>
 File: rnn_mse.jpeg Graphic file (type jpg)
 <use rnn_mse.jpeg>
 Package pdftex.def Info: rnn_mse.jpeg  used on input line 1003.
-(pdftex.def)             Requested size: 364.19667pt x 221.84834pt.
+(pdftex.def)             Requested size: 273.14923pt x 166.38824pt.
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<echo_mse.jpeg, id=761, 847.165pt x 522.95375pt>
+<echo_mse.jpeg, id=770, 847.165pt x 522.95375pt>
 File: echo_mse.jpeg Graphic file (type jpg)
 <use echo_mse.jpeg>
 Package pdftex.def Info: echo_mse.jpeg  used on input line 1010.
-(pdftex.def)             Requested size: 364.19667pt x 224.81784pt.
+(pdftex.def)             Requested size: 273.14923pt x 168.60939pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<transformers_mse.jpeg, id=762, 846.16125pt x 525.965pt>
+<transformers_mse.jpeg, id=771, 846.16125pt x 525.965pt>
 File: transformers_mse.jpeg Graphic file (type jpg)
 <use transformers_mse.jpeg>
 Package pdftex.def Info: transformers_mse.jpeg  used on input line 1017.
-(pdftex.def)             Requested size: 364.19667pt x 226.37723pt.
+(pdftex.def)             Requested size: 273.14923pt x 169.78091pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[25] [26 <./decoder.png>] [27 <./rnn_mse.jpeg> <./echo_mse.jpeg>] [28 <./transformers_mse.jpeg>] (./main.bbl) [29
+[25 <./decoder.png>] [26 <./rnn_mse.jpeg> <./echo_mse.jpeg> <./transformers_mse.jpeg>] (./main.bbl) [27
 
 ] (./main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 1BB9F923F4F9D23A30E8259B3098F95F;2828.
  ) 
 Here is how much of TeX's memory you used:
- 19684 strings out of 476025
- 363969 string characters out of 5790017
+ 19688 strings out of 476025
+ 364086 string characters out of 5790017
  2241388 words of memory out of 5000000
- 39194 multiletter control sequences out of 15000+600000
+ 39197 multiletter control sequences out of 15000+600000
  523804 words of font info for 133 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  73i,9n,77p,1440b,2475s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on main.pdf (29 pages, 3011414 bytes).
+Output written on main.pdf (27 pages, 3014875 bytes).
 PDF statistics:
- 1016 PDF objects out of 1200 (max. 8388607)
- 917 compressed objects within 10 object streams
- 566 named destinations out of 1000 (max. 500000)
+ 1020 PDF objects out of 1200 (max. 8388607)
+ 922 compressed objects within 10 object streams
+ 567 named destinations out of 1000 (max. 500000)
  34041 words of extra memory for PDF output out of 35830 (max. 10000000)
 
