@@ -319,36 +319,9 @@ The code is written in Python and uses the PyTorch library for implementation of
 
 \subsection{Generating Data}
 
-The training data is processed via the RK4 method:
+The training data is processed via the RK4 method which is implemented in \ref{rk4:lorenz}.
 
-\begin{lstlisting}
-import numpy as np
-
-sigma =  10
-rho = 28
-beta = 8/3
-
-def get_derivative(pos_vector):
-    x, y, z = pos_vector
-
-    dx_dt = sigma*(y-x)
-    dy_dt = x*(rho-z)-y
-    dz_dt = x*y - beta*z
-
-    return np.array([dx_dt, dy_dt, dz_dt])
-
-def RK4(pos_vector, dt):
-    k1 = dt * get_derivative(pos_vector)
-    k2 = dt * get_derivative(pos_vector + k1/2)
-    k3 = dt * get_derivative(pos_vector+ k2/2)
-    k4 = dt * get_derivative(pos_vector + k3)
-
-    return pos_vector + (k1 + 2*k2 + 2*k3 + k4) / 6
-
-\end{lstlisting}
-
-
-Which is used in the \texttt{generate\_dataset.py} module.
+The data is created in the {generate\_dataset.py} module.
 
 \begin{lstlisting}[language=Python]
 from lorenz import RK4
@@ -401,140 +374,15 @@ dataset[numerical_cols] = (
 dataset.to_csv('lorentz-sequences.csv', index=False)
 \end{lstlisting}
 
-The dataset is then normalized using Z-score normalization to improve gradient flow, which is critical. The raw unnormalized data is saved in a separate csv file to later on move the model predictions out of normalized space with inverse Z-score normalization. 
-
-\begin{lstlisting}
-import pandas as pd
-
-dataset = pd.read_csv("lorenz-sequences_raw.csv")
-
-mean_x, std_x = dataset["x"].mean(), dataset["x"].std()
-mean_y, std_y = dataset["y"].mean(), dataset["y"].std()
-mean_z, std_z = dataset["z"].mean(), dataset["z"].std()
+The dataset is then normalized using Z-score normalization to improve gradient flow, which is critical. The raw unnormalized data is saved in a separate csv file to later on move the model predictions out of normalized space with inverse Z-score normalization \ref{inverse:normalization}.
 
 
-def get_unnormalized_prediction(predictions: list):
-    unnormalized_predictions = [
-        [(x * std_x) + mean_x, (y * std_y) + mean_y, (z * std_z) + mean_z]
-        for x, y, z in predictions
-    ]
-
-    return unnormalized_predictions
-\end{lstlisting}
-
-Afterwards it is split into trainable sequences in the \texttt{get\_training\_data.py} module.
-\begin{lstlisting}
-import pandas as pd
-import torch
-import numpy as np
-from constants import (
-    inp_seq_len,
-    val_ratio,
-    seed_nbr,
-)
-
-dataset = pd.read_csv("lorentz-sequences.csv")
-data_tensor = torch.tensor(dataset[["x", "y", "z"]].values, dtype=torch.float32)
-
-test_set = data_tensor[-10000:].numpy().tolist()
-data_tensor = data_tensor[:-10000]
-
-
-def create_seq(data):
-    seq = []
-    for i in range(0, len(data) - inp_seq_len, inp_seq_len):
-        input = data[i : i + inp_seq_len]
-        label = data[i + inp_seq_len]
-        # Given input sequence, predict the next value(label)
-        seq.append((input, label))
-    return seq
-
-
-data_seq = create_seq(data_tensor)
-
-
-def manual_split(data, val_ratio, seed):
-    np.random.seed(seed)
-    num_examples = len(data)
-    val_size = int(num_examples * val_ratio)
-
-    shuffled_indices = np.random.permutation(num_examples)
-    val_indices = shuffled_indices[:val_size]
-    train_indices = shuffled_indices[val_size:]
-
-    train_data = [data[i] for i in train_indices]
-    val_data = [data[i] for i in val_indices]
-
-    return train_data, val_data
-
-
-inout_seq_train, inout_seq_val = manual_split(data_seq, val_ratio, seed_nbr)
-
-# item[0] is input sequence, item[1] is label
-x_train = torch.stack([item[0] for item in inout_seq_train])
-y_train = torch.stack([item[1] for item in inout_seq_train])
-x_val = torch.stack([item[0] for item in inout_seq_val])
-y_val = torch.stack([item[1] for item in inout_seq_val])
-
-\end{lstlisting}
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.6\textwidth]{auto_correlation.png}
-\caption{Autocorrelation shows how much the data is correlated with itself at different time lags}
-\end{figure}
-
-Here the $inp\_seq\_len$ is the number of most recent data points the model will take into consideration when predicting the next point. $inp\_seq\_len$ is equal to the chunk length minus one. Performing autocorrelation analysis shows how much data is correlated with itself and was used to find a suitable $chunk\_len$ value.
-
-In figure 6 a significant drop occurs at around lag 10-15, which  makes $chunk\_len$ set to 10 a good value. However the Transformers architecture seems to benefit from a higher $inp\_seq\_len$ so when training the Transformers model $chunk\_len$ was set to 100. Furthermore the function splits the training data into a list of separate, trainable sequences, where each individual sequence has a label(the next value to predict) associated with it. These data sequences are later split into a training and validation sets with a 85/15 ratio. The validation set will be used to optimize the hyperparameters of the models. Notice also that the last 10000 data points were split off for a final testing set.
+Afterwards it is split into training, validation and testing sets in the \texttt{get\_training\_data.py} module \ref{datasplit}.
 
 \subsection{Setting up the RNN}
 
-The \texttt{LSTM\_RNN} class defines a RNN network based on PyTorch's \texttt{nn.Module}:
+The \texttt{LSTM\_RNN} class defines a RNN network based on PyTorch's \texttt{nn.Module} \ref{lstm}
 
-\begin{lstlisting}
-import torch
-import torch.nn as nn
-from device import device as default_device
-
-class LSTM_RNN(nn.Module):
-    def __init__(self, input_size, hidden_size, output_size, num_layers=1, device=default_device):
-        """
-        input_size: input feature size, in this case 3 for the Lorenz system
-        output_size: output feature size, in this case 3 for the Lorenz system
-        hidden_size: number of hidden units in the LSTM
-        """
-        super(LSTM_RNN, self).__init__()
-        self.hidden_size = hidden_size
-        self.num_layers = num_layers
-
-        self.lstm = nn.LSTM(
-            input_size, hidden_size, num_layers=num_layers, batch_first=True
-        )
-        self.output_activation = nn.Linear(hidden_size, output_size)
-        self.device = device
-
-    def forward(self, inputSeq):
-        # inputSeq shape [batch_size, seq_len, feature_size]
-        batch_size = inputSeq.size(0)
-        state = self.init_state(batch_size)
-        lstm_out, _ = self.lstm(inputSeq, state)
-
-        # Select the last point in the sequence
-        prediction = self.output_activation(lstm_out[:, -1, :])
-
-        return prediction
-
-    def init_state(self, batch_size):
-        # Initializing the hidden and cell states for the LSTM based on the batch size
-        state = (
-            torch.zeros(self.num_layers, batch_size, self.hidden_size).to(self.device),
-            torch.zeros(self.num_layers, batch_size, self.hidden_size).to(self.device),
-        )
-        return state
-\end{lstlisting}
-
-\texttt{input\_size} is the dimensionality of the input vector(in this case three for the x, y and z values). The constructor initializes the LSTM layer and output activation layer. The \texttt{forward} method is passing the input through the torhc.nn.LSTM cell and the activation layer to compute the output. The \texttt{init\_state} method initializes the LSTM's internal state with zeros for each new batch. \\
 
 The model is then instantiated like this:
 \begin{lstlisting}
@@ -573,237 +421,22 @@ def train_rnn_lstm(
     scheduler = ExponentialLR(optimizer, gamma=gamma)
 \end{lstlisting}
 
- It uses mean squared error loss function and the adam optimizer. It also uses an exponentially decaying learning step scheduler, which has proven great for managing learning rate with many training epochs. \\ \\  The RNN network is later on trained with the following training loop:
+ It uses mean squared error loss function and the adam optimizer. It also uses an exponentially decaying learning step scheduler, which has proven great for managing learning rate with many training epochs. \\ \\  The RNN network is later on iterated over each batch of the training data and the loss is calculated and backpropagated through the network to update the weights. \ref{training:loop}
 
-\begin{lstlisting}
-def train(dataloader, model, loss_fn, optimizer):
-    size = len(dataloader.dataset)
-    num_batches = len(dataloader)
-    model.train()
-    running_loss = 0.0
-
-    for batch_nbr, (seq, label) in enumerate(dataloader):
-        seq, label = seq.to(device), label.to(device)
-        label = label.squeeze(1) # Remove the extra middle dimension, in this case label shape is [batch_size, 1, feature_size]
-        prediction = model(seq)
-        loss = loss_fn(prediction, label)
-
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
-
-        running_loss += loss.item()
-        if batch_nbr % 100 == 0:
-            current = batch_nbr * len(seq)
-            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
-
-    running_loss /= num_batches
-    print(f"Average loss for epoch: {running_loss:>7f}")
-    return running_loss
-
-for t in range(epochs):
-    print(f"epoch {t + 1} \n--------------")
-    train(train_dataloader, model, loss_fn, optimizer)
-    if trial is not None:
-        trial.report(loss, t)
-        if trial.should_prune():
-            raise optuna.exceptions.TrialPruned()
-
-    scheduler.step()
-print("Done")
-torch.save(model.state_dict(), 'lstm_rnn_lorenz.path')
-\end{lstlisting}
-The training loop iterates over the dataset, feeding batches of data to the model, calculating the loss, and updating the model parameters through backpropagation. Finally after five epochs, the model's parameters are saved.
 
 \subsection{Setting up the Transformers Model}
 
-The transfomers class is written with PyTorch TransformerEncoder and TransformerEncoderLayer classes and is defined as follows:
+The transfomers class is written with PyTorch TransformerEncoder and TransformerEncoderLayer classes and is defined in transformer.py \ref{transformer} with positional encoding implemented in the PositionalEncoding class \ref{positional:encoding}.
 
-\begin{lstlisting}
-import math
-import torch
-from torch import nn, Tensor
-from torch.nn import TransformerEncoder, TransformerEncoderLayer
-
-class TransformerModel(nn.Module):
-    def __init__(self, ntoken: int, d_model: int, nhead: int, d_hid: int, nlayers: int, dropout: float = 0.5):
-        """
-        ntoken: The size of the vocabulary (total number of unique tokens).
-        d_model: The dimensionality of the token embeddings (the size of the vectors that represent each token).
-        nhead: The number of attention heads in the multi-head attention mechanisms.
-        d_hid: The dimensionality of the feedforward network model in the transformer encoder.
-        nlayers: The number of sub-encoder-layers in the transformer encoder.
-        dropout: The dropout rate, a regularization technique to prevent overfitting.
-
-
-        """
-        super().__init__()
-        self.model_type = 'Transformer'
-        self.pos_encoder = PositionalEncoding(d_model, dropout)
-        encoder_layers = TransformerEncoderLayer(d_model, nhead, d_hid, dropout, batch_first=True)
-        self.transformer_encoder = TransformerEncoder(encoder_layers, nlayers)
-        ##Use linear layer instead of traidiontal embedding layer due to continous data
-        self.input_linear = nn.Linear(3, d_model)
-        self.d_model = d_model
-        self.output_linear = nn.Linear(d_model, 3)
-
-        self.init_weights()
-
-    def init_weights(self) -> None:
-        initrange = 0.1
-        self.input_linear.weight.data.uniform_(-initrange, initrange)
-        self.input_linear.bias.data.zero_()
-        self.output_linear.bias.data.zero_()
-        self.output_linear.weight.data.uniform_(-initrange, initrange)
-
-    def forward(self, src: Tensor) -> Tensor:
-        """
-        Arguments:
-            src: Tensor, shape ``[seq_len, batch_size]``
-            src_mask: Tensor, shape ``[seq_len, seq_len]``
-
-        Returns:
-            output Tensor of shape ``[seq_len, batch_size, ntoken]``
-        """
-        src = self.input_linear(src) * math.sqrt(self.d_model)
-        src = self.pos_encoder(src)
-        output = self.transformer_encoder(src)
-        output = self.output_linear(output)
-        return output
-    
-\end{lstlisting}
-
-The input is first passed through a linear layer to transform the input data into the d\_model dimensionality. The input is then passed through a positional encoding layer to add information about the position of the tokens in the sequence. The output is then passed through the transformer encoder and then through a linear layer to transform the output back to the original dimensionality. The positional encoding is defined as:
-
-\begin{lstlisting}
-class PositionalEncoding(nn.Module):
-    def __init__(self, d_model: int, dropout: float = 0.1, max_len: int = 5000):
-        super().__init__()
-        self.dropout = nn.Dropout(p=dropout)
-
-        position = torch.arange(max_len).unsqueeze(1)
-        div_term = torch.exp(torch.arange(0, d_model, 2) * (-math.log(10000.0) / d_model))
-        pe = torch.zeros(max_len, 1, d_model)
-        pe[:, 0, 0::2] = torch.sin(position * div_term)
-        pe[:, 0, 1::2] = torch.cos(position * div_term)
-        self.register_buffer('pe', pe)
-
-    def forward(self, x) :
-        """
-        Arguments:
-            x: Tensor, shape ``[seq_len, batch_size, embedding_dim]``
-        """
-        x = x + self.pe[:x.size(0)]
-        return self.dropout(x)
-\end{lstlisting}
-
-The PositionalEncoding module in this code leverages sine and cosine functions to generate a sequence of positional encoding vectors up a maximum length of 5000. Even indices are used with sine and odd indices with cosine to give each vector a unique sequence position. Upon forward pass the positional encoding are added to the input vectors and then passed through a dropout layer to prevent overfitting.  \\ \\ The model is then trained in a similar fashion to the RNN model and uses the same training loop.
+The model is then trained in a similar fashion to the RNN model and uses the same training loop.
 
 \subsection{Setting up the RC-ESN}
 
-The echo state network was implemented with reservoirpy, a library for reservoir computing in Python.
-\begin{lstlisting}
-import reservoirpy as rpy
-from constants import seed_nbr, dt
-from reservoirpy.nodes import Reservoir, Ridge
-import matplotlib.pyplot as plt
-import numpy as np
-from unnormalize_data import get_unnormalized_prediction
-import json
-import pandas as pd
-
-rpy.verbosity(999)
-rpy.set_seed(seed_nbr)
-
-train_time = 10.
-test_time = 20.
-warm_time = 5.
-
-train_steps = round(train_time / dt)
-test_steps  = round(test_time  / dt)
-warm_steps  = round(warm_time  / dt)
-
-n_timesteps = train_steps + test_steps + warm_steps
-
-dataset = pd.read_csv("lorentz-sequences.csv")
-X = dataset[["x", "y", "z"]].values
-
-reservoir = Reservoir(1000,  lr=0.5, sr=0.9)
-readout = Ridge(3, ridge=2.5e-6)
-esn_model = reservoir >> readout
-
-X_train = X[:train_steps + warm_steps -1]
-Y_train = X[1:train_steps + warm_steps] - X[:train_steps + warm_steps -1]
-
-model = esn_model.fit(X_train, Y_train, warmup=warm_steps)
-    
-\end{lstlisting}
-
-The ESN is structured with a Reservoir node and a Ridge regression readout, connected sequentially to construct the model. Training data is prepared by segmenting the input array and generating target output through shifting forward by one step(in this case $inp\_seq\_len$ is 1). Lastly, the model fitting process is carried out, adjusting output weights matrix.
+The echo state network was implemented with reservoirpy, a library for reservoir computing in Python in reservoir.py \ref{reservoir}
 
 \subsection{Hyperparameter optimization process}
-Firstly a new loss functoin was defined to evaluate the models on unseen data. This was done via generating a new random path with the RK4 method and then comparing the model's predictions to the actual path. The average MSE error was then computed to evaluate the model's performance.
+Firstly a new loss function was defined in true\_loss.py \ref{true:loss} to evaluate the models on unseen data. This was done via generating a new random path with the RK4 method and then comparing the model's predictions to the actual path. The average MSE error was then computed to evaluate the model's performance.
 
-\begin{lstlisting}
-import numpy as np
-import torch
-from constants import inp_seq_len, dt, seed_nbr
-from lorenz import RK4
-from mse import calculate_aggregate_mse
-from unnormalize_data import get_unnormalized_prediction
-from device import device as default_device
-
-np.random.seed(seed_nbr)
-
-
-def validate_long_term(nbrIter, init_input_seq, model, device):
-    predicted_path = [*init_input_seq]
-    for _ in range(nbrIter):
-        input_seq = np.array(predicted_path[-inp_seq_len:])
-        input_seq_tensor = (
-            torch.tensor(input_seq, dtype=torch.float32).unsqueeze(0).to(device)
-        )
-        with torch.no_grad():
-            next_pos = model(input_seq_tensor)
-
-        next_pos = next_pos.cpu().numpy().reshape(-1)
-        predicted_path.append(next_pos)
-
-    true_path = [*init_input_seq]
-    for _ in range(nbrIter):
-        true_path.append(RK4(np.array(true_path[-1]), dt).tolist())
-
-    unnormalized_path = true_path[:inp_seq_len] + get_unnormalized_prediction(
-        predicted_path[inp_seq_len:]
-    )
-
-    total = 0
-    for i in range(3):
-        list_a = [x[i] for x in true_path[inp_seq_len:]]
-        list_b = [x[i] for x in unnormalized_path[inp_seq_len:]]
-        mse_loss_ag = calculate_aggregate_mse(list_a, list_b)
-        total += mse_loss_ag
-    total /= 3
-
-    return total
-
-
-init_seq = [np.random.rand(3)]
-for _ in range(inp_seq_len - 1):
-    next_pos = RK4(np.array(init_seq[-1]), dt)
-    init_seq.append(next_pos.tolist())
-
-
-def evaluate_model(model, device=default_device):
-    loss = validate_long_term(
-        1000,
-        init_seq,
-        model,
-        device,
-    )
-    print(f"Validation loss: {loss}")
-    return loss
-\end{lstlisting}
 
 The hyperparameters of the Transformers and RNN networks were then optimized using the optuna library implementation of the Tree-structured Parzen Estimator(TPE) algorithm. 
 
@@ -914,7 +547,7 @@ In the end the following hyperparameters were used in the final models:
     \end{itemize}
 \end{itemize}
 
-The models were then finally evaluated by predicting 500 time steps of size 0.04dt and comparing the predictions to the testing data set. To evaluate the models their Lorenz attractor shape, trajectory and mean squared error was plotted and calculated.
+The models were then finally evaluated by predicting 500 time steps and comparing the predictions to the testing data set. To evaluate the models, their Lorenz attractor shape, trajectory and mean squared error was plotted.
 
 \section{Results}
 \subsection{Lorenz attractor}
@@ -997,6 +630,380 @@ The results are a bit mixed but it seems clear that the RNN was the worst perfor
 
 The results show that the Transformers architecture has an impressive capacity to capture chaotic dynamics, similar to the level of an ESN, whilst the RNN is not as well suited towards capturing chaotic dynamics. For future research the NVAR reservoir computing variant could be explored, as it in other literature(\cite{cite-key}) has shown great promise. Other hyperparameters of the ESN such as noise could be explored for further optimization, which was not attempted in this study. Regarding the Transformers architecture, different positional embeddings could be used, and the variations of the self attention mechanism like sparse attention could be investigated. With further research it may be possible to conclusively state the peak potential of the Transformers and ESN models in predicting chaotic systems.
 
+
+\clearpage
+
+\appendix
+\section*{Appendix}
+\section{Code snippets}
+\label{appendix:code}
+
+\begin{lstlisting}[label=rk4:lorenz, caption={RK4 implementation}]
+import numpy as np
+
+sigma =  10
+rho = 28
+beta = 8/3
+
+def get_derivative(pos_vector):
+    x, y, z = pos_vector
+
+    dx_dt = sigma*(y-x)
+    dy_dt = x*(rho-z)-y
+    dz_dt = x*y - beta*z
+
+    return np.array([dx_dt, dy_dt, dz_dt])
+
+def RK4(pos_vector, dt):
+    k1 = dt * get_derivative(pos_vector)
+    k2 = dt * get_derivative(pos_vector + k1/2)
+    k3 = dt * get_derivative(pos_vector+ k2/2)
+    k4 = dt * get_derivative(pos_vector + k3)
+
+    return pos_vector + (k1 + 2*k2 + 2*k3 + k4) / 6
+
+\end{lstlisting}
+
+\begin{lstlisting}[label=datasplit, caption={get\_training\_data.py}]
+import pandas as pd
+import torch
+import numpy as np
+from constants import (
+    inp_seq_len,
+    val_ratio,
+    seed_nbr,
+)
+
+dataset = pd.read_csv("lorentz-sequences.csv")
+data_tensor = torch.tensor(dataset[["x", "y", "z"]].values, dtype=torch.float32)
+
+test_set = data_tensor[-10000:].numpy().tolist()
+data_tensor = data_tensor[:-10000]
+
+
+def create_seq(data):
+    seq = []
+    for i in range(0, len(data) - inp_seq_len, inp_seq_len):
+        input = data[i : i + inp_seq_len]
+        label = data[i + inp_seq_len]
+        # Given input sequence, predict the next value(label)
+        seq.append((input, label))
+    return seq
+
+
+data_seq = create_seq(data_tensor)
+
+
+def manual_split(data, val_ratio, seed):
+    np.random.seed(seed)
+    num_examples = len(data)
+    val_size = int(num_examples * val_ratio)
+
+    shuffled_indices = np.random.permutation(num_examples)
+    val_indices = shuffled_indices[:val_size]
+    train_indices = shuffled_indices[val_size:]
+
+    train_data = [data[i] for i in train_indices]
+    val_data = [data[i] for i in val_indices]
+
+    return train_data, val_data
+
+
+inout_seq_train, inout_seq_val = manual_split(data_seq, val_ratio, seed_nbr)
+
+# item[0] is input sequence, item[1] is label
+x_train = torch.stack([item[0] for item in inout_seq_train])
+y_train = torch.stack([item[1] for item in inout_seq_train])
+x_val = torch.stack([item[0] for item in inout_seq_val])
+y_val = torch.stack([item[1] for item in inout_seq_val])
+
+\end{lstlisting}
+
+The function splits the training data into a list of separate, trainable sequences, where each individual sequence has a label(the next value to predict) associated with it. These data sequences are later split into a training and validation sets with a 85/15 ratio. The validation set will be used to optimize the hyperparameters of the models. Notice also that the last 10000 data points were split off for a final testing set.
+
+\begin{lstlisting}[label=lstm, caption={LSTM RNN implementation}]
+import torch
+import torch.nn as nn
+from device import device as default_device
+
+class LSTM_RNN(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size, num_layers=1, device=default_device):
+        """
+        input_size: input feature size, in this case 3 for the Lorenz system
+        output_size: output feature size, in this case 3 for the Lorenz system
+        hidden_size: number of hidden units in the LSTM
+        """
+        super(LSTM_RNN, self).__init__()
+        self.hidden_size = hidden_size
+        self.num_layers = num_layers
+
+        self.lstm = nn.LSTM(
+            input_size, hidden_size, num_layers=num_layers, batch_first=True
+        )
+        self.output_activation = nn.Linear(hidden_size, output_size)
+        self.device = device
+
+    def forward(self, inputSeq):
+        # inputSeq shape [batch_size, seq_len, feature_size]
+        batch_size = inputSeq.size(0)
+        state = self.init_state(batch_size)
+        lstm_out, _ = self.lstm(inputSeq, state)
+
+        # Select the last point in the sequence
+        prediction = self.output_activation(lstm_out[:, -1, :])
+
+        return prediction
+
+    def init_state(self, batch_size):
+        # Initializing the hidden and cell states for the LSTM based on the batch size
+        state = (
+            torch.zeros(self.num_layers, batch_size, self.hidden_size).to(self.device),
+            torch.zeros(self.num_layers, batch_size, self.hidden_size).to(self.device),
+        )
+        return state
+\end{lstlisting}
+
+\texttt{input\_size} is the dimensionality of the input vector(in this case three for the x, y and z values). The constructor initializes the LSTM layer and output activation layer. The \texttt{forward} method is passing the input through the torhc.nn.LSTM cell and the activation layer to compute the output. The \texttt{init\_state} method initializes the LSTM's internal state with zeros for each new batch. \\
+
+\begin{lstlisting}[caption={inverse normalization}, label=inverse:normalization]
+import pandas as pd
+
+dataset = pd.read_csv("lorenz-sequences_raw.csv")
+
+mean_x, std_x = dataset["x"].mean(), dataset["x"].std()
+mean_y, std_y = dataset["y"].mean(), dataset["y"].std()
+mean_z, std_z = dataset["z"].mean(), dataset["z"].std()
+
+
+def get_unnormalized_prediction(predictions: list):
+    unnormalized_predictions = [
+        [(x * std_x) + mean_x, (y * std_y) + mean_y, (z * std_z) + mean_z]
+        for x, y, z in predictions
+    ]
+
+    return unnormalized_predictions
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Training loop}, label=training:loop]
+def train(dataloader, model, loss_fn, optimizer):
+    size = len(dataloader.dataset)
+    num_batches = len(dataloader)
+    model.train()
+    running_loss = 0.0
+
+    for batch_nbr, (seq, label) in enumerate(dataloader):
+        seq, label = seq.to(device), label.to(device)
+        label = label.squeeze(1) # Remove the extra middle dimension, in this case label shape is [batch_size, 1, feature_size]
+        prediction = model(seq)
+        loss = loss_fn(prediction, label)
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        running_loss += loss.item()
+        if batch_nbr % 100 == 0:
+            current = batch_nbr * len(seq)
+            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
+
+    running_loss /= num_batches
+    print(f"Average loss for epoch: {running_loss:>7f}")
+    return running_loss
+
+for t in range(epochs):
+    print(f"epoch {t + 1} \n--------------")
+    train(train_dataloader, model, loss_fn, optimizer)
+    if trial is not None:
+        trial.report(loss, t)
+        if trial.should_prune():
+            raise optuna.exceptions.TrialPruned()
+
+    scheduler.step()
+print("Done")
+torch.save(model.state_dict(), 'lstm_rnn_lorenz.path')
+\end{lstlisting}
+The training loop iterates over the dataset, feeding batches of data to the model, calculating the loss, and updating the model parameters through backpropagation. Finally after five epochs, the model's parameters are saved.
+
+\begin{lstlisting}[caption={Transformer implementation}, label=transformer]
+import math
+import torch
+from torch import nn, Tensor
+from torch.nn import TransformerEncoder, TransformerEncoderLayer
+
+class TransformerModel(nn.Module):
+    def __init__(self, ntoken: int, d_model: int, nhead: int, d_hid: int, nlayers: int, dropout: float = 0.5):
+        """
+        ntoken: The size of the vocabulary (total number of unique tokens).
+        d_model: The dimensionality of the token embeddings (the size of the vectors that represent each token).
+        nhead: The number of attention heads in the multi-head attention mechanisms.
+        d_hid: The dimensionality of the feedforward network model in the transformer encoder.
+        nlayers: The number of sub-encoder-layers in the transformer encoder.
+        dropout: The dropout rate, a regularization technique to prevent overfitting.
+
+
+        """
+        super().__init__()
+        self.model_type = 'Transformer'
+        self.pos_encoder = PositionalEncoding(d_model, dropout)
+        encoder_layers = TransformerEncoderLayer(d_model, nhead, d_hid, dropout, batch_first=True)
+        self.transformer_encoder = TransformerEncoder(encoder_layers, nlayers)
+        ##Use linear layer instead of traidiontal embedding layer due to continous data
+        self.input_linear = nn.Linear(3, d_model)
+        self.d_model = d_model
+        self.output_linear = nn.Linear(d_model, 3)
+
+        self.init_weights()
+
+    def init_weights(self) -> None:
+        initrange = 0.1
+        self.input_linear.weight.data.uniform_(-initrange, initrange)
+        self.input_linear.bias.data.zero_()
+        self.output_linear.bias.data.zero_()
+        self.output_linear.weight.data.uniform_(-initrange, initrange)
+
+    def forward(self, src: Tensor) -> Tensor:
+        """
+        Arguments:
+            src: Tensor, shape ``[seq_len, batch_size]``
+            src_mask: Tensor, shape ``[seq_len, seq_len]``
+
+        Returns:
+            output Tensor of shape ``[seq_len, batch_size, ntoken]``
+        """
+        src = self.input_linear(src) * math.sqrt(self.d_model)
+        src = self.pos_encoder(src)
+        output = self.transformer_encoder(src)
+        output = self.output_linear(output)
+        return output
+    
+\end{lstlisting}
+
+The input is first passed through a linear layer to transform the input data into the d\_model dimensionality. The input is then passed through a positional encoding layer to add information about the position of the tokens in the sequence. The output is then passed through the transformer encoder and then through a linear layer to transform the output back to the original dimensionality. The positional encoding is defined as:
+
+\begin{lstlisting}[caption={Positional encoding implementation}, label=positional:encoding]
+class PositionalEncoding(nn.Module):
+    def __init__(self, d_model: int, dropout: float = 0.1, max_len: int = 5000):
+        super().__init__()
+        self.dropout = nn.Dropout(p=dropout)
+
+        position = torch.arange(max_len).unsqueeze(1)
+        div_term = torch.exp(torch.arange(0, d_model, 2) * (-math.log(10000.0) / d_model))
+        pe = torch.zeros(max_len, 1, d_model)
+        pe[:, 0, 0::2] = torch.sin(position * div_term)
+        pe[:, 0, 1::2] = torch.cos(position * div_term)
+        self.register_buffer('pe', pe)
+
+    def forward(self, x) :
+        """
+        Arguments:
+            x: Tensor, shape ``[seq_len, batch_size, embedding_dim]``
+        """
+        x = x + self.pe[:x.size(0)]
+        return self.dropout(x)
+\end{lstlisting}
+
+The PositionalEncoding module in this code leverages sine and cosine functions to generate a sequence of positional encoding vectors up a maximum length of 5000. Even indices are used with sine and odd indices with cosine to give each vector a unique sequence position. Upon forward pass the positional encoding are added to the input vectors and then passed through a dropout layer to prevent overfitting.  
+
+\begin{lstlisting}[caption={ESN implementation}, label=reservoir]
+import reservoirpy as rpy
+from constants import seed_nbr, dt
+from reservoirpy.nodes import Reservoir, Ridge
+import matplotlib.pyplot as plt
+import numpy as np
+from unnormalize_data import get_unnormalized_prediction
+import json
+import pandas as pd
+
+rpy.verbosity(999)
+rpy.set_seed(seed_nbr)
+
+train_time = 10.
+test_time = 20.
+warm_time = 5.
+
+train_steps = round(train_time / dt)
+test_steps  = round(test_time  / dt)
+warm_steps  = round(warm_time  / dt)
+
+n_timesteps = train_steps + test_steps + warm_steps
+
+dataset = pd.read_csv("lorentz-sequences.csv")
+X = dataset[["x", "y", "z"]].values
+
+reservoir = Reservoir(1000,  lr=0.5, sr=0.9)
+readout = Ridge(3, ridge=2.5e-6)
+esn_model = reservoir >> readout
+
+X_train = X[:train_steps + warm_steps -1]
+Y_train = X[1:train_steps + warm_steps] - X[:train_steps + warm_steps -1]
+
+model = esn_model.fit(X_train, Y_train, warmup=warm_steps)
+    
+\end{lstlisting}
+
+The ESN is structured with a Reservoir node and a Ridge regression readout, connected sequentially to construct the model. Training data is prepared by segmenting the input array and generating target output through shifting forward by one step(in this case $inp\_seq\_len$ is 1). Lastly, the model fitting process is carried out, adjusting output weights matrix.
+
+
+\begin{lstlisting}[caption={true\_loss.py}, label=true:loss]
+import numpy as np
+import torch
+from constants import inp_seq_len, dt, seed_nbr
+from lorenz import RK4
+from mse import calculate_aggregate_mse
+from unnormalize_data import get_unnormalized_prediction
+from device import device as default_device
+
+np.random.seed(seed_nbr)
+
+
+def validate_long_term(nbrIter, init_input_seq, model, device):
+    predicted_path = [*init_input_seq]
+    for _ in range(nbrIter):
+        input_seq = np.array(predicted_path[-inp_seq_len:])
+        input_seq_tensor = (
+            torch.tensor(input_seq, dtype=torch.float32).unsqueeze(0).to(device)
+        )
+        with torch.no_grad():
+            next_pos = model(input_seq_tensor)
+
+        next_pos = next_pos.cpu().numpy().reshape(-1)
+        predicted_path.append(next_pos)
+
+    true_path = [*init_input_seq]
+    for _ in range(nbrIter):
+        true_path.append(RK4(np.array(true_path[-1]), dt).tolist())
+
+    unnormalized_path = true_path[:inp_seq_len] + get_unnormalized_prediction(
+        predicted_path[inp_seq_len:]
+    )
+
+    total = 0
+    for i in range(3):
+        list_a = [x[i] for x in true_path[inp_seq_len:]]
+        list_b = [x[i] for x in unnormalized_path[inp_seq_len:]]
+        mse_loss_ag = calculate_aggregate_mse(list_a, list_b)
+        total += mse_loss_ag
+    total /= 3
+
+    return total
+
+
+init_seq = [np.random.rand(3)]
+for _ in range(inp_seq_len - 1):
+    next_pos = RK4(np.array(init_seq[-1]), dt)
+    init_seq.append(next_pos.tolist())
+
+
+def evaluate_model(model, device=default_device):
+    loss = validate_long_term(
+        1000,
+        init_seq,
+        model,
+        device,
+    )
+    print(f"Validation loss: {loss}")
+    return loss
+\end{lstlisting}
 
 \bibliographystyle{apalike}
 \bibliography{references}
