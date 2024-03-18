@@ -194,12 +194,13 @@ h^{(t)} = \tanh(Wh^{(t-1)} + Ux^{(t)} + b_h)
 y^{(t)} = \text{softmax}(Vh^{(t)} + b_y)
 \end{equation}
 
-Here \(h^{(t)}\) is the hiddens state at timestep $t$, and \(y^{(t)}\) the equivalent output at that timestep. The weights $W$, $U$ and $V$ and the biases $b_h$ and $b_y$ are trainable parameters of the network and they are the same for all nodes. These equations highlight the recurrent nature of the RNN, as the computation of the hidden state at time $t$ depends on the previous state at $t-1$. This is what allows the network to maintain a form of memory over time. See Figure 2 for a visual representation of the RNN architecture, where $o^{(t)}$ represents $y^{(t)}$ before softmax
+Here \(h^{(t)}\) is the hiddens state at timestep $t$, and \(y^{(t)}\) the equivalent output at that timestep. The weights $W$, $U$ and $V$ and the biases $b_h$ and $b_y$ are trainable parameters of the network and they are the same for all nodes. These equations highlight the recurrent nature of the RNN, as the computation of the hidden state at time $t$ depends on the previous state at $t-1$. This is what allows the network to maintain a form of memory over time. See Figure \ref{fig:rnn_diagram} for a visual representation of the RNN architecture, where $o^{(t)}$ represents $y^{(t)}$ before softmax
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{rnn_diagram.jpeg}
 \caption{https://www.deeplearningbook.org/contents/rnn.html}
+\label{fig:rnn_diagram}
 \end{figure}
 
 However, RNNs have a significant limitation in that they often struggle to learn long term dependencies, since during backpropgation, the gradients are propagated through the same weights matrix multiple times, which especially when dealing with long sequences can lead to the vanishing and exploding gradient problem where the gradients either becomes extremely small or extremely big. Long Short-Term Memory (LSTM) networks  aim to solve this problem. The LSTM network is a modification of the RNN that introduces a second hidden state, called the cell state, which is updated differently from the traditional hidden state. It is governed by these equations:
@@ -232,17 +233,11 @@ Usually the output vector equals the hidden state in a LSTM.
 \centering
 \includegraphics[width=0.6\textwidth]{lstm_diagram.png}
 \caption{http://cs231n.stanford.edu/slides/2017/cs231n\_2017\_lecture10.pdf}
+\label{fig:lstm_diagram}
 \end{figure}
 
-Figure 3 showcases an LSTM cell, notice the red arrows which show the gradient flow. Because the hadamard product is used instead of matrix multiplication and the gates can vary between cells, gradient flow becomes more stable, which allows the network to learn long-term dependencies without an exploding or vanishing gradient.
+Figure \ref{fig:lstm_diagram} showcases an LSTM cell, notice the red arrows which show the gradient flow. Because the hadamard product is used instead of matrix multiplication and the gates can vary between cells, gradient flow becomes more stable, which allows the network to learn long-term dependencies without an exploding or vanishing gradient.
 \subsection{Transformers}
-
-% add this figure somewhere
-% \begin{figure}[h]
-% \centering
-% \includegraphics[width=0.2\textwidth]{decoder.png}
-% \caption{Transformers decoder architecture, taken from "All you need is attention" by Google. }
-% \end{figure}
 
 Transformers is a type of neural network architecture that was introduced in the paper "Attention is all you need" \cite{DBLP:journals/corr/VaswaniSPUJGKP17}. Unlike RNNs, Transformers do not process the data in sequence, instead, they process the entire sequence at once. Transformers transform the data into an embedding layer where the positions are encoded into the data vectors themselves which allows for parallelization.
 
@@ -276,7 +271,9 @@ The feed-forward layer allows the network to learn more complex representations 
 
 $$\text{LayerNorm}(x + \text{Sublayer}(x))$$
 
-where $\text{Sublayer}(x)$ is the function implemented by the multi-head or feed-forward layer and $x$ is the original input. This residual connection and normalization make the gradient flow more stable through the network.
+where $\text{Sublayer}(x)$ is the function implemented by the multi-head or feed-forward layer and $x$ is the original input. This residual connection and normalization make the gradient flow more stable through the network. 
+
+For a complete view of the Transformers architecture, see Figure \ref{fig:transformer_diagram} in Appendix B.
 
 \subsection{Reservoir Computing and Echo State Networks}
 
@@ -319,7 +316,7 @@ The code is written in Python and uses the PyTorch library for implementation of
 
 \subsection{Generating Data}
 
-The training data is processed via the RK4 method which is implemented in \ref{rk4:lorenz}.
+The training data is processed via the RK4 method which is implemented in Appendix A, Listing \ref{rk4:lorenz}.
 
 The data is created in the {generate\_dataset.py} module.
 
@@ -374,14 +371,14 @@ dataset[numerical_cols] = (
 dataset.to_csv('lorentz-sequences.csv', index=False)
 \end{lstlisting}
 
-The dataset is then normalized using Z-score normalization to improve gradient flow, which is critical. The raw unnormalized data is saved in a separate csv file to later on move the model predictions out of normalized space with inverse Z-score normalization \ref{inverse:normalization}.
+The dataset is then normalized using Z-score normalization to improve gradient flow, which is critical. The raw unnormalized data is saved in a separate csv file to later on move the model predictions out of normalized space with inverse Z-score normalization (Listing \ref{inverse:normalization}).
 
 
-Afterwards it is split into training, validation and testing sets in the \texttt{get\_training\_data.py} module \ref{datasplit}.
+Afterwards it is split into training, validation and testing sets in the \texttt{get\_training\_data.py} module (Listing \ref{datasplit}).
 
 \subsection{Setting up the RNN}
 
-The \texttt{LSTM\_RNN} class defines a RNN network based on PyTorch's \texttt{nn.Module} \ref{lstm}
+The \texttt{LSTM\_RNN} class defines a RNN network based on PyTorch's \texttt{nn.Module} in Listing \ref{lstm}
 
 
 The model is then instantiated like this:
@@ -421,21 +418,21 @@ def train_rnn_lstm(
     scheduler = ExponentialLR(optimizer, gamma=gamma)
 \end{lstlisting}
 
- It uses mean squared error loss function and the adam optimizer. It also uses an exponentially decaying learning step scheduler, which has proven great for managing learning rate with many training epochs. \\ \\  The RNN network is later on iterated over each batch of the training data and the loss is calculated and backpropagated through the network to update the weights. \ref{training:loop}
+ It uses mean squared error loss function and the adam optimizer. It also uses an exponentially decaying learning step scheduler, which has proven great for managing learning rate with many training epochs. \\ \\  The RNN network is later on iterated over each batch of the training data and the loss is calculated and backpropagated through the network to update the weights. (Listing \ref{training:loop})
 
 
 \subsection{Setting up the Transformers Model}
 
-The transfomers class is written with PyTorch TransformerEncoder and TransformerEncoderLayer classes and is defined in transformer.py \ref{transformer} with positional encoding implemented in the PositionalEncoding class \ref{positional:encoding}.
+The transfomers class is written with PyTorch TransformerEncoder and TransformerEncoderLayer classes and is defined in transformer.py (Listing \ref{transformer}) with positional encoding implemented in the PositionalEncoding class in Listing \ref{positional:encoding}.
 
 The model is then trained in a similar fashion to the RNN model and uses the same training loop.
 
 \subsection{Setting up the RC-ESN}
 
-The echo state network was implemented with reservoirpy, a library for reservoir computing in Python in reservoir.py \ref{reservoir}
+The echo state network was implemented with reservoirpy, a library for reservoir computing in Python in reservoir.py written in Listing \ref{reservoir}
 
 \subsection{Hyperparameter optimization process}
-Firstly a new loss function was defined in true\_loss.py \ref{true:loss} to evaluate the models on unseen data. This was done via generating a new random path with the RK4 method and then comparing the model's predictions to the actual path. The average MSE error was then computed to evaluate the model's performance.
+Firstly a new loss function was defined in true\_loss.py (Listing \ref{true:loss}) to evaluate the models on unseen data. This was done via generating a new random path with the RK4 method and then comparing the model's predictions to the actual path. The average MSE error was then computed to evaluate the model's performance.
 
 
 The hyperparameters of the Transformers and RNN networks were then optimized using the optuna library implementation of the Tree-structured Parzen Estimator(TPE) algorithm. 
@@ -571,48 +568,35 @@ The models were then finally evaluated by predicting 500 time steps and comparin
 \end{figure}
 
 \subsection{Trajectory}
-View figures 10, 11 and 12.
-
-\begin{figure}[p]
+View figures \ref{fig:rnn_path}, \ref{fig:echo_path} and \ref{fig:transformers_path}.
+\begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{rnn_path.jpeg}
-    \caption{RNN path(true path is red, model path is blue)}
+    % RNN path
+    \begin{minipage}[b]{0.49\textwidth}
+        \includegraphics[width=\linewidth]{rnn_path.jpeg}
+        \caption{RNN path (true path is red, model path is blue)}
+        \label{fig:rnn_path}
+    \end{minipage}
+    \hfill % add some space between images
+    % ESN path
+    \begin{minipage}[b]{0.49\textwidth}
+        \includegraphics[width=\linewidth]{echo_path.jpeg}
+        \caption{ESN path(true path is red, model path is blue)}
+        \label{fig:echo_path}
+    \end{minipage}
 \end{figure}
-
-\begin{figure}[p]
+\begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{echo_path.jpeg}
-    \caption{ESN path(true path is red, model path is blue)}
-\end{figure}
-
-\begin{figure}[p]
-    \centering
-    \includegraphics[width=\textwidth]{transformers_path.jpeg}
+    \includegraphics[width=0.6\textwidth]{transformers_path.jpeg}
     \caption{Transformers path(true path is red, model path is blue)}
+    \label{fig:transformers_path}
 \end{figure}
 
 \subsection{Mean Squared Error}
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.6\textwidth]{rnn_mse.jpeg}
-\caption{RNN MSE}
-\end{figure}
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.6\textwidth]{echo_mse.jpeg}
-\caption{ESN MSE}
-\end{figure}
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.6\textwidth]{transformers_mse.jpeg}
-\caption{Transformers MSE}
-\end{figure}
-The average MSE for RNN was 50.1579 \\
-The average MSE for RNN was 48.7797 \\
-The average MSE for RNN was 29.1590 \\ \\
-For a more detailed overview of MSE over time view figures 13, 14 and 15.
+The average MSE for the RNN was 50.1579 \\
+The average MSE for the ESN was 48.7797 \\
+The average MSE for the Transformers model was 29.1590 \\ \\
+For a more detailed overview of MSE over time view figures \ref{fig:rnn_mse}, \ref{fig:echo_mse} and \ref{fig:transformers:mse} in Appendix B.
 
 \section{Discussion}
 Looking at figures 7-9, it is clear that all models have learned the Lorenz patterns, thereby the underlying dynamics of the system. They all generated attractors of similar scale with two rings centering around two focal points. They differ slightly, however, and when comparing the figures, it is hard to tell which of the models has captured the best attractor shape (see figure 1). The Transformers model seems to have the most accurate angle between the two rings, but the left wing radius should be smaller and the outer right wing radius should be bigger. The ESN has more accurate outer wing radii, but the RNN seems to have more accurate inner wing radii. Overall, however, it seems like the ESN network has the most accurate Lorenz attractor shape.
@@ -1005,6 +989,37 @@ def evaluate_model(model, device=default_device):
     return loss
 \end{lstlisting}
 
+\section{Figures}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.4\textwidth]{decoder.png}
+\caption{Transformers decoder architecture, taken from "All you need is attention" by Google. }
+\label{fig:transformer_diagram}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{rnn_mse.jpeg}
+\caption{RNN MSE}
+\label{fig:rnn_mse}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{echo_mse.jpeg}
+\caption{ESN MSE}
+\label{fig:echo_mse}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{transformers_mse.jpeg}
+\caption{Transformers MSE}
+\label{fig:transformers:mse}
+\end{figure}
+
+\clearpage
 \bibliographystyle{apalike}
 \bibliography{references}
 

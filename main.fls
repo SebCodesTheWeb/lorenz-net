@@ -850,6 +850,11 @@ INPUT ./transformers_path.jpeg
 INPUT transformers_path.jpeg
 INPUT ./transformers_path.jpeg
 INPUT ./transformers_path.jpeg
+INPUT ./decoder.png
+INPUT ./decoder.png
+INPUT decoder.png
+INPUT ./decoder.png
+INPUT ./decoder.png
 INPUT ./rnn_mse.jpeg
 INPUT ./rnn_mse.jpeg
 INPUT rnn_mse.jpeg
