@@ -47,10 +47,14 @@
 \@writefile{toc}{\contentsline {section}{\numberline {4}Results}{15}{section.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Lorenz attractor}{15}{subsection.4.1}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces RNN}}{15}{figure.6}\protected@file@percent }
+\newlabel{fig:rnn_lorenz}{{6}{15}{RNN}{figure.6}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces ESN}}{15}{figure.7}\protected@file@percent }
+\newlabel{fig:echo_lorenz}{{7}{15}{ESN}{figure.7}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Transformers}}{15}{figure.8}\protected@file@percent }
+\newlabel{fig:transformers_lorenz}{{8}{15}{Transformers}{figure.8}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Trajectory}{15}{subsection.4.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Mean Squared Error}{15}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{15}{section.5}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces RNN path (true path is red, model path is blue)}}{16}{figure.9}\protected@file@percent }
 \newlabel{fig:rnn_path}{{9}{16}{RNN path (true path is red, model path is blue)}{figure.9}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces ESN path(true path is red, model path is blue)}}{16}{figure.10}\protected@file@percent }
@@ -59,38 +63,37 @@
 \newlabel{fig:transformers_path}{{11}{16}{Transformers path(true path is red, model path is blue)}{figure.11}{}}
 \citation{npg-27-373-2020}
 \citation{cite-key}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{17}{section.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Conclusion}{17}{subsection.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {A}Code snippets}{19}{appendix.A}\protected@file@percent }
-\newlabel{appendix:code}{{A}{19}{Code snippets}{appendix.A}{}}
-\newlabel{rk4:lorenz}{{1}{19}{RK4 implementation}{lstlisting.1}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}RK4 implementation}{19}{lstlisting.1}\protected@file@percent }
-\newlabel{datasplit}{{2}{19}{get\_training\_data.py}{lstlisting.2}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}get\_training\_data.py}{19}{lstlisting.2}\protected@file@percent }
-\newlabel{lstm}{{3}{20}{LSTM RNN implementation}{lstlisting.3}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}LSTM RNN implementation}{20}{lstlisting.3}\protected@file@percent }
-\newlabel{inverse:normalization}{{4}{21}{inverse normalization}{lstlisting.4}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4}inverse normalization}{21}{lstlisting.4}\protected@file@percent }
-\newlabel{training:loop}{{5}{21}{Training loop}{lstlisting.5}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {5}Training loop}{21}{lstlisting.5}\protected@file@percent }
-\newlabel{transformer}{{6}{22}{Transformer implementation}{lstlisting.6}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6}Transformer implementation}{22}{lstlisting.6}\protected@file@percent }
-\newlabel{positional:encoding}{{7}{23}{Positional encoding implementation}{lstlisting.7}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {7}Positional encoding implementation}{23}{lstlisting.7}\protected@file@percent }
-\newlabel{reservoir}{{8}{23}{ESN implementation}{lstlisting.8}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {8}ESN implementation}{23}{lstlisting.8}\protected@file@percent }
-\newlabel{true:loss}{{9}{24}{true\_loss.py}{lstlisting.9}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {9}true\_loss.py}{24}{lstlisting.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A}Code snippets}{18}{appendix.A}\protected@file@percent }
+\newlabel{appendix:code}{{A}{18}{Code snippets}{appendix.A}{}}
+\newlabel{rk4:lorenz}{{1}{18}{RK4 implementation}{lstlisting.1}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}RK4 implementation}{18}{lstlisting.1}\protected@file@percent }
+\newlabel{datasplit}{{2}{18}{get\_training\_data.py}{lstlisting.2}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}get\_training\_data.py}{18}{lstlisting.2}\protected@file@percent }
+\newlabel{lstm}{{3}{19}{LSTM RNN implementation}{lstlisting.3}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}LSTM RNN implementation}{19}{lstlisting.3}\protected@file@percent }
+\newlabel{inverse:normalization}{{4}{20}{inverse normalization}{lstlisting.4}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4}inverse normalization}{20}{lstlisting.4}\protected@file@percent }
+\newlabel{training:loop}{{5}{20}{Training loop}{lstlisting.5}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5}Training loop}{20}{lstlisting.5}\protected@file@percent }
+\newlabel{transformer}{{6}{21}{Transformer implementation}{lstlisting.6}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6}Transformer implementation}{21}{lstlisting.6}\protected@file@percent }
+\newlabel{positional:encoding}{{7}{22}{Positional encoding implementation}{lstlisting.7}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {7}Positional encoding implementation}{22}{lstlisting.7}\protected@file@percent }
+\newlabel{reservoir}{{8}{22}{ESN implementation}{lstlisting.8}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {8}ESN implementation}{22}{lstlisting.8}\protected@file@percent }
+\newlabel{true:loss}{{9}{23}{true\_loss.py}{lstlisting.9}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {9}true\_loss.py}{23}{lstlisting.9}\protected@file@percent }
 \citation{DBLP:journals/corr/VaswaniSPUJGKP17}
-\@writefile{toc}{\contentsline {section}{\numberline {B}Figures}{25}{appendix.B}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Transformers decoder architecture, (adapted from \cite  {DBLP:journals/corr/VaswaniSPUJGKP17})}}{25}{figure.12}\protected@file@percent }
-\newlabel{fig:transformer_diagram}{{12}{25}{Transformers decoder architecture, (adapted from \cite {DBLP:journals/corr/VaswaniSPUJGKP17})}{figure.12}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces RNN MSE}}{26}{figure.13}\protected@file@percent }
-\newlabel{fig:rnn_mse}{{13}{26}{RNN MSE}{figure.13}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces ESN MSE}}{26}{figure.14}\protected@file@percent }
-\newlabel{fig:echo_mse}{{14}{26}{ESN MSE}{figure.14}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Transformers MSE}}{26}{figure.15}\protected@file@percent }
-\newlabel{fig:transformers:mse}{{15}{26}{Transformers MSE}{figure.15}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B}Figures}{24}{appendix.B}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Transformers decoder architecture, (adapted from \cite  {DBLP:journals/corr/VaswaniSPUJGKP17})}}{24}{figure.12}\protected@file@percent }
+\newlabel{fig:transformer_diagram}{{12}{24}{Transformers decoder architecture, (adapted from \cite {DBLP:journals/corr/VaswaniSPUJGKP17})}{figure.12}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces RNN MSE}}{25}{figure.13}\protected@file@percent }
+\newlabel{fig:rnn_mse}{{13}{25}{RNN MSE}{figure.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces ESN MSE}}{25}{figure.14}\protected@file@percent }
+\newlabel{fig:echo_mse}{{14}{25}{ESN MSE}{figure.14}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Transformers MSE}}{25}{figure.15}\protected@file@percent }
+\newlabel{fig:transformers:mse}{{15}{25}{Transformers MSE}{figure.15}{}}
 \bibstyle{apalike}
 \bibdata{references}
 \bibcite{npg-27-373-2020}{Chattopadhyay et\nobreakspace  {}al., 2020}
@@ -99,4 +102,4 @@
 \bibcite{reservoirpy}{Hinaut and Trouvain, 2021}
 \bibcite{StanfordEngineering2020}{Justin\nobreakspace  {}Johnsson and Yeung, 2017}
 \bibcite{DBLP:journals/corr/VaswaniSPUJGKP17}{Vaswani et\nobreakspace  {}al., 2017}
-\gdef \@abspage@last{27}
+\gdef \@abspage@last{26}

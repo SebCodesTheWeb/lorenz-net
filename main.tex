@@ -14,6 +14,10 @@
 \usepackage{titling}
 \usepackage{mdframed}
 \usepackage{changepage}
+\usepackage{multicol}
+\usepackage{enumitem}
+
+\setlist[itemize]{noitemsep, topsep=16pt, leftmargin=*}
 
 \definecolor{codegreen}{rgb}{0.33, 0.71, 0.36}
 \definecolor{codegray}{rgb}{0.5, 0.5, 0.5}
@@ -507,44 +511,45 @@ study.optimize(
 
 It was parallelizad to run on four gpus and took use of pruning to preemptively end unpromising trials. Once the best combination of hyperparameters was found the networks was retrained over more epochs for optimal results. The optimization took place over 100 trials and was trained on four RTX 4090s.
 
-The ESN was on the hand manually optimized by trial and error, as the reservoirpy library does not support optuna.
+The ESN was on the hand manually optimized by trial and error, as the reservoirpy library does not support optuna. In the end the following optimal hyperparameters were found and used in the final test:
 
-In the end the following hyperparameters were used in the final models:
+\raggedcolumns
+\begin{multicols}{3}
+    \subsection*{ESN:}
+    \begin{itemize}
+        \item \texttt{reservoir size}: 1000
+        \item \texttt{leakage rate}: 0.5
+        \item \texttt{spectral radius}: 0.9
+        \item \texttt{ridge parameter}: \(2.5 \cdot 10^{-6}\)
+        \item \texttt{inp\_seq\_len}:  
+    \end{itemize}
 
-\begin{itemize}
-    \item \textbf{ESN:}
+    \subsection*{Transformers:}
     \begin{itemize}
-        \item reservoir size: 1000
-        \item leakage rate: 0.5
-        \item spectral radius: 0.9
-        \item ridge parameter: $2.5 \times 10^{-6}$
-        \item inp\_seq\_len: 1
+        \item \texttt{hidden\_dim}: 256
+        \item \texttt{nhead}: 2
+        \item \texttt{num\_layers}: 2
+        \item \texttt{learning\_rate}: 0.00257 % rounded for readability
+        \item \texttt{batch\_size}: 64
+        \item \texttt{d\_model}: 64
+        \item \texttt{dropout}: 0.02078 % rounded for readability
+        \item \texttt{epochs}: 30
+        \item \texttt{inp\_seq\_len}: 49
     \end{itemize}
-    \item \textbf{Transformers:}
-    \begin{itemize}
-        \item hidden\_dim: 256
-        \item nhead: 2
-        \item num\_layers: 2
-        \item learning\_rate: 0.002569758352546269
-        \item batch\_size: 64
-        \item d\_model: 64
-        \item dropout: 0.020779607365612865
-        \item epochs: 30
-        \item inp\_seq\_len: 49
-    \end{itemize}
-    \item \textbf{RNN LSTM:}
-    \begin{itemize}
-        \item hidden\_size: 32
-        \item num\_layers: 1
-        \item learning\_rate: 0.0005
-        \item batch\_size: 32
-        \item epochs: 10
-        \item gamma: 8
-        \item inp\_seq\_len: 9
-    \end{itemize}
-\end{itemize}
 
-The models were then finally evaluated by predicting 500 time steps and comparing the predictions to the testing data set. To evaluate the models, their Lorenz attractor shape, trajectory and mean squared error was plotted.
+    \subsection*{RNN LSTM:}
+    \begin{itemize}
+        \item \texttt{hidden\_size}: 32
+        \item \texttt{num\_layers}: 1
+        \item \texttt{learning\_rate}: 0.0005
+        \item \texttt{batch\_size}: 32
+        \item \texttt{epochs}: 10
+        \item \texttt{gamma}: 8
+        \item \texttt{inp\_seq\_len}: 9
+    \end{itemize}
+\end{multicols}
+
+The models were then evaluated by predicting 500 time steps and comparing the predictions to the testing data set. To evaluate the models, their Lorenz attractor shape, trajectory and mean squared error was plotted.
 
 \section{Results}
 \subsection{Lorenz attractor}
@@ -554,16 +559,21 @@ The models were then finally evaluated by predicting 500 time steps and comparin
         \centering
         \includegraphics[width=\textwidth]{rnn_lorenz.jpeg}
         \caption{RNN}
-    \end{minipage}\hfill
+        \label{fig:rnn_lorenz}
+    \end{minipage}
+    \hfill
     \begin{minipage}{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{echo_lorenz.jpeg}
         \caption{ESN}
-    \end{minipage}\hfill
+        \label{fig:echo_lorenz}
+    \end{minipage}
+    \hfill
     \begin{minipage}{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{transformers_lorenz.jpeg}
         \caption{Transformers}
+        \label{fig:transformers_lorenz}
     \end{minipage}
 \end{figure}
 
@@ -571,14 +581,12 @@ The models were then finally evaluated by predicting 500 time steps and comparin
 View figures \ref{fig:rnn_path}, \ref{fig:echo_path} and \ref{fig:transformers_path}.
 \begin{figure}
     \centering
-    % RNN path
     \begin{minipage}[b]{0.49\textwidth}
         \includegraphics[width=\linewidth]{rnn_path.jpeg}
         \caption{RNN path (true path is red, model path is blue)}
         \label{fig:rnn_path}
     \end{minipage}
-    \hfill % add some space between images
-    % ESN path
+    \hfill
     \begin{minipage}[b]{0.49\textwidth}
         \includegraphics[width=\linewidth]{echo_path.jpeg}
         \caption{ESN path(true path is red, model path is blue)}
@@ -599,13 +607,14 @@ The average MSE for the Transformers model was 29.1590 \\ \\
 For a more detailed overview of MSE over time view figures \ref{fig:rnn_mse}, \ref{fig:echo_mse} and \ref{fig:transformers:mse} in Appendix B.
 
 \section{Discussion}
-Looking at figures 7-9, it is clear that all models have learned the Lorenz patterns, thereby the underlying dynamics of the system. They all generated attractors of similar scale with two rings centering around two focal points. They differ slightly, however, and when comparing the figures, it is hard to tell which of the models has captured the best attractor shape (see figure 1). The Transformers model seems to have the most accurate angle between the two rings, but the left wing radius should be smaller and the outer right wing radius should be bigger. The ESN has more accurate outer wing radii, but the RNN seems to have more accurate inner wing radii. Overall, however, it seems like the ESN network has the most accurate Lorenz attractor shape.
+Looking at figures \ref{fig:rnn_lorenz}, \ref{fig:echo_lorenz} and \ref{fig:transformers_lorenz}, it is clear that all models have learned the Lorenz patterns, thereby the underlying dynamics of the system. They all generated attractors of similar scale with two rings centering around two focal points. They differ slightly, however, and when comparing the figures, it is hard to tell which of the models has captured the best attractor shape (see figure \ref{fig:lorenz_attractor}). The Transformers model seems to have the most accurate angle between the two rings, but the left wing radius should be smaller and the outer right wing radius should be bigger. The ESN has more accurate outer wing radii, but the RNN seems to have more accurate inner wing radii. Overall, however, it seems like the ESN network has the most accurate Lorenz attractor shape.
 
-The results from the trajectory plots are clear. In figure 10, the RNN path seems to deviate from the true path around timestep 40-50, which is confirmed by figure 13 where the MSE could be seen spiking. The MSE then goes down for a bit, showing that the RNN has learned the pattern of the Lorenz attractor but not with great accuracy.
 
-Viewing figure 11, the ESN seems to diverge from the true path around timestep 60-100, which also is confirmed by figure 14 showcasing some big up and down spikes. The MSE seems to vary a lot, which shows that the ESN has not learned the Lorenz system's trajectory very accurately, but has learned the overall pattern and can follow it for a while.
+The results from the trajectory plots are clear. In figure \ref{fig:rnn_path}, the RNN path seems to deviate from the true path around timestep 40-50, which is confirmed by figure \ref{fig:rnn_mse} where the MSE could be seen spiking. The MSE then goes down for a bit, showing that the RNN has learned the pattern of the Lorenz attractor but not with great accuracy.
 
-Looking at figure 12, the Transformers model seems to follow the true path very well up till timestep 100-120. This is confirmed by figure 15 where the MSE is very low and stable untill slightly after timestep 100. The Transformers model also appears to hop back on track around timestep 400 and follow the true path accurately for another 100 timesteps.
+Viewing figure \ref{fig:echo_path}, the ESN seems to diverge from the true path around timestep 60-100, which also is confirmed by figure \ref{fig:echo_mse} showcasing some big up and down spikes. The MSE seems to vary a lot, which shows that the ESN has not learned the Lorenz system's trajectory very accurately, but has learned the overall pattern and can follow it for a while.
+
+Looking at figure \ref{fig:transformers_path}, the Transformers model seems to follow the true path very well up till timestep 100-120. This is confirmed by figure \ref{fig:transformers:mse} where the MSE is very low and stable untill slightly after timestep 100. The Transformers model also appears to hop back on track around timestep 400 and follow the true path accurately for another 100 timesteps.
 
 Keeping in mind that the ESN has a $inp\_seq\_len$ of 1, the RNN a $inp\_seq\_len$ of 9, and the Transformers model a $inp\_seq\_len$ of 49, the ESN could hold an accurate prediction for about 70-80 timesteps. The RNN could hold an accurate prediction for about 30-40 timesteps. And the Transformers model could hold an accurate prediction for about 60 timesteps with a small bounce back where it held a good prediction for about another 100 more timesteps. Overall, the Transformers model had the lowest MSE.
 
