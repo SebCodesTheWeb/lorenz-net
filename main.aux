@@ -19,8 +19,8 @@
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{4}{section.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {2}Theory}{4}{section.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}The Lorenz System}{4}{subsection.2.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The Lorenz attractor for $\sigma = 10$, $\rho = 28$, and $\beta = \frac  {8}{3}$. Generated with RK4 method for 100 time units}}{4}{figure.1}\protected@file@percent }
-\newlabel{fig:lorenz_attractor}{{1}{4}{The Lorenz attractor for $\sigma = 10$, $\rho = 28$, and $\beta = \frac {8}{3}$. Generated with RK4 method for 100 time units}{figure.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The Lorenz attractor for $\sigma = 10$, $\rho = 28$, and $\beta = \frac  {8}{3}$. Generated with the RK4 method for 100 time units}}{4}{figure.1}\protected@file@percent }
+\newlabel{fig:lorenz_attractor}{{1}{4}{The Lorenz attractor for $\sigma = 10$, $\rho = 28$, and $\beta = \frac {8}{3}$. Generated with the RK4 method for 100 time units}{figure.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Neural Networks}{5}{subsection.2.2}\protected@file@percent }
 \citation{Goodfellow-et-al-2016}
 \citation{Goodfellow-et-al-2016}
@@ -33,30 +33,31 @@
 \newlabel{fig:lstm_diagram}{{3}{8}{Diagram of LSTM cell (adapted from \cite {StanfordEngineering2020})}{figure.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Transformers}{8}{subsection.2.4}\protected@file@percent }
 \citation{DBLP:journals/corr/VaswaniSPUJGKP17}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Multi Head attention mechaism (adapted from \cite  {DBLP:journals/corr/VaswaniSPUJGKP17})}}{9}{figure.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Multi-Head Attention mechaism (adapted from \cite  {DBLP:journals/corr/VaswaniSPUJGKP17})}}{9}{figure.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Reservoir Computing and Echo State Networks}{9}{subsection.2.5}\protected@file@percent }
 \citation{reservoirpy}
+\citation{github}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Echo State Network architecture (adapted from \cite  {reservoirpy}).}}{10}{figure.5}\protected@file@percent }
 \newlabel{fig:esn}{{5}{10}{Echo State Network architecture (adapted from \cite {reservoirpy})}{figure.5}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Method}{11}{section.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Generating Data}{11}{subsection.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Setting up the RNN}{12}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Setting up the LSTM RNN}{12}{subsection.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Setting up the Transformers Model}{13}{subsection.3.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Setting up the RC-ESN}{13}{subsection.3.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Hyperparameter optimization process}{13}{subsection.3.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {4}Results}{15}{section.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Lorenz attractor}{15}{subsection.4.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces RNN}}{15}{figure.6}\protected@file@percent }
-\newlabel{fig:rnn_lorenz}{{6}{15}{RNN}{figure.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces LSTM RNN}}{15}{figure.6}\protected@file@percent }
+\newlabel{fig:rnn_lorenz}{{6}{15}{LSTM RNN}{figure.6}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces ESN}}{15}{figure.7}\protected@file@percent }
 \newlabel{fig:echo_lorenz}{{7}{15}{ESN}{figure.7}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Transformers}}{15}{figure.8}\protected@file@percent }
 \newlabel{fig:transformers_lorenz}{{8}{15}{Transformers}{figure.8}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Trajectory}{15}{subsection.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Mean Squared Error}{15}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}MSE}{15}{subsection.4.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{15}{section.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces RNN path (true path is red, model path is blue)}}{16}{figure.9}\protected@file@percent }
-\newlabel{fig:rnn_path}{{9}{16}{RNN path (true path is red, model path is blue)}{figure.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces LSTM RNN path (true path is red, model path is blue)}}{16}{figure.9}\protected@file@percent }
+\newlabel{fig:rnn_path}{{9}{16}{LSTM RNN path (true path is red, model path is blue)}{figure.9}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces ESN path(true path is red, model path is blue)}}{16}{figure.10}\protected@file@percent }
 \newlabel{fig:echo_path}{{10}{16}{ESN path(true path is red, model path is blue)}{figure.10}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Transformers path(true path is red, model path is blue)}}{16}{figure.11}\protected@file@percent }
@@ -97,6 +98,7 @@
 \bibstyle{apalike}
 \bibdata{references}
 \bibcite{npg-27-373-2020}{Chattopadhyay et\nobreakspace  {}al., 2020}
+\bibcite{github}{Delgado, 2024}
 \bibcite{cite-key}{Gauthier et\nobreakspace  {}al., 2021}
 \bibcite{Goodfellow-et-al-2016}{Goodfellow et\nobreakspace  {}al., 2016}
 \bibcite{reservoirpy}{Hinaut and Trouvain, 2021}

@@ -5,6 +5,11 @@ Chattopadhyay, A., Hassanzadeh, P., and Subramanian, D. (2020).
 \newblock Data-driven predictions of a multiscale lorenz 96 chaotic system using machine-learning methods: reservoir computing, artificial neural network, and long short-term memory network.
 \newblock {\em Nonlinear Processes in Geophysics}, 27(3):373--389.
 
+\bibitem[Delgado, 2024]{github}
+Delgado, S. (2024).
+\newblock lorenz-net.
+\newblock \url{https://github.com/SebCodesTheWeb/lorenz-net}.
+
 \bibitem[Gauthier et~al., 2021]{cite-key}
 Gauthier, D.~J., Bollt, E., Griffith, A., and Barbosa, W. A.~S. (2021).
 \newblock Next generation reservoir computing.

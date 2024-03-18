@@ -78,7 +78,7 @@ Which Neural Network Architecture is Optimal for Predicting Chaotic Dynamics? \\
 \vspace{1em}
 \small
 \begin{adjustwidth}{2cm}{2cm}
-A comparative study between RNN, Transformers and Echo State Networks regarding their capacity to predict the Lorenz 63 system.
+A comparative study between LSTM RNN, Transformers and Echo State Networks regarding their capacity to predict the Lorenz 63 system.
 \end{adjustwidth}
 \vspace{14em}
 \begin{figure}[h]
@@ -107,7 +107,7 @@ A comparative study between RNN, Transformers and Echo State Networks regarding 
 \null\vspace*{\stretch{1}}
 \begin{abstract}
     % Should be complete overview of purpose, method, results and conclusion, needs to be rewritten
-    \noindent This study seeks to identify the neural network architecture that is most efficient at predicting chaotic dynamics, by comparing Recurrent Neural Networks (RNN), Echo State Networks (ESN), and the Transformers architecture. Using the Lorenz 63 system as a standard model for chaotic systems, this research evaluates each architecture's ability to capture chaotic behavior over time based on their mean squared error (MSE). The architectures are implemented and optimized in Python with the help of libraries such as PyTorch for RNNs and Transformers, and ReservoirPy for ESNs. Initial results indicate that while all architectures are capable of learning the patterns present in chaotic systems, there are notable differences in performance. The ESN shows a slight advantage over Transformers in predicting the Lorenz attractor shape and trajectory, followed by the RNN. The Transformers model, however, demonstrates a stronger and more stable prediction during the initial phases. This study provides insights into the practical application of neural network models for chaotic system prediction and suggests directions for future research.
+    \noindent This study seeks to identify the neural network architecture that showscases most potential at predicting chaotic dynamics, by comparing LSTM Recurrent Neural Networks (LSTM RNN), Echo State Networks (ESN), and the Transformers architecture. Using the Lorenz 63 system as a standard model for chaotic systems, this research evaluates each architecture's ability to capture chaotic behavior over time based on their Mean Squared Error (MSE). The architectures are implemented and optimized in Python with the help of libraries such as PyTorch for RNNs and Transformers, and ReservoirPy for ESNs. Initial results indicate that while all architectures are capable of learning the patterns present in chaotic systems, there are notable differences in performance. The ESN shows a slight advantage over Transformers in predicting the Lorenz attractor shape and trajectory. The Transformers model, however, demonstrates a stronger and more stable prediction during the initial phases compared to the ESN model. The LSTM RNN model performs significantly worse than both the ESN and Transformers models. This study provides insights into the practical application of neural network models for chaotic system prediction and suggests directions for future research.
 \end{abstract}
 \vspace*{\stretch{2}}
 \newpage
@@ -117,7 +117,7 @@ A comparative study between RNN, Transformers and Echo State Networks regarding 
 \newpage
 
 \section{Introduction}
-A chaotic system is a dynamical system that is highly sensitive to initial conditions, leading to long-term unpredictability despite its deterministic nature. Chaotic systems are found in many natural phenomena, such as weather, water flows, and planetary orbits. Traditionally chaotic systems have been modeled using numerical methods, however papers such as \cite{npg-27-373-2020} have tried to apply neural network models instead. Neural networks are computing systems that mimic the brain to learn from data and recognize patterns without explicit instructions. Results have shown that neural networks, specifically echo state networks, can be promising in capturing chaotic dynamics. The goal of this study is to further explore the application of neural networks by also testing out the Transformers architecture as introduced by Google in their research paper \cite{DBLP:journals/corr/VaswaniSPUJGKP17} and compare it to the RNN and ESN architectures. The networks will be judged on their mean squared error over time and their ability to capture the Lorenz 63 system's chaotic patterns. The objective is to detemine which of these architecture prove most effective in predicting chaotic systems.
+A chaotic system is a dynamical system that is highly sensitive to initial conditions, leading to long-term unpredictability despite its deterministic nature. Chaotic systems are found in many natural phenomena, such as weather, water flows, and planetary orbits. Traditionally chaotic systems have been modeled using numerical methods, however papers such as \cite{npg-27-373-2020} have tried to apply neural network models instead. Neural networks are computing systems that mimic the brain to learn from data and recognize patterns without explicit instructions. Results have shown that neural networks, specifically ESN, can be promising in capturing chaotic dynamics. The goal of this study is to further explore the application of neural networks by also testing out the Transformers architecture as introduced by Google in their research paper \cite{DBLP:journals/corr/VaswaniSPUJGKP17} and compare it to the LSTM RNN and ESN architectures. The networks will be judged on their MSE over time and their ability to capture the Lorenz 63 system's chaotic patterns. The objective is to determine which of these architectures prove most effective in predicting chaotic systems.
 \section{Theory}
 
 \subsection{The Lorenz System}
@@ -137,7 +137,7 @@ The Lorenz system is known for its butterfly-shaped attractor, which is a set of
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.3\textwidth]{lorenz_attractor.jpeg}
-\caption{The Lorenz attractor for $\sigma = 10$, $\rho = 28$, and $\beta = \frac{8}{3}$. Generated with RK4 method for 100 time units}
+\caption{The Lorenz attractor for $\sigma = 10$, $\rho = 28$, and $\beta = \frac{8}{3}$. Generated with the RK4 method for 100 time units}
 \label{fig:lorenz_attractor}
 \end{figure}
 
@@ -149,7 +149,7 @@ At the heart of neural networks is the feedforward computation that passes the d
 
 \[ y = f(Wx + b) \]
 
-where \(y\) is the output, \(W\) is the weights matrix, \(x\) is the input vector, \(b\) is the bias vector, and \(f\) is the activation function, typically the ReLU(rectified linear unit) function is used. the ReLU function is defined as:
+where \(y\) is the output, \(W\) is the weights matrix, \(x\) is the input vector, \(b\) is the bias vector, and \(f\) is the activation function, typically the ReLU(rectified linear unit) function is used. The ReLU function is defined as:
 
 \[ \text{ReLU}(z) = \max(0, z) \]
 
@@ -171,9 +171,9 @@ Due to its shape, the sigmoid function is suitable for binary outputs and is use
 \text{softmax}(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}}
 \]
 
-The softmax function ensures that the sum of the probabilities of all classes is \(1\), which is great for a probabilistic interpretation.
+Here $K$ is the length or dimensionality of the input $z$ vector. The softmax function ensures that the sum of the probabilities of all $z_i$ elements is \(1\), which is great for a probabilistic interpretation.
 
-Given a predicted value \(\hat{y}_i\) and a true value \(y_i\) a cost function is used to measure the degree of error in the prediction. Commonly used for regression-based tasks is the mean squared error (MSE) function, which is defined by:
+Given a predicted value \(\hat{y}_i\) and a true value \(y_i\) a cost function is used to measure the degree of error in the prediction. Commonly used for regression-based tasks is the MSE function, which is defined by:
 
 \[ C = \frac{1}{2n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 \]
 
@@ -188,7 +188,7 @@ where \(W_{\text{new}}\) and \(W_{\text{old}}\) are the values of the weights af
 Via processes like SGD, the network can compute a gradient to slowly shift the parameters and minimize the error of the network's predictions. Over time the network can generalize and learn the underlying patterns of the data to make accurate predictions on unseen data.
 
 \subsection{RNNs}
-A Recurrent Neural Network (RNN) is a type of neural network architecture designed to recognize patterns in sequential data. What makes the RNN architecture special is that it's composed of a train of nodes, called cells, each connected to the next, where all the cells share the same trainable weights and biases. Each node in the train has it's own hidden state that is used when computing the next ouput. When the input vector is fed to the first cell of the train, it creates an output and then the hidden state is updated and passed along to the next node. The hidden state makes it so the next cell can 'remember' the previous data inputed. The RNN is governed by these equations:
+A Recurrent Neural Network (RNN) is a type of neural network architecture designed to recognize patterns in sequential data. What makes the RNN architecture special is that it's composed of a train of nodes, called cells, each connected to the next, where all the cells share the same trainable weights and biases. Each node in the train has its own hidden state that is used when computing the next ouput. When the input vector is fed to the first cell of the train, it creates an output and then the hidden state is updated and passed along to the next cell. The hidden state makes it so the next cell can 'remember' the previous data input. The RNN is governed by these equations:
 
 \begin{equation}
 h^{(t)} = \tanh(Wh^{(t-1)} + Ux^{(t)} + b_h)
@@ -198,7 +198,7 @@ h^{(t)} = \tanh(Wh^{(t-1)} + Ux^{(t)} + b_h)
 y^{(t)} = \text{softmax}(Vh^{(t)} + b_y)
 \end{equation}
 
-Here \(h^{(t)}\) is the hiddens state at timestep $t$, and \(y^{(t)}\) the equivalent output at that timestep. The weights $W$, $U$ and $V$ and the biases $b_h$ and $b_y$ are trainable parameters of the network and they are the same for all nodes. These equations highlight the recurrent nature of the RNN, as the computation of the hidden state at time $t$ depends on the previous state at $t-1$. This is what allows the network to maintain a form of memory over time. See Figure \ref{fig:rnn_diagram} for a visual representation of the RNN architecture, where $o^{(t)}$ represents $y^{(t)}$ before softmax
+Here \(h^{(t)}\) is the hidden state at timestep $t$, and \(y^{(t)}\) the equivalent output at that timestep. The weights $W$, $U$ and $V$ and the biases $b_h$ and $b_y$ are trainable parameters of the network and they are the same for all cells. These equations highlight the recurrent nature of the RNN, as the computation of the hidden state at time $t$ depends on the previous state at $t-1$. This is what allows the network to maintain a form of memory over time. See Figure \ref{fig:rnn_diagram} for a visual representation of the RNN architecture, where $o^{(t)}$ represents $y^{(t)}$ before softmax.
 
 \begin{figure}[h]
 \centering
@@ -207,7 +207,7 @@ Here \(h^{(t)}\) is the hiddens state at timestep $t$, and \(y^{(t)}\) the equiv
 \label{fig:rnn_diagram}
 \end{figure}
 
-However, RNNs have a significant limitation in that they often struggle to learn long term dependencies, since during backpropgation, the gradients are propagated through the same weights matrix multiple times, which especially when dealing with long sequences can lead to the vanishing and exploding gradient problem where the gradients either becomes extremely small or extremely big. Long Short-Term Memory (LSTM) networks  aim to solve this problem. The LSTM network is a modification of the RNN that introduces a second hidden state, called the cell state, which is updated differently from the traditional hidden state. It is governed by these equations:
+However, RNNs have a significant limitation in that they often struggle to learn long term dependencies, since during backpropagation, the gradients are propagated through the same weights matrix multiple times, which especially when dealing with long sequences can lead to the vanishing and exploding gradient problem where the gradients either becomes extremely small or extremely big. Long Short-Term Memory (LSTM) networks  aim to solve this problem. The LSTM network is a modification of the RNN that introduces a second hidden state, called the cell state. It is governed by these equations:
 
 \begin{equation} a^{(t)} = Wh^{(t-1)} + Ux^{(t)} + b_h\end{equation}
 
@@ -221,15 +221,15 @@ Now $a^{(t)}$ is used to compute four gates, $i$, $f$, $o$, and $g$ with differe
 
 \begin{equation} g^{(t)} = \tanh(a^{(t)} + b_g) \end{equation}
 
-The gates are used to compute the next cell state, where the $f$ gate decides how much to 'remember' or 'forget' from the previous cell state, and the $i$ and $g$ gate together decide how much new information to write.
+The gates are used to compute the next cell state, where the $f$ gate decides how much to 'remember' or 'forget' from the previous cell state, and the $i$ and $g$ gates together decide how much new information to write.
 
 \begin{equation} C^{(t)} = f^{(t)} \odot C^{(t-1)} + i^{(t)} \odot g^{(t)} \end{equation}
 
-The $o$ gate then detemines how much of the cell state to output to the next hidden state.
+The $o$ gate then determines how much of the cell state to output to the next hidden state.
 
 \begin{equation} h^{(t)} = o^{(t)} \odot \tanh(C^{(t)}) \end{equation}
 
-Usually the output vector equals the hidden state in a LSTM.
+Usually the output vector equals the hidden state in an LSTM.
 
 \begin{equation} y^{(t)} = h^{(t)} \end{equation}
 
@@ -245,13 +245,13 @@ Figure \ref{fig:lstm_diagram} showcases an LSTM cell, notice the red arrows whic
 
 Transformers is a type of neural network architecture that was introduced in the paper "Attention is all you need" \cite{DBLP:journals/corr/VaswaniSPUJGKP17}. Unlike RNNs, Transformers do not process the data in sequence, instead, they process the entire sequence at once. Transformers transform the data into an embedding layer where the positions are encoded into the data vectors themselves which allows for parallelization.
 
-The key element in Transformers is the self-attention mechanism. In self-attention, each token in the input sequence is transformed with trainable weights into three vectors, a query $Q$, a key $K$ and a value $V$ vector. The query vector represents what a given token is looking for, the key vector what the token offers, whilst the value vector is the information the token contains.
+The key element in Transformers is the self-attention mechanism. In self-attention, each token in the input sequence is transformed with trainable weights into three vectors, a query vector $Q$, a key vector $K$ and a value vector $V$. The query vector represents what a given token is looking for, the key vector what the token offers, whilst the value vector is the information the token contains.
 
 $$\text{Attention}(Q, K , V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
 
 The self-attention mechanism takes the dot product between the keys and queries of the tokens, divides it by the square root of the key dimension (to prevent too small gradients) and then applies softmax to create a weights matrix. The weights matrix is used to determine how much each token in the sequence should contribute to the value vector of another token. For example, let the tokens be words in a sentence. In the sentence "The cat sat on the mat", the word "cat" would have a high affinity for the word "mat" (a query vector looking for the object of the sentence) and a low affinity for the word "the". This mechanism allows the network to learn the relationships between the tokens in the sequence. Usually, a specfic form of attention is used, called causal attention or masked attention. In masked attention each output position is only allowed to attend to earlier positions in the input or output sequence, effectively preventing the model from using future information to make its predictions.
 
-The self-attention mechanism is usually applied multiple times on the same tokens in parallel. This is called multi-head attention. For each head $i$, separate trainable transformations are applied to produce new $Q^i$, $K^i$, and $V^i$.
+The self-attention mechanism is usually applied multiple times on the same tokens in parallel. This is called multi-head attention where each "head" has its own self attention mechanism with its own parameters. For each head $i$, separate trainable transformations are applied to produce new $Q^i$, $K^i$, and $V^i$.
 
 $$\text{head}_i = \text{Attention}(Q^i, K^i, V^i)$$
 
@@ -264,24 +264,24 @@ where $W^O$ is also a trainable weight matrix.
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.3\textwidth]{multi-head.png}
-\caption{Multi Head attention mechaism (adapted from \cite{DBLP:journals/corr/VaswaniSPUJGKP17})}
+\caption{Multi-Head Attention mechaism (adapted from \cite{DBLP:journals/corr/VaswaniSPUJGKP17})}
 \end{figure}
 
-The multi-head layer is paired with a position-wise feed-forward layer. The feed-forward layer applies two trainable linear transformations with a ReLU activation in between:
+The multi-head layer is paired with a position-wise feed-forward network(FFN). The FFN applies two trainable linear transformations with a ReLU activation in between:
 
 $$\text{FFN}(x) = \text{ReLU}(xW_1 + b_1)W_2 + b_2$$
 
-The feed-forward layer allows the network to learn more complex representations of the data. The multi-head layer and feed-forward layer is usually repeated in blocks to form the transformer network. Between the layers goes a residual connection called layer normalization. Each time a multi-head or a feed-forward layer has made a computation, the result is added to the original input and normalized:
+The FFN layer allows the network to learn more complex representations of the data. The multi-head layer and FFN layer is usually repeated in blocks to form the transformer network. Between the layers goes a residual connection called LayerNorm. Each time a multi-head or an FFN layer has made a computation, the result is added to the original input and normalized through the LayerNorm:
 
 $$\text{LayerNorm}(x + \text{Sublayer}(x))$$
 
-where $\text{Sublayer}(x)$ is the function implemented by the multi-head or feed-forward layer and $x$ is the original input. This residual connection and normalization make the gradient flow more stable through the network. 
+where $\text{Sublayer}(x)$ is the function implemented by the multi-head or FFN layer and $x$ is the original input. This residual connection and normalization make the gradient flow more stable through the network. 
 
 For a complete view of the Transformers architecture, see Figure \ref{fig:transformer_diagram} in Appendix B.
 
 \subsection{Reservoir Computing and Echo State Networks}
 
-Reservoir Computing (RC) is a variant of RNNs that has proven particularly effective in predicting chaotic systems. The fundamental principle behind reservoir computing is that only a part of the network is trained, while the rest of the network, the "reservoir" remains unchanged during training. This approach significantly reduces the computational cost of training RNNs and overcomes some of the issues related to gradient-based learning in traditional RNNs, such as vanishing and exploding gradients.
+Reservoir Computing (RC) is a variant of RNNs that has proven particularly effective in predicting chaotic systems. The fundamental principle behind reservoir computing is that only a part of the network is trained, while the rest of the network remains unchanged during training. This approach significantly reduces the computational cost of training RNNs and overcomes some of the issues related to gradient-based learning in traditional RNNs, such as vanishing and exploding gradients.
 
 Echo State Networks (ESNs) are a particularly well-known implementation of reservoir computing. ESNs consist of a sparsely connected and randomly generated reservoir. The dynamics of the reservoir can be described by:
 
@@ -292,7 +292,7 @@ x^{(t)} = \tanh(\mathbf{W}x^{(t-1)} + \mathbf{W_{in}}u^{(t)} + \mathbf{W_{fb}}y^
 where $x^{(t)}$ is the state vector of the reservoir at time $t$, $u^{(t)}$ is the input vector, $\mathbf{W}$ is the reservoir weight matrix, $\mathbf{W_{in}}$ is the input weight matrix, and $\mathbf{W_{fb}}$ represents connections feeding back previous output. These matrices are randomly generated and not trained. Output is then computed as:
 
 \begin{equation}
-y^{(t)} = \mathbf{W_{out}}x{(t)},
+y^{(t)} = \mathbf{W_{out}}x^{(t)},
 \end{equation}
 
 where $y^{(t)}$ is the output vector, and $\mathbf{W_{out}}$ is the output weight matrix, which is trained.
@@ -304,25 +304,26 @@ where $y^{(t)}$ is the output vector, and $\mathbf{W_{out}}$ is the output weigh
 \label{fig:esn}
 \end{figure}
 
-The reservoir serves to project the input into a higher-dimensional space where the different parts of the input sequence become more linearly separable. Training only occurs in a readout layer, which is typically a linear model that is adjusted to map the reservoir states to the desired output. Reservoirs in ESNs also possess a "fading memory," enabling them to handle input sequences with varying time scales. This property allows ESNs to maintain the context of earlier inputs while also adapting quickly to recent changes in the input stream.
+The reservoir serves to project the input into a higher-dimensional space where the different parts of the input sequence become more linearly separable. Training only occurs in a readout layer, which is typically a linear model that is adjusted to map the reservoir states to the desired output. Reservoirs in ESNs also possess a "fading memory", enabling them to handle input sequences with varying time scales. This property allows ESNs to maintain the context of earlier inputs while also adapting quickly to recent changes in the input stream.
 
-Training an ESN involves collecting the states of the reservoir for a known input sequence, then using a supervised learning technique, such as linear regression, to determine $\mathbf{W}_{out}$ such that the error between the predicted output $y^{(t)}$ and the actual target output $\hat{y}^{(t)}$ is minimized. This can be expressed as the following optimization problem:
+Training an ESN involves collecting the states of the reservoir for a known input sequence, then using a supervised learning technique, such as ridge regression, to determine $\mathbf{W}_{out}$ such that the error between the predicted output $y^{(t)}$ and the actual target output $\hat{y}^{(t)}$ is minimized. This can be expressed as the following optimization problem:
 
 \begin{equation}
-\mathbf{W_{out}} = \arg\min_{\mathbf{W_{out}}} \left\{\sum_{t=1}^{n} (\hat{y}^{(t)} - y^{(t)})^2 + \lambda \mathbf{W_{out}}^2\right\},
+\mathbf{W_{out}} = \arg\min_{\mathbf{W_{out}}} \left\{\sum_{t=1}^{n} (\hat{y}^{(t)} - y^{(t)})^2 + \lambda \|\mathbf{W_{out}}\|_F^2\right\},
 \end{equation}
 
-Where $n$ is the number of training samples, and $\lambda$ is the regularization parameter that controls the trade-off between fitting the training data and keeping the weights small to avoid overfitting. Notice that this is MSE with an added regularization term.
+
+Here the squared Frobenius norm $\|\mathbf{W_{out}}\|_F^2$ of the is used, which is equiavlent to the sum of all squared matrix entries, $n$ is the number of training samples, and $\lambda$ is the regularization parameter that controls the trade-off between fitting the training data and keeping the weights small to avoid overfitting. Notice that this is \text{MSE} with an added regularization term.
 
 \section{Method}
-The code is written in Python and uses the PyTorch library for implementation of the Transformers and RNN models as well as the ReservoirPy library for the implementation of the ESN. The project is publicly available on GitHub at: \url{https://github.com/SebCodesTheWeb/lorents-net}
+The code is written in Python and uses the PyTorch library for implementation of the Transformers and LSTM RNN models as well as the ReservoirPy library for the implementation of the ESN model. The project is publicly available on GitHub at: \url{https://github.com/SebCodesTheWeb/lorents-net} (\cite{github})
 
 
 \subsection{Generating Data}
 
 The training data is processed via the RK4 method which is implemented in Appendix A, Listing \ref{rk4:lorenz}.
 
-The data is created in the {generate\_dataset.py} module.
+The data is then created in the {generate\_dataset.py} module.
 
 \begin{lstlisting}[language=Python]
 from lorenz import RK4
@@ -358,21 +359,21 @@ for i, _ in enumerate(nbr_chunks):
         })
 \end{lstlisting}
 
-In this code the constants are $dt = 0.04$, $seed\_nbr = 0$ and $chunk\_len = 10$(100 was used for transformers). These values for $dt$ and $chunk\_len$ have after some trial and error proven effective in generating good data to train the models on. The code generates 1 million datapoints of the Lorenz system with the initial position [17.67715816276679, 12.931379185960404, 43.91404334248268], which was arbitrarily chosen. 
+In this code the constants are $dt = 0.04$, $seed\_nbr = 0$ and $chunk\_len = 10$(100 was used for Transformers and 2 for ESN). These values for $dt$ and $chunk\_len$ have after some trial and error proven effective in generating good data to train the models on. The code generates 1 million datapoints of the Lorenz system with the initial position [17.67715816276679, 12.931379185960404, 43.91404334248268], which was arbitrarily chosen. 
 
 \begin{lstlisting}
 dataset = pd.DataFrame(dataset)
 
 dataset.to_csv('lorenz-sequences_raw.csv', index=False)
 
-#Z-score normalization
+# Z-score normalization
 numerical_cols = ['x', 'y', 'z']
 dataset[numerical_cols] = (
     dataset[numerical_cols] - dataset[numerical_cols].mean()
 
 ) / dataset[numerical_cols].std()
 
-dataset.to_csv('lorentz-sequences.csv', index=False)
+dataset.to_csv('lorenz-sequences.csv', index=False)
 \end{lstlisting}
 
 The dataset is then normalized using Z-score normalization to improve gradient flow, which is critical. The raw unnormalized data is saved in a separate csv file to later on move the model predictions out of normalized space with inverse Z-score normalization (Listing \ref{inverse:normalization}).
@@ -380,9 +381,9 @@ The dataset is then normalized using Z-score normalization to improve gradient f
 
 Afterwards it is split into training, validation and testing sets in the \texttt{get\_training\_data.py} module (Listing \ref{datasplit}).
 
-\subsection{Setting up the RNN}
+\subsection{Setting up the LSTM RNN}
 
-The \texttt{LSTM\_RNN} class defines a RNN network based on PyTorch's \texttt{nn.Module} in Listing \ref{lstm}
+The \texttt{LSTM\_RNN} class defines a LSTM RNN network based on PyTorch's \texttt{nn.Module} in Listing \ref{lstm}
 
 
 The model is then instantiated like this:
@@ -422,14 +423,14 @@ def train_rnn_lstm(
     scheduler = ExponentialLR(optimizer, gamma=gamma)
 \end{lstlisting}
 
- It uses mean squared error loss function and the adam optimizer. It also uses an exponentially decaying learning step scheduler, which has proven great for managing learning rate with many training epochs. \\ \\  The RNN network is later on iterated over each batch of the training data and the loss is calculated and backpropagated through the network to update the weights. (Listing \ref{training:loop})
+ It uses MSE loss function and the Adam optimizer. It also uses an exponentially decaying learning step scheduler, which has proven great for managing learning rate with many training epochs. \\ \\  The RNN network is later on iterated over each batch of the training data and the loss is calculated and backpropagated through the network to update the weights. (Listing \ref{training:loop})
 
 
 \subsection{Setting up the Transformers Model}
 
-The transfomers class is written with PyTorch TransformerEncoder and TransformerEncoderLayer classes and is defined in transformer.py (Listing \ref{transformer}) with positional encoding implemented in the PositionalEncoding class in Listing \ref{positional:encoding}.
+The transformers class is written with PyTorch TransformerEncoder and TransformerEncoderLayer classes and is defined in transformer.py (Listing \ref{transformer}) with positional encoding implemented in the PositionalEncoding class in Listing \ref{positional:encoding}.
 
-The model is then trained in a similar fashion to the RNN model and uses the same training loop.
+The model is then trained in a similar fashion to the LSTM RNN model and uses the same training loop.
 
 \subsection{Setting up the RC-ESN}
 
@@ -439,7 +440,7 @@ The echo state network was implemented with reservoirpy, a library for reservoir
 Firstly a new loss function was defined in true\_loss.py (Listing \ref{true:loss}) to evaluate the models on unseen data. This was done via generating a new random path with the RK4 method and then comparing the model's predictions to the actual path. The average MSE error was then computed to evaluate the model's performance.
 
 
-The hyperparameters of the Transformers and RNN networks were then optimized using the optuna library implementation of the Tree-structured Parzen Estimator(TPE) algorithm. 
+The hyperparameters of the Transformers and LSTM RNN networks were then optimized using the optuna library implementation of the Tree-structured Parzen Estimator(TPE) algorithm. 
 
 \begin{lstlisting}
 import optuna
@@ -509,9 +510,9 @@ study.optimize(
 )  # n_jobs is number of parallel jobs(one per gpu available)
 \end{lstlisting}
 
-It was parallelizad to run on four gpus and took use of pruning to preemptively end unpromising trials. Once the best combination of hyperparameters was found the networks was retrained over more epochs for optimal results. The optimization took place over 100 trials and was trained on four RTX 4090s.
+It was parallelized to run on four Nvidia GPUs and took use of pruning to preemptively end unpromising trials. Once the best combination of hyperparameters was found the networks was retrained over more epochs for optimal results. The optimization took place over 100 trials and was trained on four RTX 4090s.
 
-The ESN was on the hand manually optimized by trial and error, as the reservoirpy library does not support optuna. In the end the following optimal hyperparameters were found and used in the final test:
+The ESN was on the hand manually optimized by trial and error, as the reservoirpy library does not support optuna as good as PyTorch. In the end the following optimal hyperparameters were found and used in the final test:
 
 \raggedcolumns
 \begin{multicols}{3}
@@ -521,7 +522,7 @@ The ESN was on the hand manually optimized by trial and error, as the reservoirp
         \item \texttt{leakage rate}: 0.5
         \item \texttt{spectral radius}: 0.9
         \item \texttt{ridge parameter}: \(2.5 \cdot 10^{-6}\)
-        \item \texttt{inp\_seq\_len}:  
+        \item \texttt{inp\_seq\_len}: 1 
     \end{itemize}
 
     \subsection*{Transformers:}
@@ -529,27 +530,27 @@ The ESN was on the hand manually optimized by trial and error, as the reservoirp
         \item \texttt{hidden\_dim}: 256
         \item \texttt{nhead}: 2
         \item \texttt{num\_layers}: 2
-        \item \texttt{learning\_rate}: 0.00257 % rounded for readability
+        \item \texttt{learning\_rate}: 0.00257 
         \item \texttt{batch\_size}: 64
         \item \texttt{d\_model}: 64
-        \item \texttt{dropout}: 0.02078 % rounded for readability
+        \item \texttt{dropout}: 0.02078 
         \item \texttt{epochs}: 30
         \item \texttt{inp\_seq\_len}: 49
     \end{itemize}
 
-    \subsection*{RNN LSTM:}
+    \subsection*{LSTM RNN:}
     \begin{itemize}
         \item \texttt{hidden\_size}: 32
         \item \texttt{num\_layers}: 1
         \item \texttt{learning\_rate}: 0.0005
         \item \texttt{batch\_size}: 32
         \item \texttt{epochs}: 10
-        \item \texttt{gamma}: 8
+        \item \texttt{gamma}: 0.8
         \item \texttt{inp\_seq\_len}: 9
     \end{itemize}
 \end{multicols}
 
-The models were then evaluated by predicting 500 time steps and comparing the predictions to the testing data set. To evaluate the models, their Lorenz attractor shape, trajectory and mean squared error was plotted.
+The models were then evaluated by predicting 500 time steps and comparing the predictions to the testing data set. To evaluate the models, their Lorenz attractor shape, trajectory and MSE was plotted.
 
 \section{Results}
 \subsection{Lorenz attractor}
@@ -558,7 +559,7 @@ The models were then evaluated by predicting 500 time steps and comparing the pr
     \begin{minipage}{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{rnn_lorenz.jpeg}
-        \caption{RNN}
+        \caption{LSTM RNN}
         \label{fig:rnn_lorenz}
     \end{minipage}
     \hfill
@@ -583,7 +584,7 @@ View figures \ref{fig:rnn_path}, \ref{fig:echo_path} and \ref{fig:transformers_p
     \centering
     \begin{minipage}[b]{0.49\textwidth}
         \includegraphics[width=\linewidth]{rnn_path.jpeg}
-        \caption{RNN path (true path is red, model path is blue)}
+        \caption{LSTM RNN path (true path is red, model path is blue)}
         \label{fig:rnn_path}
     \end{minipage}
     \hfill
@@ -600,28 +601,28 @@ View figures \ref{fig:rnn_path}, \ref{fig:echo_path} and \ref{fig:transformers_p
     \label{fig:transformers_path}
 \end{figure}
 
-\subsection{Mean Squared Error}
-The average MSE for the RNN was 50.1579 \\
-The average MSE for the ESN was 48.7797 \\
-The average MSE for the Transformers model was 29.1590 \\ \\
+\subsection{MSE}
+The average MSE for the LSTM RNN was 50.1579. \\
+The average MSE for the ESN was 48.7797. \\
+The average MSE for the Transformers network was 29.1590. \\ \\
 For a more detailed overview of MSE over time view figures \ref{fig:rnn_mse}, \ref{fig:echo_mse} and \ref{fig:transformers:mse} in Appendix B.
 
 \section{Discussion}
-Looking at figures \ref{fig:rnn_lorenz}, \ref{fig:echo_lorenz} and \ref{fig:transformers_lorenz}, it is clear that all models have learned the Lorenz patterns, thereby the underlying dynamics of the system. They all generated attractors of similar scale with two rings centering around two focal points. They differ slightly, however, and when comparing the figures, it is hard to tell which of the models has captured the best attractor shape (see figure \ref{fig:lorenz_attractor}). The Transformers model seems to have the most accurate angle between the two rings, but the left wing radius should be smaller and the outer right wing radius should be bigger. The ESN has more accurate outer wing radii, but the RNN seems to have more accurate inner wing radii. Overall, however, it seems like the ESN network has the most accurate Lorenz attractor shape.
+Looking at figures \ref{fig:rnn_lorenz}, \ref{fig:echo_lorenz} and \ref{fig:transformers_lorenz}, it is clear that all models have learned the Lorenz patterns and thereby the underlying dynamics of the system. They all generated attractors of similar scale with two wings centering around two focal points. They differ slightly, however, and when comparing the figures, it is hard to tell which of the models has captured the best attractor shape (see figure \ref{fig:lorenz_attractor}). The Transformers model seems to have the most accurate angle between the two wings, but the left wing radius should be smaller and the outer right wing radius should be bigger. The ESN has more accurate outer wing radii, but the LSTM RNN seems to have more accurate inner wing radii. Overall, however, it seems like the ESN network has the most accurate Lorenz attractor shape.
 
 
-The results from the trajectory plots are clear. In figure \ref{fig:rnn_path}, the RNN path seems to deviate from the true path around timestep 40-50, which is confirmed by figure \ref{fig:rnn_mse} where the MSE could be seen spiking. The MSE then goes down for a bit, showing that the RNN has learned the pattern of the Lorenz attractor but not with great accuracy.
+The results from the trajectory plots are clear. In figure \ref{fig:rnn_path}, the LSTM RNN path seems to deviate from the true path around timestep 40-50, which is confirmed by figure \ref{fig:rnn_mse} where the MSE could be seen spiking. The MSE then goes down for a bit, showing that the LSTM RNN has learned the pattern of the Lorenz attractor but not with great accuracy.
 
 Viewing figure \ref{fig:echo_path}, the ESN seems to diverge from the true path around timestep 60-100, which also is confirmed by figure \ref{fig:echo_mse} showcasing some big up and down spikes. The MSE seems to vary a lot, which shows that the ESN has not learned the Lorenz system's trajectory very accurately, but has learned the overall pattern and can follow it for a while.
 
 Looking at figure \ref{fig:transformers_path}, the Transformers model seems to follow the true path very well up till timestep 100-120. This is confirmed by figure \ref{fig:transformers:mse} where the MSE is very low and stable untill slightly after timestep 100. The Transformers model also appears to hop back on track around timestep 400 and follow the true path accurately for another 100 timesteps.
 
-Keeping in mind that the ESN has a $inp\_seq\_len$ of 1, the RNN a $inp\_seq\_len$ of 9, and the Transformers model a $inp\_seq\_len$ of 49, the ESN could hold an accurate prediction for about 70-80 timesteps. The RNN could hold an accurate prediction for about 30-40 timesteps. And the Transformers model could hold an accurate prediction for about 60 timesteps with a small bounce back where it held a good prediction for about another 100 more timesteps. Overall, the Transformers model had the lowest MSE.
+Keeping in mind that the ESN has a $inp\_seq\_len$ of 1, the LSTM RNN a $inp\_seq\_len$ of 9, and the Transformers model a $inp\_seq\_len$ of 49, the ESN could hold an accurate prediction for about 70-80 timesteps. The LSTM RNN could hold an accurate prediction for about 30-40 timesteps. And the Transformers model could hold an accurate prediction for about 60 timesteps with a small bounce back where it held a good prediction for about another 100 more timesteps. Overall, the Transformers model had the lowest MSE.
 
 \subsection{Conclusion}
-The results are a bit mixed but it seems clear that the RNN was the worst performing model. It had the highest MSE, could hold a prediction for only 30-40 timesteps and did not have a very impressive Lorenz attractor. The ESN had an accurate Lorenz attractor and could hold the initial prediction the longest, but the Transformers model had much lower MSE without much shorter initial prediction accuracy. The difference does not seem significant enough to make a data-driven conclusion, but seeing as less efforts was spent optimizing the ESN model and it has in other literature shown great capabilities in predicting chaotic systems \cite{npg-27-373-2020}, it seems reasonable to assume the ESN has a slight edge over the Transformers model, although a small one. Hence the results of this study show that the ESN seems to be the best neural network architecture for predicting chaotic systems, tightly followed by the Transformers model and RNN last.
+The results are a bit mixed but it seems clear that the LSTM RNN was the worst performing model. It had the highest MSE, could hold a prediction for only 30-40 timesteps and did not have a very impressive Lorenz attractor. The ESN had an accurate Lorenz attractor and could hold the initial prediction the longest, but the Transformers model had much lower MSE without much shorter initial prediction accuracy. The difference does not seem significant enough to make a data-driven conclusion, but seeing as less efforts was spent optimizing the ESN model and it has in other literature shown great capabilities in predicting chaotic systems (\cite{npg-27-373-2020}), it seems reasonable to assume the ESN has a slight edge over the Transformers model, although a small one. Hence the results of this study show that the ESN seems to be the best neural network architecture for predicting chaotic systems, tightly followed by the Transformers model and LSTM RNN last.
 
-The results show that the Transformers architecture has an impressive capacity to capture chaotic dynamics, similar to the level of an ESN, whilst the RNN is not as well suited towards capturing chaotic dynamics. For future research the NVAR reservoir computing variant could be explored, as it in other literature(\cite{cite-key}) has shown great promise. Other hyperparameters of the ESN such as noise could be explored for further optimization, which was not attempted in this study. Regarding the Transformers architecture, different positional embeddings could be used, and the variations of the self attention mechanism like sparse attention could be investigated. With further research it may be possible to conclusively state the peak potential of the Transformers and ESN models in predicting chaotic systems.
+The results show that the Transformers architecture has an impressive capacity to capture chaotic dynamics, similar to the level of an ESN, whilst the LSTM RNN is not as well suited towards capturing chaotic dynamics. For future research the NVAR reservoir computing variant could be explored, as it in other literature(\cite{cite-key}) has shown great promise. Other hyperparameters of the ESN such as noise could be explored for further optimization, which was not attempted in this study. Regarding the Transformers architecture, different positional embeddings could be used, and the variations of the self attention mechanism like sparse attention could be investigated. With further research it may be possible to conclusively state the peak potential of the Transformers and ESN models in predicting chaotic systems.
 
 
 \clearpage
