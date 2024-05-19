@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.31)  19 MAY 2024 16:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.31)  19 MAY 2024 16:52
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/summary.tex
-(/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/summary.tex
+**/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/papers/summary.tex
+(/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/papers/summary.tex
 LaTeX2e <2022-11-01> patch level 1
 L3 programming layer <2023-02-22> (/usr/local/texlive/2023/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2022/07/02 v1.4n Standard LaTeX document class
@@ -420,12 +420,12 @@ Package rerunfilecheck Info: File `summary.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  11752 strings out of 476025
- 187070 string characters out of 5790017
+ 187091 string characters out of 5790017
  1861388 words of memory out of 5000000
  31953 multiletter control sequences out of 15000+600000
  520899 words of font info for 96 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 63i,8n,67p,1083b,448s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 63i,8n,67p,1090b,448s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
 Output written on summary.pdf (5 pages, 2419622 bytes).
 PDF statistics:
