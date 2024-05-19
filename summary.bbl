@@ -1,35 +1,8 @@
 \begin{thebibliography}{}
 
-\bibitem[Chattopadhyay et~al., 2020]{npg-27-373-2020}
-Chattopadhyay, A., Hassanzadeh, P., and Subramanian, D. (2020).
-\newblock Data-driven predictions of a multiscale lorenz 96 chaotic system using machine-learning methods: reservoir computing, artificial neural network, and long short-term memory network.
-\newblock {\em Nonlinear Processes in Geophysics}, 27(3):373--389.
-
-\bibitem[Delgado, 2024]{github}
+\bibitem[Delgado, 2024]{neural-network-comparison}
 Delgado, S. (2024).
-\newblock lorenz-net.
-\newblock \url{https://github.com/SebCodesTheWeb/lorenz-net}.
-
-\bibitem[Gauthier et~al., 2021]{cite-key}
-Gauthier, D.~J., Bollt, E., Griffith, A., and Barbosa, W. A.~S. (2021).
-\newblock Next generation reservoir computing.
-\newblock {\em Nature Communications}, 12(1):5564.
-
-\bibitem[Goodfellow et~al., 2016]{Goodfellow-et-al-2016}
-Goodfellow, I., Bengio, Y., and Courville, A. (2016).
-\newblock {\em Deep Learning}.
-\newblock MIT Press.
-\newblock \url{https://www.deeplearningbook.org/contents/rnn.html}.
-
-\bibitem[Hinaut and Trouvain, 2021]{reservoirpy}
-Hinaut, X. and Trouvain, N. (2021).
-\newblock Reservoirpy documentation.
-\newblock \url{https://reservoirpy.readthedocs.io/en/latest/user_guide/quickstart.html}.
-
-\bibitem[Justin~Johnsson and Yeung, 2017]{StanfordEngineering2020}
-Justin~Johnsson, F.-F.~L. and Yeung, S. (2017).
-\newblock Lecture 10 | reccurent neural networks.
-\newblock \url{https://www.youtube.com/watch?v=6niqTuYFZLQ}.
+\newblock Which neural network architecture is optimal for predicting chaotic dynamics?
 
 \bibitem[Vaswani et~al., 2017]{DBLP:journals/corr/VaswaniSPUJGKP17}
 Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A.~N., Kaiser, L., and Polosukhin, I. (2017).

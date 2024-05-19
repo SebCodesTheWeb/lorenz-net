@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1710731619 "main.aux" "main.bbl" "main" 1716111614 0
-  "./references.bib" 1710730558 4173 aa384249aba1a95b528cf5e31983cdda ""
+["bibtex main"] 1716127825 "main.aux" "main.bbl" "main" 1716127825 0
+  "./references.bib" 1716127825 4510 89316f31bdea9cefd9de168cac56b798 ""
   "/usr/local/texlive/2023/texmf-dist/bibtex/bst/base/apalike.bst" 1292289607 24635 604dafcc79f521a11ea73e506e1fbd98 ""
   "main.aux" 1716111614 9632 f4c5de88f2b52fd3d7204103c9d41b1d "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1716111613 "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" "main.pdf" "main" 1716111614 0
+["pdflatex"] 1716111613 "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" "main.pdf" "main" 1716127825 0
   "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/main.tex" 1716111613 50835 7972d39d4c8ed60d6b52ed1483fe8aa8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -143,7 +143,7 @@
   "lorenz_attractor.jpeg" 1710712056 76444 6057d8d1fefea99573a22eeed24255cb ""
   "lstm_diagram.png" 1710712056 32209 4cd2ceeca4c0fdf6eef47154d0c5e5c1 ""
   "main.aux" 1716111614 9632 f4c5de88f2b52fd3d7204103c9d41b1d "pdflatex"
-  "main.bbl" 1710732106 1708 affea0762ff62bf4c6e2f97cac1deb97 "bibtex main"
+  "main.bbl" 1716127825 1708 affea0762ff62bf4c6e2f97cac1deb97 "bibtex main"
   "main.out" 1716111614 2775 c1a5a21c65f8b9433c0ec565982a7191 "pdflatex"
   "main.tex" 1716111613 50835 7972d39d4c8ed60d6b52ed1483fe8aa8 ""
   "main.toc" 1716111614 1650 8b567362b0e2a26c472aa8b3d5c8df36 "pdflatex"
