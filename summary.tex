@@ -23,7 +23,7 @@
 
 \section{Introduction}
 
-Chaotic systems are deterministic systems which are highly sensitive to initial conditions, making long term predictions challenging. One such system aimed to model atmospheric convection is called the Lorenz 63 system, envisioned by Edward Lorenz in 1963. Traditionally, numerical methods have been used to predict these systems, but recent research has explored neural networks as an alternative solution. This is a summary of the paper: "Which Neural Network Architecture is Optimal for Predicting Chaotic Dynamics?" \cite{neural-network-comparison}. 
+Chaotic systems are deterministic systems which are highly sensitive to initial conditions, making long term predictions challenging. One such system, aimed to model atmospheric convection, is called the Lorenz 63 system, envisioned by Edward Lorenz in 1963. Traditionally, numerical methods have been used to predict these systems, but recent research has explored neural networks as an alternative solution. This is a summary of the paper: "Which Neural Network Architecture is Optimal for Predicting Chaotic Dynamics?" \cite{neural-network-comparison}. 
 
 \section{Theory}
 
@@ -50,24 +50,24 @@ Neural networks are a type of machine learning model inspired by how the human b
 
 \subsection{RNNs}
 
-A Recurrent Neural Network (RNN) is a type of neural network designed to recognize patterns in sequences of data. Unlike traditional neural networks, RNNs have connections that form loops. This allows them to maintain a 'memory' of previous inputs, which helps in processing sequential data like the Lorenz system. Long Short-Term Memory (LSTM) networks is variant of RNNs with improved capacity to 'remember' long-term dependencies and is used in this study.  
+A Recurrent Neural Network (RNN) is a type of neural network designed to recognize patterns in sequences of data. Unlike traditional neural networks, RNNs have connections that form loops. This allows them to maintain a 'memory' of previous inputs, which helps in processing sequential data like the Lorenz system. Long Short-Term Memory (LSTM) networks are a variant of RNNs with improved capacity to 'remember' long-term dependencies and are used in this study.  
 
 \subsection{Transformers}
-Transformers are a type of neural network introduced in the paper "Attention is All You Need" \cite{DBLP:journals/corr/VaswaniSPUJGKP17}. Unlike previous models, they don't read data step-by-step but process the whole sequence at once. The key idea in Transformers is the self-attention mechanism. Each token in a sequence is turned into three vectors(three lists of numbers). The self-attention mechanism compares these vectors to find out how much each token should pay \emph{attention} to the others, thus finding the relationships between individual data points in a data sequence. The attention mechanism is usually applied in parallel blocks that form a layer. These layers are repeated a set number of times to form the full transformer network. 
+Transformers are a type of neural network introduced in the paper "Attention is All You Need" \cite{DBLP:journals/corr/VaswaniSPUJGKP17}. Unlike previous models, they don't read data step-by-step but process the whole sequence at once. The key idea in Transformers is the self-attention mechanism. Each token in a sequence is turned into three vectors (three lists of numbers). The self-attention mechanism compares these vectors to find out how much each token should pay \emph{attention} to the others, thus finding the relationships between individual data points in a data sequence. The attention mechanism is usually applied in parallel blocks that form a layer. These layers are repeated a set number of times to form the full transformer network. 
 
 \subsection{Reservoir Computing}
-Reservoir Computing (RC) is a type of RNN. The main idea is that only part of the network is trained, making it faster and solving some problems found in traditional RNNs. Echo State Networks (ESNs) are a popular example of RC. In ESNs, the network has a random, sparsely connected part called the reservoir. The reservoirs output is dependent not only on the input but also on it's previous output, creating a form a 'memory'. Only the output layer is trained, typically using a method like ridge regression.
+Reservoir Computing (RC) is a type of RNN. The main idea is that only part of the network is trained, making it faster and solving some problems found in traditional RNNs. Echo State Networks (ESNs) are a popular example of RC. In ESNs, the network has a random, sparsely connected part called the reservoir. The reservoir's output is dependent not only on the input but also on its previous output, creating a form a 'memory'. Only the output layer is trained, typically using a method like ridge regression.
 
 
 \section{Method}
-This project involves creating, training, and evaulating machine learning models using Python, the PyTorch library and the ReservoirPy library. The project's code is available on GitHub at: \url{https://github.com/SebCodesTheWeb/lorents-net}.
+This project involves creating, training, and evaulating machine learning models using Python, the PyTorch library, and the ReservoirPy library. The project's code is available on GitHub at: \url{https://github.com/SebCodesTheWeb/lorents-net}.
 
 \subsection{Generating Data}
 
 Data was generated using a numerical method called the RK4 method. This method simulates the Lorenz system with random initial positions, and then records and saves the positions of the system as it moves through time in a CSV file. This data was then used to train the neural networks.
 
 \subsection{Setting up the models}
-The LSTM RNN model was set up using PyTorch's inbuilt nn.LSTM class and the Adam optimizer was used to train the parameters. The Transformers model was also built using PyTorch and trained similiary to the LSTM RNN model. The ESN model was implemented using the ReservoirPY library and was trained with the inbuilt ridge regression optimizer.
+The LSTM RNN model was set up using PyTorch's inbuilt nn.LSTM class and the Adam optimizer was used to train the parameters. The Transformers model was also built using PyTorch and trained similarly to the LSTM RNN model. The ESN model was implemented using the ReservoirPY library and was trained with the inbuilt ridge regression optimizer.
 
 \subsection{Hyperparameter Optimization}
 Hyperparameters are parameters that control the training process of a neural network. Hyperparameters could decide things like the number of layers, learning rate, training time, and network size of the model. A library called Optuna was used to find the best hyperparameters for the Transformers and LSTM RNN models. It was trained for 100 iterations per model on four RTX 4090 GPUs.
@@ -112,10 +112,10 @@ The average MSE for the Transformers network was 29.1590.
 \section{Discussion}
 The figures show that all models have learned the Lorenz patterns, producing attractors with two wings around two focal points. However, there are differences in accuracy. The Transformers model and LSTM RNN models seem to have somewhat inaccurate proportions. The ESN model has better proportions between the two rings which are supposed to be of close to equal radius. Overall, the ESN model appears to have the most accurate Lorenz attractor shape.
 
-The trajectory plots indicate different levels of accuracy. The LSTM RNN deviates from the true path around timestep 40-50. The ESN model diverges around timestep 60-100. The Transformers model divererges around timestep 100-120. Considering the input sequence lengths, the ESN can predict accurately for 70-80 timesteps, the LSTM RNN for 30-40 timesteps, and the Transformers model for about 60 timesteps.
+The trajectory plots indicate different levels of accuracy. The LSTM RNN deviates from the true path around timestep 40-50. The ESN model diverges around timestep 60-100. The Transformers model diverges around timestep 100-120. Considering the input sequence lengths, the ESN can predict accurately for 70-80 timesteps, the LSTM RNN for 30-40 timesteps, and the Transformers model for about 60 timesteps.
 
 \subsection{Conclusion}
-The results suggest that the LSTM RNN was the worst performing model with the highest MSE and the shortest prediction accuracy. The ESN had the most accurate Lorenz attractor and the longest prediction accuracy, but the Transformers model had a lower average MSE. Although both the ESN and Transformers model show potential, further research is needed to optimize and compare these models conclusively. The study indicates however that the ESN is slightly better than the Transformers model, with the LSTM RNN being the least accurate.
+The results suggest that the LSTM RNN was the worst performing model with the highest MSE and the shortest prediction accuracy. The ESN had the most accurate Lorenz attractor and the longest prediction accuracy, but the Transformers model had a lower average MSE. Although both the ESN and Transformers model show potential, further research is needed to optimize and compare these models conclusively. The study indicates, however, that the ESN is slightly better than the Transformers model, with the LSTM RNN being the least accurate.
 
 Future research could explore the NVAR reservoir computing variant and further optimize ESN hyperparameters. For the Transformers model, experimenting with different positional embeddings and self-attention mechanisms could be beneficial. This could help determine the full potential of both the ESN and Transformers models in predicting chaotic systems.
 

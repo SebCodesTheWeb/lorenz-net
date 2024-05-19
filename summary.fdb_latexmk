@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex summary"] 1716129260 "summary.aux" "summary.bbl" "summary" 1716129279 0
+["bibtex summary"] 1716129260 "summary.aux" "summary.bbl" "summary" 1716129731 0
   "./references.bib" 1716127825 4510 89316f31bdea9cefd9de168cac56b798 ""
   "/usr/local/texlive/2023/texmf-dist/bibtex/bst/base/apalike.bst" 1292289607 24635 604dafcc79f521a11ea73e506e1fbd98 ""
-  "summary.aux" 1716129279 4662 904e4bb7671beebe2359f4f2c8e20001 "pdflatex"
+  "summary.aux" 1716129731 4662 904e4bb7671beebe2359f4f2c8e20001 "pdflatex"
   (generated)
   "summary.bbl"
   "summary.blg"
   (rewritten before read)
-["pdflatex"] 1716129278 "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/summary.tex" "summary.pdf" "summary" 1716129279 0
-  "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/summary.tex" 1716129278 9991 91a90af2f8be26cfa9322bead4ac395f ""
+["pdflatex"] 1716129730 "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/summary.tex" "summary.pdf" "summary" 1716129731 0
+  "/Users/sebastian.delgado/Documents/Programmering/playgrounds/latex/lorents-net/summary.tex" 1716129730 9999 9fe638ad17c0759d776041a5036e099b ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -99,10 +99,10 @@
   "lorenz_attractor.jpeg" 1710712056 76444 6057d8d1fefea99573a22eeed24255cb ""
   "rnn_lorenz.jpeg" 1710712057 65164 bee4f7e796dc8e2e23edd4f4d9558a13 ""
   "rnn_path.jpeg" 1710712057 629903 8b813c78d0d36a97a2b9262cdb653ace ""
-  "summary.aux" 1716129279 4662 904e4bb7671beebe2359f4f2c8e20001 "pdflatex"
+  "summary.aux" 1716129731 4662 904e4bb7671beebe2359f4f2c8e20001 "pdflatex"
   "summary.bbl" 1716129260 470 35726aa73f84cb4ba58f93d88f03f607 "bibtex summary"
-  "summary.out" 1716129279 2349 159267a8a42009725b7f61f344c332a5 "pdflatex"
-  "summary.tex" 1716129278 9991 91a90af2f8be26cfa9322bead4ac395f ""
+  "summary.out" 1716129731 2349 159267a8a42009725b7f61f344c332a5 "pdflatex"
+  "summary.tex" 1716129730 9999 9fe638ad17c0759d776041a5036e099b ""
   "title_page_image.jpeg" 1710712057 160307 f434f892bcd0992106e456de21e216a4 ""
   "transformers_lorenz.jpeg" 1710712057 64947 41a5a84cf93d8bd6d4f15341d2b0335d ""
   "transformers_path.jpeg" 1710712057 572444 db064c5bea182cdb5d42451c15edd791 ""
