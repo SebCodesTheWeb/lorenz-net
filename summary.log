@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.31)  19 MAY 2024 13:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.31)  19 MAY 2024 13:27
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -365,79 +365,81 @@ Package hyperref Info: Link coloring OFF on input line 15.
 File: title_page_image.jpeg Graphic file (type jpg)
 <use title_page_image.jpeg>
 Package pdftex.def Info: title_page_image.jpeg  used on input line 21.
-(pdftex.def)             Requested size: 273.14923pt x 156.72047pt.
- [1
-
-{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./title_page_image.jpeg>]
-<lorenz_attractor.jpeg, id=87, 608.2725pt x 540.0175pt>
+(pdftex.def)             Requested size: 182.09486pt x 104.47328pt.
+<lorenz_attractor.jpeg, id=77, 608.2725pt x 540.0175pt>
 File: lorenz_attractor.jpeg Graphic file (type jpg)
 <use lorenz_attractor.jpeg>
-Package pdftex.def Info: lorenz_attractor.jpeg  used on input line 50.
+Package pdftex.def Info: lorenz_attractor.jpeg  used on input line 46.
 (pdftex.def)             Requested size: 136.57462pt x 121.24324pt.
- [2 <./lorenz_attractor.jpeg>] [3{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[1
+
+{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./title_page_image.jpeg>] [2 <./lorenz_attractor.jpeg>] [3{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [4]
-<rnn_lorenz.jpeg, id=114, 606.265pt x 536.0025pt>
+<rnn_lorenz.jpeg, id=108, 606.265pt x 536.0025pt>
 File: rnn_lorenz.jpeg Graphic file (type jpg)
 <use rnn_lorenz.jpeg>
-Package pdftex.def Info: rnn_lorenz.jpeg  used on input line 150.
+Package pdftex.def Info: rnn_lorenz.jpeg  used on input line 146.
 (pdftex.def)             Requested size: 145.68144pt x 128.79861pt.
-<echo_lorenz.jpeg, id=115, 587.19376pt x 523.9575pt>
+<echo_lorenz.jpeg, id=109, 587.19376pt x 523.9575pt>
 File: echo_lorenz.jpeg Graphic file (type jpg)
 <use echo_lorenz.jpeg>
-Package pdftex.def Info: echo_lorenz.jpeg  used on input line 157.
+Package pdftex.def Info: echo_lorenz.jpeg  used on input line 153.
 (pdftex.def)             Requested size: 145.68144pt x 129.98969pt.
-<transformers_lorenz.jpeg, id=116, 575.14874pt x 509.905pt>
+<transformers_lorenz.jpeg, id=110, 575.14874pt x 509.905pt>
 File: transformers_lorenz.jpeg Graphic file (type jpg)
 <use transformers_lorenz.jpeg>
-Package pdftex.def Info: transformers_lorenz.jpeg  used on input line 164.
+Package pdftex.def Info: transformers_lorenz.jpeg  used on input line 160.
 (pdftex.def)             Requested size: 145.68144pt x 129.15652pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 173--176
+Underfull \hbox (badness 10000) in paragraph at lines 169--172
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 173--176
+Underfull \hbox (badness 10000) in paragraph at lines 169--172
 
  []
 
-[5 <./rnn_lorenz.jpeg> <./echo_lorenz.jpeg> <./transformers_lorenz.jpeg>] [6]
+[4] [5 <./rnn_lorenz.jpeg> <./echo_lorenz.jpeg> <./transformers_lorenz.jpeg>] [6]
 <rnn_path.jpeg, id=135, 1252.68pt x 1344.02126pt>
 File: rnn_path.jpeg Graphic file (type jpg)
 <use rnn_path.jpeg>
-Package pdftex.def Info: rnn_path.jpeg  used on input line 196.
+Package pdftex.def Info: rnn_path.jpeg  used on input line 192.
 (pdftex.def)             Requested size: 223.07211pt x 239.32936pt.
 <echo_path.jpeg, id=136, 1262.7175pt x 1352.05125pt>
 File: echo_path.jpeg Graphic file (type jpg)
 <use echo_path.jpeg>
-Package pdftex.def Info: echo_path.jpeg  used on input line 202.
+Package pdftex.def Info: echo_path.jpeg  used on input line 198.
 (pdftex.def)             Requested size: 223.07211pt x 238.84062pt.
 <transformers_path.jpeg, id=137, 1218.5525pt x 1343.0175pt>
 File: transformers_path.jpeg Graphic file (type jpg)
 <use transformers_path.jpeg>
-Package pdftex.def Info: transformers_path.jpeg  used on input line 209.
+Package pdftex.def Info: transformers_path.jpeg  used on input line 205.
 (pdftex.def)             Requested size: 273.14923pt x 301.0388pt.
  [7 <./rnn_path.jpeg> <./echo_path.jpeg> <./transformers_path.jpeg>] (./summary.aux)
 Package rerunfilecheck Info: File `summary.out' has not changed.
 (rerunfilecheck)             Checksum: 5E92693886C22CD096D987860FEFA758;2145.
  ) 
 Here is how much of TeX's memory you used:
- 11791 strings out of 476025
- 187365 string characters out of 5790017
- 1859388 words of memory out of 5000000
- 31958 multiletter control sequences out of 15000+600000
- 522901 words of font info for 117 fonts, out of 8000000 for 9000
+ 11772 strings out of 476025
+ 187179 string characters out of 5790017
+ 1861388 words of memory out of 5000000
+ 31955 multiletter control sequences out of 15000+600000
+ 522167 words of font info for 108 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 63i,8n,67p,1083b,455s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 63i,8n,67p,1083b,454s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on summary.pdf (7 pages, 2478664 bytes).
+Output written on summary.pdf (7 pages, 2474129 bytes).
 PDF statistics:
  213 PDF objects out of 1000 (max. 8388607)
  166 compressed objects within 2 object streams
  35 named destinations out of 1000 (max. 500000)
- 29369 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 25273 words of extra memory for PDF output out of 29859 (max. 10000000)
 

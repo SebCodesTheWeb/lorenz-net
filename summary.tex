@@ -8,7 +8,7 @@
 \usepackage{parskip}
 \usepackage{hyperref}
 
-\title{Understanding Neural Networks for Predicting Chaotic Dynamics}
+\title{Introduction to Neural Networks for Predicting Chaotic Systems}
 \author{Sebastian M.D.}
 \date{May 2024}
 
@@ -18,21 +18,17 @@
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.6\textwidth]{title_page_image.jpeg}
+\includegraphics[width=0.4\textwidth]{title_page_image.jpeg}
 \end{figure}
-
-\begin{abstract}
-\noindent This article explains my research on using different neural network architectures to predict chaotic dynamics, specifically focusing on the Lorenz 63 system. Three neural network architectures were compared: LSTM Recurrent Neural Networks, Echo State Networks, and Transformers. By measuring the Mean Squared Error (MSE) of their predictions, we determine which architecture is most effective for this task.
-\end{abstract}
 
 \section{Introduction}
 
-Chaotic systems are deterministic systems which are highly sensitive to initial conditions, making long term predictions challenging. The weather is usually attributed as such a chaotic system, incredibly hard to predict in the long term. One such system aimed to model the weather's atmospheric convection is called the Lorenz 63 system, envisioned by Edward Lorenz in 1963.  Traditionally, numerical methods have been used to predict these systems, but recent research has explored neural networks as an alternative solution. In this study, different neural network architectures are tested on their accuracy in predicting the Lorenz 63 system. The goal of the study is to determine which neural network architecture is most promising in predicting chaotic dynamics.
+Chaotic systems are deterministic systems which are highly sensitive to initial conditions, making long term predictions challenging. One such system aimed to model atmospheric convection is called the Lorenz 63 system, envisioned by Edward Lorenz in 1963. Traditionally, numerical methods have been used to predict these systems, but recent research has explored neural networks as an alternative solution. This is a summary of the paper: "Which Neural Network architecture is Optimal for Predicting Chaotic Dynamics?" (2024, Delgado S.).
 
 \section{Theory}
 
 \subsection{The Lorenz System}
-The Lorenz system is a set of three mathematical equations that were developed by Edward Lorenz to study weather patterns. They are now famous for showing how small changes can lead to very different outcomes. The equations are as following:
+The Lorenz system is a set of three mathematical equations and are as following:
 
 \[
 \frac{dx}{dt} = \sigma(y - x), \quad \frac{dy}{dt} = x(\rho - z) - y, \quad \frac{dz}{dt} = xy - \beta z
@@ -43,7 +39,7 @@ In these equations, $x$, $y$, and $z$ are variables that change over time, and $
 \sigma = 10, \quad \rho = 28, \quad \beta = \frac{8}{3}
 \]
 
- These equations are differential equations, which are equations that relate a variable to it's rate of change, it's so called derivative. The derivatives: $\frac{dx}{dt}$, $\frac{dy}{dt}$, $\frac{dz}{dt}$ are directly dependent on the variables $x$, $y$, $z$ which makes them differential equations.
+ These equations are differential equations, which are equations that relate a variable to it's rate of change, it's so called derivative. 
 \begin{figure}[h]
 
 \centering
